@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:background="@android:color/white">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/ecss_tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/comm_pro_id_colon" />
+
+        <TextView
+            android:id="@+id/ecss_tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/ecss_tv1"
+            android:layout_toRightOf="@+id/ecss_tv1"
+            android:text="XXXX" />
+        
+        <TextView
+            android:id="@+id/ecss_tv3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/ecss_tv1"
+            android:layout_below="@+id/ecss_tv1"
+            android:text="@string/comm_pro_score_colon" />
+
+        <TextView
+            android:id="@+id/ecss_tv4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/ecss_tv2"
+            android:layout_alignTop="@+id/ecss_tv3"
+            android:text="XXXX" />
+        
+        <TextView
+            android:id="@+id/ecss_tv5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/ecss_tv1"
+            android:layout_below="@+id/ecss_tv3"
+            android:text="@string/comm_stu_pro_state_colon" />
+
+        <TextView
+            android:id="@+id/ecss_tv6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/ecss_tv2"
+            android:layout_alignTop="@+id/ecss_tv5"
+            android:text="XXXX" />
+        
+        <WebView
+            android:id="@+id/ecss_wv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ecss_tv5" 
+            android:layout_alignParentLeft="true"
+            />
+         <WebView
+            android:id="@+id/ecss_wv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ecss_wv1" 
+            android:layout_alignLeft="@+id/ecss_wv1"
+            />
+          <WebView
+            android:id="@+id/ecss_wv3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ecss_wv2" 
+            android:layout_alignLeft="@+id/ecss_wv1"
+            />
+          
+          <Button 
+              android:id="@+id/ecss_b1"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_below="@+id/ecss_wv3"
+              android:layout_alignLeft="@+id/ecss_tv1"
+              android:onClick="onPrevious"
+              android:text="@string/sp_pro_previous"/>
+          <Button 
+              android:id="@+id/ecss_b2"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignTop="@+id/ecss_b1"
+              android:layout_toRightOf="@+id/ecss_b1"
+              android:onClick="onAll"
+              android:text="@string/sp_pro_all"/>
+           <Button 
+              android:id="@+id/ecss_b3"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignTop="@+id/ecss_b1"
+              android:layout_toRightOf="@+id/ecss_b2"
+              android:onClick="onNext"
+              android:text="@string/sp_pro_next"/>
+    </RelativeLayout>
+</ScrollView>

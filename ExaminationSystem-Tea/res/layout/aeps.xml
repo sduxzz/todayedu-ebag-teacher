@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <WebView
+            android:id="@+id/aeps_wv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            />
+         <WebView
+            android:id="@+id/aeps_wv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/aeps_wv1" 
+            android:layout_alignLeft="@+id/aeps_wv1"
+            />
+          <WebView
+            android:id="@+id/aeps_wv3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/aeps_wv2" 
+            android:layout_alignLeft="@+id/aeps_wv1"
+            />
+          
+        <TextView
+            android:id="@+id/aeps_tv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/aeps_wv3"
+            android:layout_alignLeft="@+id/aeps_wv1"
+            android:text="@string/sp_stu_score" />
+
+        <TextView
+            android:id="@+id/aeps_tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/aeps_tv1"
+            android:layout_toRightOf="@+id/aeps_tv1"
+            android:text="XXXX" />
+    </RelativeLayout>
+</ScrollView>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/scexam_tv1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="18dp"
+        android:text="@string/comm_exam_name_colon" />
+
+    <TextView
+        android:id="@+id/scexam_tv3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/scexam_tv1"
+        android:layout_below="@+id/scexam_tv1"
+        android:layout_marginTop="16dp"
+        android:text="@string/comm_exam_totalscore_colon" />
+
+     <TextView
+         android:id="@+id/scexam_tv5"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignLeft="@+id/scexam_tv3"
+         android:layout_below="@+id/scexam_tv3"
+         android:layout_marginTop="16dp"
+         android:text="@string/comm_exam_totaltime_colon" />
+    
+    <TextView
+        android:id="@+id/scexam_tv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/scexam_tv1"
+        android:layout_alignBottom="@+id/scexam_tv1"
+        android:layout_marginLeft="16dp"
+        android:layout_toRightOf="@+id/scexam_tv1"
+        android:text="XXXX" />
+
+    <TextView
+        android:id="@+id/scexam_tv4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/scexam_tv3"
+        android:layout_alignLeft="@+id/scexam_tv2"
+        android:text="XXXX" />
+
+    <TextView
+        android:id="@+id/scexam_tv6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/scexam_tv5"
+        android:layout_alignBottom="@+id/scexam_tv5"
+        android:layout_alignLeft="@+id/scexam_tv4"
+        android:text="XXXX" />
+
+    <com.todayedu.ebag.teacher.UIModule.ListView3
+        android:id="@+id/scexam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/scexam_tv5"
+        android:layout_marginTop="16dp" >
+    </com.todayedu.ebag.teacher.UIModule.ListView3>
+
+</RelativeLayout>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="gen"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
+	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry kind="lib" path="/home/zhenzxie/文档/useful_jar/apache-mina-2.0.4/dist/mina-core-2.0.4.jar" sourcepath="/home/zhenzxie/文档/useful_jar/apache-mina-2.0.4/src/mina-core">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/home/zhenzxie/文档/useful_jar/apache-mina-2.0.4/docs/apidocs/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/home/zhenzxie/文档/useful_jar/apache-mina-2.0.4/dist/mina-example-2.0.4.jar" sourcepath="/home/zhenzxie/文档/useful_jar/apache-mina-2.0.4/src/mina-example">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/home/zhenzxie/文档/useful_jar/apache-mina-2.0.4/docs/apidocs/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/home/zhenzxie/文档/useful_jar/apache-mina-2.0.4/dist/mina-filter-compression-2.0.4.jar" sourcepath="/home/zhenzxie/文档/useful_jar/apache-mina-2.0.4/src/mina-filter-compression">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/home/zhenzxie/文档/useful_jar/apache-mina-2.0.4/docs/apidocs/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/home/zhenzxie/文档/useful_jar/apache-mina-2.0.4/dist/mina-integration-beans-2.0.4.jar" sourcepath="/home/zhenzxie/文档/useful_jar/apache-mina-2.0.4/src/mina-integration-beans">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/home/zhenzxie/文档/useful_jar/apache-mina-2.0.4/docs/apidocs/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/home/zhenzxie/文档/useful_jar/apache-mina-2.0.4/dist/mina-integration-jmx-2.0.4.jar" sourcepath="/home/zhenzxie/文档/useful_jar/apache-mina-2.0.4/src/mina-integration-jmx">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/home/zhenzxie/文档/useful_jar/apache-mina-2.0.4/docs/apidocs/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/home/zhenzxie/文档/useful_jar/apache-mina-2.0.4/dist/mina-integration-ognl-2.0.4.jar" sourcepath="/home/zhenzxie/文档/useful_jar/apache-mina-2.0.4/src/mina-integration-ognl">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/home/zhenzxie/文档/useful_jar/apache-mina-2.0.4/docs/apidocs/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/home/zhenzxie/文档/useful_jar/apache-mina-2.0.4/dist/mina-integration-xbean-2.0.4.jar" sourcepath="/home/zhenzxie/文档/useful_jar/apache-mina-2.0.4/src/mina-integration-xbean">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/home/zhenzxie/文档/useful_jar/apache-mina-2.0.4/docs/apidocs/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/home/zhenzxie/文档/useful_jar/apache-mina-2.0.4/dist/mina-statemachine-2.0.4.jar" sourcepath="/home/zhenzxie/文档/useful_jar/apache-mina-2.0.4/src/mina-statemachine">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/home/zhenzxie/文档/useful_jar/apache-mina-2.0.4/docs/apidocs/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="/home/zhenzxie/文档/useful_jar/apache-mina-2.0.4/dist/mina-transport-apr-2.0.4.jar" sourcepath="/home/zhenzxie/文档/useful_jar/apache-mina-2.0.4/src/mina-transport-apr">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/home/zhenzxie/文档/useful_jar/apache-mina-2.0.4/docs/apidocs/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="bin/classes"/>
+</classpath>

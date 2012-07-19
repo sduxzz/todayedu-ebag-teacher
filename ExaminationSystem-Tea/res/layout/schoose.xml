@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <Button
+        android:id="@+id/schoose_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="52dp"
+        android:onClick="onState"
+        android:text="@string/sc_state" />
+
+    <Button
+        android:id="@+id/schoose_exam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/schoose_state"
+        android:layout_below="@+id/schoose_state"
+        android:onClick="onExam"
+        android:text="@string/sc_exam" />
+
+    <Button
+        android:id="@+id/schoose_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/schoose_exam"
+        android:layout_below="@+id/schoose_exam"
+        android:onClick="onStart"
+        android:text="@string/sc_start" />
+
+    <Button
+        android:id="@+id/schoose_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/schoose_start"
+        android:layout_below="@+id/schoose_start"
+        android:onClick="onEnd"
+        android:text="@string/sc_end" />
+
+</RelativeLayout>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- common(comm) -->
+    <string name="comm_app_name">ExaminationSystem-Tea</string>
+    <string name="comm_stu_id">学号</string>
+    <string name="comm_stu_name">姓名</string>
+    <string name="comm_stu_score">成绩</string>
+    <string name="comm_stu_pro_state">状态</string>
+    <string name="comm_stu_pro_state_colon">状态:</string>
+    <string name="comm_pro_id">题号</string>
+    <string name="comm_pro_id_colon">题号:</string>
+    <string name="comm_pro_content">题目</string>
+    <string name="comm_pro_content_colon">题目:</string>
+    <string name="comm_pro_answer">答案</string>
+    <string name="comm_pro_answer_colon">答案:</string>
+    <string name="comm_pro_answer_standard">标准答案</string>
+    <string name="comm_pro_answer_stu">考生答案</string>
+    <string name="comm_pro_score">分数</string>
+    <string name="comm_pro_score_colon">分数:</string>
+    <string name="comm_pro_hint">提示</string>
+    <string name="comm_pro_analysis">解析</string>
+    <string name="comm_exam_name">试卷名</string>
+    <string name="comm_exam_name_colon">试卷名:</string>
+    <string name="comm_exam_totaltime">时长</string>
+    <string name="comm_exam_totaltime_colon">时长:</string>
+    <string name="comm_exam_totalscore">总分</string>
+    <string name="comm_exam_totalscore_colon">总分:</string>
+    <string name="comm_confirm">确定</string>
+    <string name="comm_cancel">取消</string>
+    <string name="comm_goback">返回</string>
+
+    <!-- functionlist(fl) -->
+    <string name="fl_exam_choose">我的试卷</string>
+    <string name="fl_exam_comment">讲评试卷</string>
+    <string name="fl_exam_start">准备考试</string>
+    <string name="fl_exam_correct">批改试卷</string>
+    <string name="fl_exam_analysis">统计分析</string>
+
+    <!-- schoose(sc) -->
+    <string name="sc_state">考场情况</string>
+    <string name="sc_exam">考卷情况</string>
+    <string name="sc_start">开始考试</string>
+    <string name="sc_end">结束考试</string>
+
+    <!-- analysis(an) -->
+    <string name="an_total">总分排行榜</string>
+    <string name="an_min">最少得分题目</string>
+    <string name="an_max">最多得分题目</string>
+    <string name="an_detail">题目详细列表</string>
+
+    <!-- special(sp) -->
+    <string name="sp_exam_synch">更新试卷</string>
+    <string name="sp_pro_previous">上一题</string>
+    <string name="sp_pro_next">下一题</string>
+    <string name="sp_pro_all">全部</string>
+    <string name="sp_pro_label">标注</string>
+    <string name="sp_pro_score">输出分数：</string>
+    <string name="sp_stu_score">得分:</string>
+    <string name="sp_stu_correctstate">批改情况</string>
+    <string name="sp_scstate_address">考试地点:</string>
+    <string name="sp_scstate_people">考试人员:</string>
+	<string name="sp_networkalter">请检查网络连接，数据将从本地数据库中获取，可能不是最新！</string>
+</resources>

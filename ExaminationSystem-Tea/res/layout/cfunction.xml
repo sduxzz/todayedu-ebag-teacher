@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <Button
+        android:id="@+id/fl_exam_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="52dp"
+        android:onClick="onStart"
+        android:text="@string/fl_exam_start" />
+
+    <Button
+        android:id="@+id/fl_exam_analysis"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/fl_exam_start"
+        android:layout_below="@+id/fl_exam_start"
+        android:onClick="onAnalysis"
+        android:text="@string/fl_exam_analysis" />
+
+    <Button
+        android:id="@+id/fl_exam_correct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/fl_exam_analysis"
+        android:layout_below="@+id/fl_exam_analysis"
+        android:onClick="onCorrect"
+        android:text="@string/fl_exam_correct" />
+
+    <Button
+        android:id="@+id/fl_exam_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/fl_exam_correct"
+        android:layout_below="@+id/fl_exam_correct"
+        android:onClick="onComment"
+        android:text="@string/fl_exam_comment" />
+
+</RelativeLayout>

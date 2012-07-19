@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="choose">
+        <item>@string/fl_exam_choose</item>
+    </string-array>
+     <string-array name="comment">
+        <item>@string/fl_exam_comment</item>
+    </string-array>
+     <string-array name="start">
+        <item>@string/fl_exam_start</item>
+    </string-array>
+     <string-array name="correct">
+        <item>@string/fl_exam_correct</item>
+    </string-array>
+     <string-array name="analysis">
+        <item>@string/fl_exam_analysis</item>
+    </string-array>
+    
+    <string-array name="exam_preview">
+        <item>@string/comm_pro_id</item>
+        <item>@string/comm_pro_content</item>
+        <item>@string/comm_pro_score</item>
+    </string-array>
+    
+    <string-array name="exam_lookup_during">
+        <item>@string/comm_stu_name</item>
+        <item>@string/comm_stu_id</item>
+        <item>@string/comm_stu_pro_state</item>
+    </string-array>
+    
+    <string-array name="exam_lookup_end">
+        <item>@string/comm_stu_id</item>
+        <item>@string/comm_stu_name</item>
+        <item>@string/comm_stu_score</item>
+    </string-array>
+    
+    <string-array name="pro_id_score">
+        <item>@string/comm_pro_id</item>
+        <item>@string/comm_pro_score</item>
+    </string-array>
+
+    <string-array name="pro_id_state">
+        <item>@string/comm_pro_id</item>
+        <item>@string/comm_stu_pro_state</item>
+    </string-array>
+    
+    <string-array name="exam_corrent">
+        <item>@string/comm_stu_id</item>
+        <item>@string/comm_stu_name</item>
+        <item>@string/sp_stu_correctstate</item>
+    </string-array>
+    
+    <string-array name="exam_analysis">
+        <item>@string/an_total</item>
+        <item>@string/an_min</item>
+        <item>@string/an_max</item>
+        <item>@string/an_detail</item>
+    </string-array>
+</resources>
