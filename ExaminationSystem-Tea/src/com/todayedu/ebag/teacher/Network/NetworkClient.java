@@ -5,11 +5,14 @@
  */
 package com.todayedu.ebag.teacher.Network;
 
+import java.net.InetSocketAddress;
+
 import org.apache.mina.core.future.ConnectFuture;
 import org.apache.mina.core.service.IoHandler;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.filter.codec.serialization.ObjectSerializationCodecFactory;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
+import org.ebag.net.obj.I;
 
 /**
  * @author zhenzxie
@@ -32,8 +35,8 @@ public class NetworkClient {
 	}
 	
 	public ConnectFuture connect() {
-	
-		return zConnector.connect();
+		return zConnector.connect(new InetSocketAddress("211.87.227.10",
+		        I.tupload.mina_server_port));
 	}
 	
 	public void disconnect() {

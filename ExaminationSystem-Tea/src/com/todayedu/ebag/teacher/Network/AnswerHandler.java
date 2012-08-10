@@ -14,8 +14,6 @@ import org.ebag.net.request.AnswerRequest;
 
 import android.content.Context;
 
-import com.todayedu.ebag.teacher.DataSource.DataSource;
-
 /**
  * @author zhenzxie
  * 
@@ -40,10 +38,10 @@ public class AnswerHandler extends BaseNetworkHandler {
 	 * @param idList
 	 * @param fieldList
 	 */
-	public AnswerHandler(Context context, DataSource dataSource, int uid,
+	public AnswerHandler(Context context, int uid,
 			int examId, List<Integer> idList, List<Field> fieldList) {
 	
-		super(context, dataSource);
+		super(context);
 		this.uid = uid;
 		this.examId = examId;
 		this.idList = idList;

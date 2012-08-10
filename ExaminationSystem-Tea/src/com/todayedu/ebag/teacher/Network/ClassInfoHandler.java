@@ -12,8 +12,6 @@ import org.ebag.net.response.ClassInfoResponse;
 
 import android.content.Context;
 
-import com.todayedu.ebag.teacher.DataSource.DataSource;
-
 
 /**
  * @author zhenzxie
@@ -29,9 +27,9 @@ public class ClassInfoHandler extends BaseNetworkHandler {
 	 * @param dataSource
 	 * @param classId
 	 */
-	public ClassInfoHandler(Context context, DataSource dataSource, int classId) {
+	public ClassInfoHandler(Context context, int classId) {
 	
-		super(context, dataSource);
+		super(context);
 		this.classId = classId;
 	}
 

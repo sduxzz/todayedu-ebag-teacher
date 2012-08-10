@@ -17,7 +17,6 @@ import android.content.Context;
 
 import com.todayedu.ebag.teacher.DataSource.Data;
 import com.todayedu.ebag.teacher.DataSource.DataSource;
-import com.todayedu.ebag.teacher.DataSource.DataObj.Exam;
 
 
 /**
@@ -28,15 +27,15 @@ public class ExamHandler extends BaseNetworkHandler {
 	
 	/** 目标班级 */
 	private int classId;
-	private List<Integer> stateList;
+	private List<Integer> stateList;// TODO:问鞠强，这个域如果是null，是否会返回所有状态的试卷
 	/** 请求id，为null则返回全部对应未考 */
 	private List<Integer> idList;
 	/** 请求字段,为空则返回全部字段 */
 	private List<Field> fieldList;
 
+	protected DataSource zDataSource;
 	/**
 	 * @param context
-	 * @param dataSource
 	 * @param classId
 	 * @param stateList
 	 * @param idList
@@ -45,7 +44,8 @@ public class ExamHandler extends BaseNetworkHandler {
 	public ExamHandler(Context context, DataSource dataSource, int classId,
 			List<Integer> stateList, List<Integer> idList, List<Field> fieldList) {
 	
-		super(context, dataSource);
+		super(context);
+		this.zDataSource = dataSource;
 		this.classId = classId;
 		this.stateList = stateList;
 		this.idList = idList;
@@ -67,7 +67,7 @@ public class ExamHandler extends BaseNetworkHandler {
 	public void sessionOpened(IoSession session) throws Exception {
 	
 		ExamRequet request = new ExamRequet();
-		request.setUid(classId);
+		request.classId = classId;
 		request.setIdList(idList);
 		request.setFieldList(fieldList);
 		request.stateList = stateList;
@@ -109,7 +109,7 @@ public class ExamHandler extends BaseNetworkHandler {
 	
 		if (message instanceof ExamResponse) {
 			ExamResponse response = (ExamResponse) message;
-			List<Data> list = Exam.parse(response);
+			List<Data> list = ResponeParseUtil.parseExamResponse(response);
 			zDataSource.store(list);
 			zDataSource.notifyDataChange();
 		}

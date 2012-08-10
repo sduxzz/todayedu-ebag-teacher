@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.util.Log;
 
 
@@ -19,9 +20,60 @@ import android.util.Log;
  */
 public abstract class Data {
 	
-	public String TAG = this.getClass().getName();
+	public String TAG = this.getClass().getSimpleName();
 
-	public abstract void save(Context context);
+	public static String[] keys = null;
+	{
+		Class<? extends Data> cl = Data.class;
+		Field[] fields = cl.getDeclaredFields();
+		keys = new String[fields.length];
+		int i = 0;
+		for (Field field : fields) {
+			keys[i++] = field.getName();
+			Log.i(TAG, field.getName());
+		}
+	}
+
+	public abstract boolean save(Context context);
+	
+	public void fillData(final Cursor cursor) {
+	
+		Class<? extends Data> cl = this.getClass();
+		Field field = null;
+
+		for (String key : keys) {
+			try {
+				field = cl.getDeclaredField(key);
+				field.setAccessible(true);
+				Class<?> fieldType = field.getType();
+				int c = cursor.getColumnIndex(key);
+				if (c < 0) {
+					continue;
+				} else if ((Integer.TYPE == fieldType)
+				        || (Integer.class == fieldType)) {
+					field.setInt(this, cursor.getInt(c));
+				} else if (String.class == fieldType) {
+					field.set(this, cursor.getString(c));
+				} else if ((Long.TYPE == fieldType)
+				        || (Long.class == fieldType)) {
+					field.set(this, Long.valueOf(cursor.getLong(c)));
+				} else if ((Double.TYPE == fieldType)
+				        || (Double.class == fieldType)) {
+					field.set(this, Double.valueOf(cursor.getDouble(c)));
+				}// this case only can appear the situation listed above,if you
+				 // want to add some different situations,please add here with
+				 // "else if"
+			} catch (SecurityException e) {
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (NoSuchFieldException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 
 	/**
 	 * key must be a field of data
@@ -59,5 +111,4 @@ public abstract class Data {
 		}
 		return value;
 	}
-
 }

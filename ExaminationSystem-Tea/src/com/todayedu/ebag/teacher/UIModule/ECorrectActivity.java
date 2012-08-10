@@ -39,13 +39,9 @@ public class ECorrectActivity extends MonitoredActivity {
 
 		String[] keys = new String[] { "sname", "sid", "state" };
 		ECorrectDS ds = new ECorrectDS(ECorrect.class);
-		ds.localload(this);
+		ds.load(this);
 		adapter = elView.bindAdapter(ds, keys);
 		addLifeCycleListener(adapter);
-	}
-	
-	public void onExamSynch(View view) {
-	
 	}
 	
 	/**

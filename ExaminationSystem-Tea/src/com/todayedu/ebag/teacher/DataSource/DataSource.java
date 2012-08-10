@@ -32,23 +32,11 @@ public abstract class DataSource extends Observable {
 
 	public abstract boolean save(Context context);
 
-	public abstract DataSource convert();
-
 	public void notifyDataChange() {
 	
 		setChanged();
 		notifyObservers();
 		clearChanged();
-	}
-
-	public void store(List<Data> list) {
-	
-		zList = list;
-	}
-	
-	public List<Data> pick() {
-	
-		return zList;
 	}
 
 	/**
@@ -61,6 +49,16 @@ public abstract class DataSource extends Observable {
 		zAdapter = (BaseDataAdapter) observer;
 	}
 	
+	public void store(List<Data> list) {
+	
+		zList = list;
+	}
+	
+	public List<Data> pick() {
+	
+		return zList;
+	}
+
 	public BaseDataAdapter getAdapter() {
 	
 		return zAdapter;

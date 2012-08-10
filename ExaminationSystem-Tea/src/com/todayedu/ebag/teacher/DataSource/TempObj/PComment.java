@@ -40,7 +40,9 @@ public class PComment extends Data {
 	 * @see com.todayedu.ebag.teacher.DataSource.Data#save(android.content.Context)
 	 */
 	@Override
-	public void save(Context context) {
+	public boolean save(Context context) {
+	
+		return false;
 	
 	}
 	

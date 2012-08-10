@@ -13,7 +13,7 @@ import android.content.Context;
  * @author zhenzxie
  * 
  */
-public class SCStateDS extends BaseLocalDS {
+public class SCStateDS extends BaseDS {
 
 	
 	public SCStateDS(Class<Data> cl) {
@@ -30,12 +30,6 @@ public class SCStateDS extends BaseLocalDS {
 	public boolean save(Context context) {
 	
 		return false;
-	}
-
-	@Override
-	public DataSource convert() {
-	
-		return null;
 	}
 	
 	@Override

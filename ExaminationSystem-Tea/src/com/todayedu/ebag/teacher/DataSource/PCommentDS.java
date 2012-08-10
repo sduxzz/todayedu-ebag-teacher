@@ -15,7 +15,7 @@ import com.todayedu.ebag.teacher.Parameters.ParaIndex;
  * @author zhenzxie
  * 
  */
-public class PCommentDS extends BaseLocalDS {
+public class PCommentDS extends BaseDS {
 
 	public PCommentDS(Class<? extends Data> cl) {
 	
@@ -37,12 +37,6 @@ public class PCommentDS extends BaseLocalDS {
 	public boolean save(Context context) {
 	
 		return false;
-	}
-
-	@Override
-	public DataSource convert() {
-	
-		return null;
 	}
 	
 	@Override

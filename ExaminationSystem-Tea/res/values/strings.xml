@@ -61,4 +61,6 @@
     <string name="sp_scstate_address">考试地点:</string>
     <string name="sp_scstate_people">考试人员:</string>
 	<string name="sp_networkalter">请检查网络连接，数据将从本地数据库中获取，可能不是最新！</string>
+	<string name="sp_name">登录名</string>
+	<string name="sp_password">登录密码</string>
 </resources>

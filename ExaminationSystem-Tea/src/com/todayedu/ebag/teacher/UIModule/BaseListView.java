@@ -12,13 +12,13 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
+import com.todayedu.ebag.teacher.DataSource.Data;
 import com.todayedu.ebag.teacher.DataSource.DataSource;
 
 /**
  * the base list view
  * 
  * @author zhenzxie
- * @param <T>
  * 
  */
 public abstract class BaseListView extends ListView {
@@ -50,6 +50,14 @@ public abstract class BaseListView extends ListView {
 		addHeaderView(headerView.getHeaderView(zContext), null, false);
 	}
 	
+	/**
+	 * 
+	 * @param dataSource
+	 * @param keys
+	 *            the values of keys must be the field of {@link Data} used in
+	 *            dataSource
+	 * @return
+	 */
 	public abstract BaseDataAdapter bindAdapter(DataSource dataSource,
 			String[] keys);
 }

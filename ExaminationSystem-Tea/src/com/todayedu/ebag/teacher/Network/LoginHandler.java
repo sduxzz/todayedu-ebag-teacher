@@ -7,13 +7,12 @@ package com.todayedu.ebag.teacher.Network;
 
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
+import org.ebag.net.obj.I.signal;
 import org.ebag.net.request.LoginRequest;
 import org.ebag.net.response.LoginResponse;
 
 import android.content.Context;
 import android.util.Log;
-
-import com.todayedu.ebag.teacher.DataSource.DataSource;
 
 
 /**
@@ -22,50 +21,24 @@ import com.todayedu.ebag.teacher.DataSource.DataSource;
  */
 public class LoginHandler extends BaseNetworkHandler {
 	
-	public int uid;
+	public interface LoginCallBack {
+		
+		public void loginSuccess(LoginResponse response);
+		
+		public void loginError(LoginResponse response);
+	}
+
 	public String uname;
 	public String upwd;
+	public LoginCallBack callBack;
 	
-
-	/**
-	 * @param context
-	 * @param dataSource
-	 * @param uid
-	 */
-	public LoginHandler(Context context, DataSource dataSource, int uid) {
+	public LoginHandler(Context context, String uname, String upwd,
+	        LoginCallBack callBack) {
 	
-		super(context, dataSource);
-		this.uid = uid;
-	}
-
-	/**
-	 * @param context
-	 * @param dataSource
-	 * @param uname
-	 * @param upwd
-	 */
-	public LoginHandler(Context context, DataSource dataSource, String uname,
-			String upwd) {
-	
-		super(context, dataSource);
+		super(context);
 		this.uname = uname;
 		this.upwd = upwd;
-	}
-
-	/**
-	 * @param context
-	 * @param dataSource
-	 * @param uid
-	 * @param uname
-	 * @param upwd
-	 */
-	public LoginHandler(Context context, DataSource dataSource, int uid,
-			String uname, String upwd) {
-	
-		super(context, dataSource);
-		this.uid = uid;
-		this.uname = uname;
-		this.upwd = upwd;
+		this.callBack = callBack;
 	}
 
 	/**
@@ -84,7 +57,6 @@ public class LoginHandler extends BaseNetworkHandler {
 	
 		Log.i(TAG, "current thread's id:" + Thread.currentThread().getId());
 		LoginRequest request = new LoginRequest();
-		request.setUid(uid);
 		request.setUname(uname);
 		request.setUpwd(upwd);
 		session.write(request);
@@ -126,11 +98,12 @@ public class LoginHandler extends BaseNetworkHandler {
 	
 		Log.i(TAG, "current thread's id:" + Thread.currentThread().getId());
 		if (message instanceof LoginResponse) {
-			// LoginResponse response = (LoginResponse) message;
-			// List<Data> list = EClass.parse(response);
-			// BaseNetDS bns = new CNetDS(EClass.class);
-			// bns.store(list);
-			// bns.save(zContext);
+			LoginResponse response = (LoginResponse) message;
+			if (response.result == signal.login_true) {
+				callBack.loginSuccess(response);
+			} else {
+				callBack.loginError(response);
+			}
 		}
 	}
 	

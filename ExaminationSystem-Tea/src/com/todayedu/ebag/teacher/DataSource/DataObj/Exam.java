@@ -5,11 +5,7 @@
  */
 package com.todayedu.ebag.teacher.DataSource.DataObj;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.ebag.net.obj.exam.ExamObj;
-import org.ebag.net.response.ExamResponse;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -23,8 +19,8 @@ import com.todayedu.ebag.teacher.Database.annotation.Table;
 
 /**
  * the concrete class stand for the data which come from the database table
- * EXAM(eid integer,id integer,etype integer,ename text,etotal double,time long)
- * 试卷实体
+ * EXAM(eid integer,id integer,cid integer,etype integer,ename text,etotal
+ * double,time long) 试卷实体
  * 
  * @author zhenzxie
  * 
@@ -37,12 +33,14 @@ public class Exam extends Data {
 	private int eid;
 	@Column(name = "id")
 	private int id;
+	@Column(name = "cid")
+	private int cid;
 	@Column(name = "etype")
 	private int etype;
 	@Column(name = "ename")
 	private String ename;
 	@Column(name = "etotal")
-	private double total;
+	private double total;// TODO:问鞠强，ExamObj中没有总分字段
 	@Column(name = "etime")
 	private long etime;
 	@Column(name = "state")
@@ -53,7 +51,7 @@ public class Exam extends Data {
 	}
 	
 	public Exam(int id, int type, String name, double total, long time,
-			int state) {
+	        int state) {
 
 		this.id = id;
 		this.etype = type;
@@ -63,29 +61,17 @@ public class Exam extends Data {
 		this.state = state;
 	}
 
-	public Exam(int eid, int id, int etype, String ename, double total,
-			long etime, int state) {
+	public Exam(int eid, int id, int cid, int etype, String ename,
+	        double total, long etime, int state) {
 	
 		this(id, etype, ename, total, etime, state);
 		this.eid = eid;
+		this.cid = cid;
 	}
 
-	public void save(Context context) {
+	public boolean save(Context context) {
 	
-	}
-
-	public static List<Data> parse(ExamResponse response) {
-	
-		List<ExamObj> examList = response.getExamList();
-		List<Data> list = new ArrayList<Data>();
-		Exam exam;
-		
-		for (ExamObj obj : examList) {
-			exam = convert(obj);
-			list.add(exam);
-		}
-		
-		return list;
+		return false;
 	}
 
 	/**
@@ -104,7 +90,7 @@ public class Exam extends Data {
 		String ename = obj.name;
 		
 		Cursor cursor = database.rawQuery("select ename from EXAM where id = ",
-				new String[] { String.valueOf(id) });
+		        new String[] { String.valueOf(id) });
 		int count = cursor.getCount();
 		if (count != 0)
 			ename = ename + "[ " + count + " ]";
@@ -143,7 +129,6 @@ public class Exam extends Data {
 		return eid;
 	}
 
-
 	/**
 	 * @param eid
 	 *            the eid to set
@@ -153,7 +138,6 @@ public class Exam extends Data {
 		this.eid = eid;
 	}
 
-
 	/**
 	 * @return the id
 	 */
@@ -161,7 +145,6 @@ public class Exam extends Data {
 
 		return id;
 	}
-
 
 	/**
 	 * @param id
@@ -172,6 +155,22 @@ public class Exam extends Data {
 		this.id = id;
 	}
 
+	/**
+	 * @return the cid
+	 */
+	public int getCid() {
+	
+		return cid;
+	}
+	
+	/**
+	 * @param cid
+	 *            the cid to set
+	 */
+	public void setCid(int cid) {
+	
+		this.cid = cid;
+	}
 
 	/**
 	 * @return the etype
@@ -180,7 +179,6 @@ public class Exam extends Data {
 	
 		return etype;
 	}
-
 
 	/**
 	 * @param etype
@@ -191,7 +189,6 @@ public class Exam extends Data {
 		this.etype = etype;
 	}
 
-
 	/**
 	 * @return the ename
 	 */
@@ -199,7 +196,6 @@ public class Exam extends Data {
 	
 		return ename;
 	}
-
 
 	/**
 	 * @param ename
@@ -210,7 +206,6 @@ public class Exam extends Data {
 		this.ename = ename;
 	}
 
-
 	/**
 	 * @return the total
 	 */
@@ -218,7 +213,6 @@ public class Exam extends Data {
 
 		return total;
 	}
-
 
 	/**
 	 * @param total
@@ -229,7 +223,6 @@ public class Exam extends Data {
 		this.total = total;
 	}
 
-
 	/**
 	 * @return the etime
 	 */
@@ -237,7 +230,6 @@ public class Exam extends Data {
 	
 		return etime;
 	}
-
 
 	/**
 	 * @param etime
@@ -270,9 +262,9 @@ public class Exam extends Data {
 	 */
 	@Override
 	public String toString() {
-
-		return "ExamObj [eid=" + eid + ", id=" + id + ", type=" + etype
-				+ ", name=" + ename + ", total=" + total + ", time=" + etime
-				+ "]";
+	
+		return "Exam [eid=" + eid + ", id=" + id + ", cid=" + cid + ", etype="
+		        + etype + ", ename=" + ename + ", total=" + total + ", etime="
+		        + etime + ", state=" + state + "]";
 	}
 }

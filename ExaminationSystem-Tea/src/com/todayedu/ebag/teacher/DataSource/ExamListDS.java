@@ -23,7 +23,7 @@ import com.todayedu.ebag.teacher.Network.NetworkClient;
  * @author zhenzxie
  * 
  */
-public class ExamListDS extends BaseLocalDS {
+public class ExamListDS extends BaseDS {
 
 	public ExamListDS(Class<? extends Data> cl) {
 	
@@ -33,17 +33,16 @@ public class ExamListDS extends BaseLocalDS {
 	@Override
 	public void localload(Context context) {
 	
-		String cid = String.valueOf(Parameters.get(ParaIndex.CID_INDEX));
-		String state = String
-				.valueOf(Parameters.get(ParaIndex.EXAMSTATE_INDEX));
+		String cid = Parameters.getStr(ParaIndex.CID_INDEX);
+		int state = Parameters.get(ParaIndex.EXAMSTATE_INDEX);
 		Log.i(TAG, cid + "   " + state);
-		if (state.equals("0")) {// select all exams
+		if (state == 0) {// select all exams
 			String sql = "select EXAM.eid ,ename from EXAM,CE where EXAM.eid = CE.eid and CE.cid = ? ";
 			String[] selectArgs = new String[] { cid };
 			localload(context, sql, selectArgs);
 		} else {
 			String sql = "select EXAM.eid ,ename from EXAM,CE where EXAM.eid = CE.eid and CE.cid = ? and EXAM.state = ?";
-			String[] selectArgs = new String[] { cid, state };
+			String[] selectArgs = new String[] { cid, String.valueOf(state) };
 			localload(context, sql, selectArgs);
 		}
 	}
@@ -53,8 +52,13 @@ public class ExamListDS extends BaseLocalDS {
 	
 		int cid = Parameters.get(ParaIndex.CID_INDEX);
 		int state = Parameters.get(ParaIndex.EXAMSTATE_INDEX);
-		List<Integer> stateList = new ArrayList<Integer>();
-		stateList.add(state);
+		List<Integer> stateList = null;
+		if (state == 0) {
+			// TODO:how to request all exam
+		} else {
+			stateList = new ArrayList<Integer>();
+			stateList.add(state);
+		}
 		List<Field> fieldList = new ArrayList<Field>();
 		Class<ExamObj> cl = ExamObj.class;
 		try {
@@ -68,17 +72,5 @@ public class ExamListDS extends BaseLocalDS {
 				fieldList));
 		client.connect();
 	}
-	
-	@Override
-	public boolean save(Context context) {
-	
-		return false;
-	}
 
-	@Override
-	public DataSource convert() {
-	
-		return null;
-	}
-	
 }

@@ -6,7 +6,6 @@
 package com.todayedu.ebag.teacher.Database;
 
 import java.lang.reflect.Field;
-import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,7 +103,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 			Object fieldValue = field.get(entity);
 			if (fieldValue == null)
 				continue;
-			Column column = (Column) field.getAnnotation(Column.class);
+			Column column = field.getAnnotation(Column.class);
 			cv.put(column.name(), fieldValue.toString());
 		}
 	}
@@ -124,53 +123,19 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getReadableDatabase();
 		DataSource ds = loader.getzDataSource();
 		Class<? extends Data> cl = ds.getzClass();
-		String[] keys = ds.getAdapter().getzKeys();
 		Cursor cursor = db.rawQuery(sql, selectionArgs);
 		try {
-			Field field;
 			Data entity;
 			int count = cursor.getCount();
 			int num = 0;
-			while (cursor.moveToNext()) {
-				num++;
-				entity = cl.newInstance();
-				for (String key : keys) {
-					field = cl.getDeclaredField(key);
-					field.setAccessible(true);
-					Class<?> fieldType = field.getType();
-					int c = cursor.getColumnIndex(key);
-					if (c < 0) {
-						continue;
-					} else if ((Integer.TYPE == fieldType)
-							|| (Integer.class == fieldType)) {
-						field.setInt(entity, cursor.getInt(c));
-					} else if (String.class == fieldType) {
-						field.set(entity, cursor.getString(c));
-					} else if ((Long.TYPE == fieldType)
-							|| (Long.class == fieldType)) {
-						field.set(entity, Long.valueOf(cursor.getLong(c)));
-					} else if ((Float.TYPE == fieldType)
-							|| (Float.class == fieldType)) {
-						field.set(entity, Float.valueOf(cursor.getFloat(c)));
-					} else if ((Short.TYPE == fieldType)
-							|| (Short.class == fieldType)) {
-						field.set(entity, Short.valueOf(cursor.getShort(c)));
-					} else if ((Double.TYPE == fieldType)
-							|| (Double.class == fieldType)) {
-						field.set(entity, Double.valueOf(cursor.getDouble(c)));
-					} else if (Blob.class == fieldType) {
-						field.set(entity, cursor.getBlob(c));
-					} else if (Character.TYPE == fieldType) {
-						String fieldValue = cursor.getString(c);
-						
-						if ((fieldValue != null) && (fieldValue.length() > 0)) {
-							field.set(entity,
-									Character.valueOf(fieldValue.charAt(0)));
-						}
-					}
-				}
-				list.add(entity);
-				loader.onPublishProgress(num * 10 / count * 10);
+			if (cursor.moveToFirst()) {
+				do {
+					num++;
+					entity = cl.newInstance();
+					entity.fillData(cursor);
+					list.add(entity);
+					loader.onPublishProgress(num * 10 / count * 10);
+				} while (cursor.moveToNext());
 			}
 		} catch (Exception e) {
 			Log.e(TAG, "[query2MapList] from DB exception");

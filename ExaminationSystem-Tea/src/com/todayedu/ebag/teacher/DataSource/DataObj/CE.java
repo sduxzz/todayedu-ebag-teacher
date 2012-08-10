@@ -19,6 +19,7 @@ import com.todayedu.ebag.teacher.Database.annotation.Table;
  * @author zhenzxie
  * 
  */
+@Deprecated
 @Table(name = "CE")
 public class CE extends Data {
 	
@@ -42,14 +43,6 @@ public class CE extends Data {
 	
 		this.cid = cid;
 		this.eid = eid;
-	}
-
-	/**
-	 * @see com.todayedu.ebag.teacher.DataSource.Data#save(android.content.Context)
-	 */
-	@Override
-	public void save(Context context) {
-	
 	}
 	
 	/**
@@ -93,6 +86,12 @@ public class CE extends Data {
 	public String toString() {
 	
 		return "CE [cid=" + cid + ", eid=" + eid + "]";
+	}
+	
+	@Override
+	public boolean save(Context context) {
+	
+		return false;
 	}
 	
 }

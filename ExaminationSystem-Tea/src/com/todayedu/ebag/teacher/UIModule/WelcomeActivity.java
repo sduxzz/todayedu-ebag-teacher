@@ -1,29 +1,35 @@
 package com.todayedu.ebag.teacher.UIModule;
 
+import java.util.ArrayList;
+
+import org.ebag.net.response.LoginResponse;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.widget.EditText;
+import android.widget.Toast;
 
-import com.todayedu.ebag.teacher.Parameters;
-import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.R;
+import com.todayedu.ebag.teacher.DataSource.DataObj.EClass;
+import com.todayedu.ebag.teacher.Network.LoginHandler;
+import com.todayedu.ebag.teacher.Network.LoginHandler.LoginCallBack;
+import com.todayedu.ebag.teacher.Network.NetWorkUtil;
+import com.todayedu.ebag.teacher.Network.NetworkClient;
+import com.todayedu.ebag.teacher.Network.ResponeParseUtil;
 
 /**
- * the welcome activity
+ * the welcome activity,teacher should login
  * 
  * @author zhenzxie
  * 
  */
-public class WelcomeActivity extends Activity implements OnItemSelectedListener {
+public class WelcomeActivity extends Activity {
 	
-	private Spinner spinner;
-	private ArrayAdapter<String> adapter;
+	private EditText et1;
+	private EditText et2;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -33,17 +39,48 @@ public class WelcomeActivity extends Activity implements OnItemSelectedListener 
 		setContentView(R.layout.main);
 		Log.i("WelcomeActivity", "main thread's id:"
 				+ Thread.currentThread().getId());
-		spinner = (Spinner) findViewById(R.id.main_sp);
-		adapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_spinner_item, new String[] { "1", "2",
-						"3", "4", "5" });// TODO:set the name of all classes
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spinner.setAdapter(adapter);
-		spinner.setOnItemSelectedListener(this);
-		spinner.setVisibility(View.VISIBLE);
+
+		et1 = (EditText) findViewById(R.id.main_et1);
+		et2 = (EditText) findViewById(R.id.main_et2);
 	}
 	
-	private void start() {
+	public void onConfirm(View view) {
+	
+		if (NetWorkUtil.isConnected(this)) {
+			
+			String name = et1.getText().toString();
+			String password = et2.getText().toString();
+
+			NetworkClient client = new NetworkClient();
+			client.setHandler(new LoginHandler(this, name, password,
+			        new LoginCallBack() {
+				        
+				        @Override
+				        public void loginSuccess(LoginResponse response) {
+				        
+					        ArrayList<EClass> list = ResponeParseUtil
+					                .parseLoginResponse(response);
+					        start(list);
+				        }
+				        
+				        @Override
+				        public void loginError(LoginResponse response) {
+				        
+					        Toast.makeText(WelcomeActivity.this, "µÇÂ¼Ê§°Ü£¬ÇëÖØÐÂµÇÈë",
+					                Toast.LENGTH_SHORT).show();
+				        }
+			        }));
+
+			client.connect();
+
+		} else {
+			Toast.makeText(WelcomeActivity.this, "Î´Á¬½ÓÍøÂç", Toast.LENGTH_SHORT)
+			        .show();
+		}
+
+	}
+	
+	private void start(final ArrayList<EClass> list) {
 	
 		new Thread() {
 			
@@ -57,22 +94,11 @@ public class WelcomeActivity extends Activity implements OnItemSelectedListener 
 				}
 				Intent intent = new Intent(WelcomeActivity.this,
 				        FunctionActivity.class);
+				Bundle bundle = new Bundle();
+				bundle.putSerializable("classIdList", list);
+				intent.putExtras(bundle);
 				startActivity(intent);
 			}
 		}.start();
-	}
-	
-	@Override
-	public void onItemSelected(AdapterView<?> parent, View view, int position,
-			long id) {
-	
-		int cid = 1;// TODO:get cid of selected class
-		Parameters.add(String.valueOf(cid), ParaIndex.CID_INDEX);
-		start();
-	}
-	
-	@Override
-	public void onNothingSelected(AdapterView<?> parent) {
-	
 	}
 }

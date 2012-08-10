@@ -300,7 +300,7 @@ public class BaseDaoImpl<T> {
 			if (!field.isAnnotationPresent(Column.class)) {
 				continue;
 			}
-			Column column = (Column) field.getAnnotation(Column.class);
+			Column column = field.getAnnotation(Column.class);
 			field.setAccessible(true);
 			Object fieldValue = field.get(entity);
 			if (fieldValue == null)

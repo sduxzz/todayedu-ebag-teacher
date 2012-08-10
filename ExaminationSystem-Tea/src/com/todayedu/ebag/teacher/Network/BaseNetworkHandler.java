@@ -11,8 +11,6 @@ import org.apache.mina.core.session.IoSession;
 import android.app.ProgressDialog;
 import android.content.Context;
 
-import com.todayedu.ebag.teacher.DataSource.DataSource;
-
 
 /**
  * @author zhenzxie
@@ -22,13 +20,11 @@ public abstract class BaseNetworkHandler implements IoHandler {
 	
 	protected String TAG = this.getClass().getName();
 	protected Context zContext;
-	protected DataSource zDataSource;
 	private ProgressDialog zDialog;
 
-	public BaseNetworkHandler(Context context, DataSource dataSource) {
+	public BaseNetworkHandler(Context context) {
 	
 		this.zContext = context;
-		this.zDataSource = dataSource;
 	}
 
 	/**

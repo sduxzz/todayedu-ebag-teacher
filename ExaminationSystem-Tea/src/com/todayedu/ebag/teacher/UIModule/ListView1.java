@@ -39,6 +39,10 @@ public class ListView1 extends BaseListView {
 				HeaderViewFactory.HV_1_SIG);
 	}
 	
+	/**
+	 * 
+	 * {@inheritDoc}
+	 */
 	@Override
 	public BaseDataAdapter bindAdapter(DataSource dataSource, String[] keys) {
 	

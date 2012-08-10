@@ -15,7 +15,7 @@ import com.todayedu.ebag.teacher.Parameters.ParaIndex;
  * @author zhenzxie
  * 
  */
-public class ECSDS extends BaseLocalDS {
+public class ECSDS extends BaseDS {
 	
 	public ECSDS(Class<? extends Data> cl) {
 	
@@ -38,12 +38,6 @@ public class ECSDS extends BaseLocalDS {
 	public boolean save(Context context) {
 	
 		return false;
-	}
-	
-	@Override
-	public DataSource convert() {
-	
-		return null;
 	}
 	
 	@Override

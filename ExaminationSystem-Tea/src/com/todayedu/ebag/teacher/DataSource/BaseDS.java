@@ -5,6 +5,8 @@
  */
 package com.todayedu.ebag.teacher.DataSource;
 
+import java.util.Iterator;
+
 import android.content.Context;
 import android.widget.Toast;
 
@@ -18,9 +20,9 @@ import com.todayedu.ebag.teacher.Network.NetWorkUtil;
  * @param <T>
  * 
  */
-public abstract class BaseLocalDS extends DataSource {
+public abstract class BaseDS extends DataSource {
 	
-	public BaseLocalDS(Class<? extends Data> cl) {
+	public BaseDS(Class<? extends Data> cl) {
 	
 		super(cl);
 	}
@@ -30,10 +32,19 @@ public abstract class BaseLocalDS extends DataSource {
 	 * @see com.todayedu.ebag.teacher.DataSource.DataSource#save(android.content.Context)
 	 */
 	@Override
-	public abstract boolean save(Context context);
+	public boolean save(Context context) {
 	
-	@Override
-	public abstract DataSource convert();
+		Iterator<Data> iterator = zList.iterator();
+		boolean result = true;
+		while (iterator.hasNext()) {
+			if (result) {
+				result = iterator.next().save(context);
+			} else {
+				iterator.next().save(context);
+			}
+		}
+		return result;
+	}
 	
 	/**
 	 * load the data from the local database
@@ -50,7 +61,8 @@ public abstract class BaseLocalDS extends DataSource {
 	public abstract void download(Context context);
 	
 	/**
-	 * load the data from server or local database
+	 * load the data from server if network is available or local database if
+	 * there isn't network connection.
 	 * 
 	 * @param context
 	 */

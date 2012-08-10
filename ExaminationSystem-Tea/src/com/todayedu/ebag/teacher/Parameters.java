@@ -7,6 +7,7 @@ package com.todayedu.ebag.teacher;
 
 
 
+
 /**
  * The stack that is used in delivering parameters. You must be careful when you
  * use it.
@@ -25,6 +26,7 @@ public class Parameters {
 		public static final int EXAMSTATE_INDEX = 4;
 		public static final int PROBLEMSTATE_INDEX = 5;
 		public static final int PROBLEMNUMBER_INDEX = 6;
+		public static final int EXAMSHOWACTIVITYMODE = 7;
 	}
 
 	private static int[] parameters = new int[10];
@@ -37,7 +39,11 @@ public class Parameters {
 	
 	public static synchronized void add(String parameter, int index) {
 	
-		parameters[index] = Integer.parseInt(parameter);
+		try {
+	        parameters[index] = Integer.parseInt(parameter);
+        } catch (NumberFormatException e) {
+	        e.printStackTrace();
+        }
 	}
 
 	public static synchronized int get(int index) {

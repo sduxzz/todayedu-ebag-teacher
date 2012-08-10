@@ -13,7 +13,7 @@ import android.content.Context;
  * @author zhenzxie
  * 
  */
-public class SCExamDS extends BaseLocalDS {
+public class SCExamDS extends BaseDS {
 
 	
 	
@@ -31,12 +31,6 @@ public class SCExamDS extends BaseLocalDS {
 	public boolean save(Context context) {
 	
 		return false;
-	}
-	
-	@Override
-	public DataSource convert() {
-	
-		return null;
 	}
 	
 	@Override

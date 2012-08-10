@@ -14,7 +14,7 @@ import com.todayedu.ebag.teacher.Parameters.ParaIndex;
  * @author zhenzxie
  * 
  */
-public class ECorrectDS extends BaseLocalDS {
+public class ECorrectDS extends BaseDS {
 	
 	public ECorrectDS(Class<? extends Data> cl) {
 	
@@ -33,20 +33,18 @@ public class ECorrectDS extends BaseLocalDS {
 	}
 	
 	@Override
+	public void download(Context context) {
+	
+		// NetworkClient client = new NetworkClient();
+		// client.setHandler(new ExamHandler(context, this, cid, stateList,
+		// null,
+		// fieldList));
+		// client.connect();
+	}
+	
+	@Override
 	public boolean save(Context context) {
 	
 		return false;
 	}
-	
-	@Override
-	public DataSource convert() {
-	
-		return null;
-	}
-	
-	@Override
-	public void download(Context context) {
-	
-	}
-	
 }

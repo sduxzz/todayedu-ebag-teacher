@@ -5,17 +5,10 @@
  */
 package com.todayedu.ebag.teacher.DataSource.DataObj;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import org.ebag.net.response.ClassInfoResponse;
-import org.ebag.net.response.LoginResponse;
+import java.io.Serializable;
 
 import android.content.Context;
 
-import com.todayedu.ebag.teacher.Parameters;
-import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.DataSource.Data;
 import com.todayedu.ebag.teacher.Database.annotation.Column;
 import com.todayedu.ebag.teacher.Database.annotation.Id;
@@ -29,8 +22,12 @@ import com.todayedu.ebag.teacher.Database.annotation.Table;
  * 
  */
 @Table(name = "ECLASS")
-public class EClass extends Data {
+public class EClass extends Data implements Serializable {
 	
+	/**
+     * 
+     */
+	private static final long serialVersionUID = -5608430130436462422L;
 	@Id
 	@Column(name = "cid")
 	private int cid;
@@ -53,40 +50,12 @@ public class EClass extends Data {
 	}
 	
 	@Override
-	public void save(Context context) {
+	public boolean save(Context context) {
+	
+		return false;
 	
 	}
 	
-	@Override
-	public Map<String, String> changeToMap(String[] keys) {
-	
-		return null;
-	}
-
-	public static List<Data> parse(LoginResponse response) {
-	
-		List<Integer> classIdLst = response.getClassIdLst();
-		List<Data> list = new ArrayList<Data>();
-		EClass ec;
-		
-		for (Integer in : classIdLst) {
-			ec = new EClass();
-			ec.setCid(in);
-			list.add(ec);
-		}
-		
-		return list;
-	}
-	
-	public static List<Data> parse(ClassInfoResponse response) {
-	
-		String className = response.className;
-		EClass ec = new EClass(Parameters.get(ParaIndex.CID_INDEX), className);
-		List<Data> list = new ArrayList<Data>();
-		list.add(ec);
-		return list;
-	}
-
 	/**
 	 * @return the cid
 	 */
@@ -120,13 +89,13 @@ public class EClass extends Data {
 	
 		this.cname = cname;
 	}
-	
+
 	/**
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 	
-		return "ClassObj [cid=" + cid + ", cname=" + cname + "]";
+		return "EClass [cid=" + cid + ", cname=" + cname + "]";
 	}
 }

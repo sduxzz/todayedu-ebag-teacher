@@ -18,6 +18,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.todayedu.ebag.teacher.DataSource.Data;
 import com.todayedu.ebag.teacher.DataSource.DataSource;
 import com.todayedu.ebag.teacher.UIModule.MonitoredActivity;
 import com.todayedu.ebag.teacher.UIModule.MonitoredActivity.LifeCycleListener;
@@ -37,6 +38,16 @@ public class BaseDataAdapter extends BaseAdapter implements Observer,
 	protected int mDropDownResource;
 	protected LayoutInflater mInflater;
 	
+	/**
+	 * 
+	 * @param context
+	 * @param dataSource
+	 * @param resource
+	 * @param keys
+	 *            the values of keys must be the field of {@link Data} used in
+	 *            dataSource
+	 * @param ids
+	 */
 	public BaseDataAdapter(Context context, DataSource dataSource,
 			int resource, String[] keys, int[] ids) {
 	

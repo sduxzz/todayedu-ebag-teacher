@@ -6,6 +6,7 @@
 package com.todayedu.ebag.teacher.UIModule;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.view.View;
 
@@ -25,7 +26,6 @@ public class SChooseActivity extends BaseActivity {
 	
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.schoose);
-
 	}
 	
 	public void onState(View view) {
@@ -40,20 +40,23 @@ public class SChooseActivity extends BaseActivity {
 	
 	public void onStart(View view) {
 	
-		new AlertDialog.Builder(this)
-				.setMessage("Do you want to start this exam ?")
-				.setPositiveButton(R.string.comm_confirm, null)
-				.setNegativeButton(R.string.comm_cancel, null)
-				.show();
-
+		showAlertDialog("Do you want to start this exam ?", null, null);
 	}
 	
 	public void onEnd(View view) {
 	
-		new AlertDialog.Builder(this)
-				.setMessage("Do you want to end this exam ?")
-				.setPositiveButton(R.string.comm_confirm, null)
-				.setNegativeButton(R.string.comm_cancel, null)
+		showAlertDialog("Do you want to end this exam ?", null, null);
+	}
+
+	/**
+     * 
+     */
+	private void showAlertDialog(CharSequence message,
+	        OnClickListener positiveListener, OnClickListener negativeListener) {
+	
+		new AlertDialog.Builder(this).setMessage(message)
+		        .setPositiveButton(R.string.comm_confirm, positiveListener)
+		        .setNegativeButton(R.string.comm_cancel, negativeListener)
 		        .show();
 	}
 }

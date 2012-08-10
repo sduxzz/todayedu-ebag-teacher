@@ -23,11 +23,11 @@ public class DataSourceLoader extends AsyncTask<Context, Integer, List<Data>> {
 	public static final String TAG = "DataSourceLoader";
 	
 	private ProgressDialog zDialog;
-	protected BaseLocalDS zDataSource;
+	protected BaseDS zDataSource;
 	protected String zSql;
 	protected String[] zSA;
 
-	public DataSourceLoader(BaseLocalDS dataSource, Context context,
+	public DataSourceLoader(BaseDS dataSource, Context context,
 			String sql, String[] selectionArgs) {
 	
 		zDataSource = dataSource;
@@ -84,7 +84,7 @@ public class DataSourceLoader extends AsyncTask<Context, Integer, List<Data>> {
 	/**
 	 * @return the zDataSource
 	 */
-	public BaseLocalDS getzDataSource() {
+	public BaseDS getzDataSource() {
 	
 		return zDataSource;
 	}
@@ -93,7 +93,7 @@ public class DataSourceLoader extends AsyncTask<Context, Integer, List<Data>> {
 	 * @param zDataSource
 	 *            the zDataSource to set
 	 */
-	public void setzDataSource(BaseLocalDS zDataSource) {
+	public void setzDataSource(BaseDS zDataSource) {
 	
 		this.zDataSource = zDataSource;
 	}
