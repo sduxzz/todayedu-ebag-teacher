@@ -15,9 +15,6 @@ import org.ebag.net.response.ExamResponse;
 
 import android.content.Context;
 
-import com.todayedu.ebag.teacher.DataSource.Data;
-import com.todayedu.ebag.teacher.DataSource.DataSource;
-
 
 /**
  * @author zhenzxie
@@ -25,6 +22,18 @@ import com.todayedu.ebag.teacher.DataSource.DataSource;
  */
 public class ExamHandler extends BaseNetworkHandler {
 	
+	/**
+	 * 
+	 * @author zhenzxie
+	 * 
+	 */
+	public interface ExamCallBack {
+		
+		public void examSuccess(ExamResponse examResponse);
+		
+		public void examError(Throwable cause);
+	}
+
 	/** 目标班级 */
 	private int classId;
 	private List<Integer> stateList;// TODO:问鞠强，这个域如果是null，是否会返回所有状态的试卷
@@ -33,7 +42,7 @@ public class ExamHandler extends BaseNetworkHandler {
 	/** 请求字段,为空则返回全部字段 */
 	private List<Field> fieldList;
 
-	protected DataSource zDataSource;
+	protected ExamCallBack examCallBack;
 	/**
 	 * @param context
 	 * @param classId
@@ -41,11 +50,11 @@ public class ExamHandler extends BaseNetworkHandler {
 	 * @param idList
 	 * @param fieldList
 	 */
-	public ExamHandler(Context context, DataSource dataSource, int classId,
+	public ExamHandler(Context context, ExamCallBack callBack, int classId,
 			List<Integer> stateList, List<Integer> idList, List<Field> fieldList) {
 	
 		super(context);
-		this.zDataSource = dataSource;
+		this.examCallBack = callBack;
 		this.classId = classId;
 		this.stateList = stateList;
 		this.idList = idList;
@@ -98,6 +107,7 @@ public class ExamHandler extends BaseNetworkHandler {
 	public void exceptionCaught(IoSession session, Throwable cause)
 			throws Exception {
 	
+		examCallBack.examError(cause);
 	}
 	
 	/**
@@ -109,9 +119,7 @@ public class ExamHandler extends BaseNetworkHandler {
 	
 		if (message instanceof ExamResponse) {
 			ExamResponse response = (ExamResponse) message;
-			List<Data> list = ResponeParseUtil.parseExamResponse(response);
-			zDataSource.store(list);
-			zDataSource.notifyDataChange();
+			examCallBack.examSuccess(response);
 		}
 	}
 	

@@ -2,43 +2,46 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:background="@android:color/white" >
+    android:background="@android:color/white"
+    android:orientation="vertical" >
+
     <TextView
         android:id="@+id/main_tv1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="49dp"
-        android:layout_marginTop="103dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="100dp"
         android:text="@string/sp_name" />
+
     <TextView
         android:id="@+id/main_tv2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/main_tv1"
         android:layout_below="@+id/main_tv1"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="60dp"
         android:text="@string/sp_password" />
+
     <EditText
         android:id="@+id/main_et1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/main_tv1"
-        android:layout_alignBottom="@+id/main_tv1"
-        android:layout_marginLeft="34dp"
-        android:layout_toRightOf="@+id/main_tv2"
+        android:layout_alignTop="@+id/main_tv1"
+        android:layout_toRightOf="@+id/main_tv1"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
         android:ems="10" >
     </EditText>
-
+
     <EditText
         android:id="@+id/main_et2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/main_et1"
-        android:layout_below="@+id/main_et1"
-        android:ems="10"
+        android:layout_alignTop="@+id/main_tv2"
+        android:layout_alignRight="@+id/main_et1"
         android:inputType="textPassword" />
 
     <Button
@@ -49,7 +52,7 @@
         android:layout_below="@+id/main_et2"
         android:layout_marginRight="24dp"
         android:layout_marginTop="27dp"
-        android:text="@string/comm_confirm" 
-        android:onClick="onConfirm"/>
+        android:onClick="onConfirm"
+        android:text="@string/comm_confirm" />
 
 </RelativeLayout>

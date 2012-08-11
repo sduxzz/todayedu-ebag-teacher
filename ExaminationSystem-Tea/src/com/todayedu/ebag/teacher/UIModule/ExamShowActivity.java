@@ -61,7 +61,7 @@ public class ExamShowActivity extends MonitoredActivity {
 	
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.sp);
-		mode = Parameters.get(ParaIndex.EXAMSHOWACTIVITYMODE);
+		mode = Parameters.get(ParaIndex.EXAMSHOWACTIVITYMODE_INDEX);
 		/*
 		 * TODO:check mode's value whether as the same as the previously when
 		 * this activity is re-initialized after previously being shut down. if
@@ -84,6 +84,7 @@ public class ExamShowActivity extends MonitoredActivity {
 		String[] keys = new String[] { "ename", "eid" };
 		BaseDS ds = new ExamListDS(Exam.class);
 		ds.load(this);
+
 		adapter = elView.bindAdapter(ds, keys);
 		addLifeCycleListener(adapter);
 	}

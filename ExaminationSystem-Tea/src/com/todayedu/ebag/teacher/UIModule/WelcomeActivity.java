@@ -64,8 +64,11 @@ public class WelcomeActivity extends Activity {
 				        }
 				        
 				        @Override
-				        public void loginError(LoginResponse response) {
+				        public void loginError(LoginResponse response, Throwable cause) {
 				        
+					        if (cause != null) {
+						        Log.i("WelcomeActivity", cause.getMessage());
+					        }
 					        Toast.makeText(WelcomeActivity.this, "µÇÂ¼Ê§°Ü£¬ÇëÖØÐÂµÇÈë",
 					                Toast.LENGTH_SHORT).show();
 				        }

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.ebag.net.obj.exam.ExamObj;
+import org.ebag.net.response.ExamResponse;
 
 import android.content.Context;
 import android.util.Log;
@@ -17,9 +18,13 @@ import android.util.Log;
 import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.Network.ExamHandler;
+import com.todayedu.ebag.teacher.Network.ExamHandler.ExamCallBack;
 import com.todayedu.ebag.teacher.Network.NetworkClient;
+import com.todayedu.ebag.teacher.Network.ResponeParseUtil;
 
 /**
+ * this DataSource is used for ExamShowActivity
+ * 
  * @author zhenzxie
  * 
  */
@@ -36,15 +41,16 @@ public class ExamListDS extends BaseDS {
 		String cid = Parameters.getStr(ParaIndex.CID_INDEX);
 		int state = Parameters.get(ParaIndex.EXAMSTATE_INDEX);
 		Log.i(TAG, cid + "   " + state);
+		String sql = null;
+		String[] selectArgs = null;
 		if (state == 0) {// select all exams
-			String sql = "select EXAM.eid ,ename from EXAM,CE where EXAM.eid = CE.eid and CE.cid = ? ";
-			String[] selectArgs = new String[] { cid };
-			localload(context, sql, selectArgs);
+			sql = "select eid ,ename from EXAM where cid = ? ";
+			selectArgs = new String[] { cid };
 		} else {
-			String sql = "select EXAM.eid ,ename from EXAM,CE where EXAM.eid = CE.eid and CE.cid = ? and EXAM.state = ?";
-			String[] selectArgs = new String[] { cid, String.valueOf(state) };
-			localload(context, sql, selectArgs);
+			sql = "select eid ,ename from EXAM where cid = ? and state = ?";
+			selectArgs = new String[] { cid, String.valueOf(state) };
 		}
+		localload(context, sql, selectArgs);
 	}
 
 	@Override
@@ -68,9 +74,25 @@ public class ExamListDS extends BaseDS {
 			e.printStackTrace();
 		}
 		NetworkClient client = new NetworkClient();
-		client.setHandler(new ExamHandler(context, this, cid, stateList, null,
-				fieldList));
+		ExamCallBack callBack = new ExamCallBack() {
+			
+			@Override
+			public void examSuccess(ExamResponse examResponse) {
+			
+				List<Data> list = ResponeParseUtil
+				        .parseExamResponse(examResponse);
+				ExamListDS.this.store(list);
+				ExamListDS.this.notifyDataChange();
+			}
+			
+			@Override
+			public void examError(Throwable cause) {
+
+				Log.i(TAG, cause.getMessage());
+			}
+		};
+		client.setHandler(new ExamHandler(context, callBack, cid, stateList,
+		        null, fieldList));
 		client.connect();
 	}
-
 }

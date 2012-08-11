@@ -62,14 +62,19 @@ public class Problem extends Data {
 		this.answer = answer;
 		this.analysis = analysis;
 	}
-
+	/**
+	 * 
+	 * @param response
+	 * @param position
+	 * @return
+	 */
 	public static List<Data> parse(ExamResponse response, int position) {
 
 		List<ExamObj> examList = response.getExamList();
 		if(position >= examList.size()||position <0)
 			return null;
 		ExamObj obj = examList.get(position);
-		return parseToExamObj(obj);
+		return parseToProblemList(obj);
 	}
 
 	/**
@@ -78,7 +83,7 @@ public class Problem extends Data {
 	 * @param obj
 	 * @return List<Problem>
 	 */
-	public static List<Data> parseToExamObj(ExamObj obj) {
+	public static List<Data> parseToProblemList(ExamObj obj) {
 	
 		List<ProblemInfoObj> infoObjList = obj.pInfoList;
 		List<Data> problemList = new ArrayList<Data>();

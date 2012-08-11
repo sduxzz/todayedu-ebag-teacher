@@ -17,7 +17,6 @@ import com.todayedu.ebag.teacher.Network.NetWorkUtil;
 
 /**
  * @author zhenzxie
- * @param <T>
  * 
  */
 public abstract class BaseDS extends DataSource {

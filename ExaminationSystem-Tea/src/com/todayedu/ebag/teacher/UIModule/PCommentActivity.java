@@ -38,7 +38,7 @@ public class PCommentActivity extends MonitoredActivity {
 
 		String[] keys = new String[] { "number", "state", "point" };
 		PCommentDS ds = new PCommentDS(PComment.class);
-		ds.localload(this);
+		ds.load(this);
 		adapter = elView.bindAdapter(ds, keys);
 		addLifeCycleListener(adapter);
 	}

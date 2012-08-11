@@ -25,7 +25,7 @@ public class LoginHandler extends BaseNetworkHandler {
 		
 		public void loginSuccess(LoginResponse response);
 		
-		public void loginError(LoginResponse response);
+		public void loginError(LoginResponse response, Throwable cause);
 	}
 
 	public String uname;
@@ -86,6 +86,7 @@ public class LoginHandler extends BaseNetworkHandler {
 	public void exceptionCaught(IoSession session, Throwable cause)
 			throws Exception {
 	
+		callBack.loginError(null, cause);
 	}
 	
 	/**
@@ -102,7 +103,7 @@ public class LoginHandler extends BaseNetworkHandler {
 			if (response.result == signal.login_true) {
 				callBack.loginSuccess(response);
 			} else {
-				callBack.loginError(response);
+				callBack.loginError(response, null);
 			}
 		}
 	}

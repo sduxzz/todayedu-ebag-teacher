@@ -31,7 +31,7 @@ public class TempData {
 	}
 	
 	/*
-	 * because this method was called when app want to reset the state of
+	 * because this method was only called when app want to reset the state of
 	 * problem and state is presented as int in the database,so the type of
 	 * value is int.
 	 */

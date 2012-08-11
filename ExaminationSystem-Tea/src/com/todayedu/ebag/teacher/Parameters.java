@@ -26,7 +26,7 @@ public class Parameters {
 		public static final int EXAMSTATE_INDEX = 4;
 		public static final int PROBLEMSTATE_INDEX = 5;
 		public static final int PROBLEMNUMBER_INDEX = 6;
-		public static final int EXAMSHOWACTIVITYMODE = 7;
+		public static final int EXAMSHOWACTIVITYMODE_INDEX = 7;
 	}
 
 	private static int[] parameters = new int[10];

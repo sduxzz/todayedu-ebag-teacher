@@ -181,13 +181,13 @@ public class FunctionActivity extends MonitoredActivity implements OnItemSelecte
 			return;
 		}
 		Parameters.add(examState, ParaIndex.EXAMSTATE_INDEX);
-		Parameters.add(mode, ParaIndex.EXAMSHOWACTIVITYMODE);
+		Parameters.add(mode, ParaIndex.EXAMSHOWACTIVITYMODE_INDEX);
 		start(ExamShowActivity.class);
 		Log.i(TAG,
 		        "jumpTo the class id is:" + Parameters.get(ParaIndex.CID_INDEX)
 		                + " exam's state is:"
 		                + Parameters.get(ParaIndex.EXAMSTATE_INDEX)
 		                + " mode's values is:"
-		                + Parameters.get(ParaIndex.EXAMSHOWACTIVITYMODE));
+		                + Parameters.get(ParaIndex.EXAMSHOWACTIVITYMODE_INDEX));
 	}
 }
