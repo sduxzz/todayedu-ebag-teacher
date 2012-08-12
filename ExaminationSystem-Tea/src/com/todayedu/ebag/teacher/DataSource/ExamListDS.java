@@ -59,9 +59,7 @@ public class ExamListDS extends BaseDS {
 		int cid = Parameters.get(ParaIndex.CID_INDEX);
 		int state = Parameters.get(ParaIndex.EXAMSTATE_INDEX);
 		List<Integer> stateList = null;
-		if (state == 0) {
-			// TODO:how to request all exam
-		} else {
+		if (state != 0) {// when state is 0(request all exam),so stateList is null;
 			stateList = new ArrayList<Integer>();
 			stateList.add(state);
 		}

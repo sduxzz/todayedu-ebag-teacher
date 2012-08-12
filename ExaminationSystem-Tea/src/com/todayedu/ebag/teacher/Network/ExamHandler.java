@@ -8,7 +8,6 @@ package com.todayedu.ebag.teacher.Network;
 import java.lang.reflect.Field;
 import java.util.List;
 
-import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 import org.ebag.net.request.ExamRequet;
 import org.ebag.net.response.ExamResponse;
@@ -36,9 +35,9 @@ public class ExamHandler extends BaseNetworkHandler {
 
 	/** 目标班级 */
 	private int classId;
-	private List<Integer> stateList;// TODO:问鞠强，这个域如果是null，是否会返回所有状态的试卷
+	private List<Integer> stateList;// 这个域如果是null，会返回所有状态的试卷
 	/** 请求id，为null则返回全部对应未考 */
-	private List<Integer> idList;
+	private List<Integer> idList;// idList放的是试卷id
 	/** 请求字段,为空则返回全部字段 */
 	private List<Field> fieldList;
 
@@ -59,14 +58,6 @@ public class ExamHandler extends BaseNetworkHandler {
 		this.stateList = stateList;
 		this.idList = idList;
 		this.fieldList = fieldList;
-	}
-
-	/**
-	 * @see org.apache.mina.core.service.IoHandler#sessionCreated(org.apache.mina.core.session.IoSession)
-	 */
-	@Override
-	public void sessionCreated(IoSession session) throws Exception {
-
 	}
 	
 	/**
@@ -92,15 +83,6 @@ public class ExamHandler extends BaseNetworkHandler {
 	}
 	
 	/**
-	 * @see org.apache.mina.core.service.IoHandler#sessionIdle(org.apache.mina.core.session.IoSession, org.apache.mina.core.session.IdleStatus)
-	 */
-	@Override
-	public void sessionIdle(IoSession session, IdleStatus status)
-			throws Exception {
-	
-	}
-	
-	/**
 	 * @see org.apache.mina.core.service.IoHandler#exceptionCaught(org.apache.mina.core.session.IoSession, java.lang.Throwable)
 	 */
 	@Override
@@ -122,13 +104,4 @@ public class ExamHandler extends BaseNetworkHandler {
 			examCallBack.examSuccess(response);
 		}
 	}
-	
-	/**
-	 * @see org.apache.mina.core.service.IoHandler#messageSent(org.apache.mina.core.session.IoSession, java.lang.Object)
-	 */
-	@Override
-	public void messageSent(IoSession session, Object message) throws Exception {
-	
-	}
-	
 }

@@ -5,7 +5,6 @@
  */
 package com.todayedu.ebag.teacher.Network;
 
-import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 import org.ebag.net.obj.I.signal;
 import org.ebag.net.request.LoginRequest;
@@ -42,41 +41,16 @@ public class LoginHandler extends BaseNetworkHandler {
 	}
 
 	/**
-	 * @see org.apache.mina.core.service.IoHandler#sessionCreated(org.apache.mina.core.session.IoSession)
-	 */
-	@Override
-	public void sessionCreated(IoSession session) throws Exception {
-
-	}
-	
-	/**
 	 * @see org.apache.mina.core.service.IoHandler#sessionOpened(org.apache.mina.core.session.IoSession)
 	 */
 	@Override
 	public void sessionOpened(IoSession session) throws Exception {
 	
-		Log.i(TAG, "current thread's id:" + Thread.currentThread().getId());
 		LoginRequest request = new LoginRequest();
 		request.setUname(uname);
 		request.setUpwd(upwd);
 		session.write(request);
-	}
-	
-	/**
-	 * @see org.apache.mina.core.service.IoHandler#sessionClosed(org.apache.mina.core.session.IoSession)
-	 */
-	@Override
-	public void sessionClosed(IoSession session) throws Exception {
-	
-	}
-	
-	/**
-	 * @see org.apache.mina.core.service.IoHandler#sessionIdle(org.apache.mina.core.session.IoSession, org.apache.mina.core.session.IdleStatus)
-	 */
-	@Override
-	public void sessionIdle(IoSession session, IdleStatus status)
-			throws Exception {
-	
+		Log.i(TAG, "sessionOpened");
 	}
 	
 	/**
@@ -86,6 +60,8 @@ public class LoginHandler extends BaseNetworkHandler {
 	public void exceptionCaught(IoSession session, Throwable cause)
 			throws Exception {
 	
+		Log.i(TAG, "exceptionCaught");
+		super.exceptionCaught(session, cause);
 		callBack.loginError(null, cause);
 	}
 	
@@ -97,7 +73,7 @@ public class LoginHandler extends BaseNetworkHandler {
 	public void messageReceived(IoSession session, Object message)
 			throws Exception {
 	
-		Log.i(TAG, "current thread's id:" + Thread.currentThread().getId());
+		Log.i(TAG, "messageReceived");
 		if (message instanceof LoginResponse) {
 			LoginResponse response = (LoginResponse) message;
 			if (response.result == signal.login_true) {
@@ -114,6 +90,7 @@ public class LoginHandler extends BaseNetworkHandler {
 	@Override
 	public void messageSent(IoSession session, Object message) throws Exception {
 	
+		Log.i(TAG, "messageSent");
 	}
 	
 }

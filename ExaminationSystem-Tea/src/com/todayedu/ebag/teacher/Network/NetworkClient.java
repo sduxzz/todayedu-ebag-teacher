@@ -7,6 +7,7 @@ package com.todayedu.ebag.teacher.Network;
 
 import java.net.InetSocketAddress;
 
+import org.apache.mina.core.filterchain.DefaultIoFilterChainBuilder;
 import org.apache.mina.core.future.ConnectFuture;
 import org.apache.mina.core.service.IoHandler;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
@@ -25,8 +26,10 @@ public class NetworkClient {
 	public NetworkClient() {
 	
 		zConnector = new NioSocketConnector();
-		zConnector.getFilterChain().addLast("codec",
-				new ProtocolCodecFilter(new ObjectSerializationCodecFactory()));
+		DefaultIoFilterChainBuilder chain = zConnector.getFilterChain();
+		ProtocolCodecFilter filter = new ProtocolCodecFilter(
+		        new ObjectSerializationCodecFactory());
+		chain.addLast("objectFilter", filter);
 	}
 	
 	public void setHandler(IoHandler handler) {

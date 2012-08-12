@@ -50,14 +50,14 @@ public class PCommentDS extends BaseDS {
 		int eid = Parameters.get(ParaIndex.EID_INDEX);
 		int state = Parameters.get(ParaIndex.EXAMSTATE_INDEX);
 		
-		List<Integer> idList = new ArrayList<Integer>();// TODO:问鞠强idList放的是试卷id？
+		List<Integer> idList = new ArrayList<Integer>();
 		idList.add(eid);
 		List<Integer> stateList = new ArrayList<Integer>();
 		stateList.add(state);
 		List<Field> fieldList = new ArrayList<Field>();
 		Class<ExamObj> cl = ExamObj.class;
 		try {
-			fieldList.add(cl.getDeclaredField("pInfoList"));// TODO:问鞠强怎么获取题目信息，题目解析，题目状态，我没找到呀。。
+			fieldList.add(cl.getDeclaredField("pInfoList"));// 怎么获取题目信息，题目解析，题目状态，我没找到呀。。
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -76,7 +76,7 @@ public class PCommentDS extends BaseDS {
 			}
 		};
 		client.setHandler(new ExamHandler(context, callBack, cid, stateList,
-		        null, fieldList));
+		        idList, fieldList));
 		client.connect();
 	}
 }

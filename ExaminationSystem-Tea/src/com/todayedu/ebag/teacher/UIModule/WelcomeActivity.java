@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.ebag.net.response.LoginResponse;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,7 +25,7 @@ import com.todayedu.ebag.teacher.Network.ResponeParseUtil;
  * @author zhenzxie
  * 
  */
-public class WelcomeActivity extends Activity {
+public class WelcomeActivity extends BaseActivity {
 	
 	private EditText et1;
 	private EditText et2;
@@ -37,8 +36,7 @@ public class WelcomeActivity extends Activity {
 	
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
-		Log.i("WelcomeActivity", "main thread's id:"
-				+ Thread.currentThread().getId());
+		System.setProperty("java.net.preferIPv6Addresses", "false");
 
 		et1 = (EditText) findViewById(R.id.main_et1);
 		et2 = (EditText) findViewById(R.id.main_et2);
@@ -68,14 +66,14 @@ public class WelcomeActivity extends Activity {
 				        
 					        if (cause != null) {
 						        Log.i("WelcomeActivity", cause.getMessage());
+						        cause.printStackTrace();
 					        }
-					        Toast.makeText(WelcomeActivity.this, "µÇÂ¼Ê§°Ü£¬ÇëÖØÐÂµÇÈë",
-					                Toast.LENGTH_SHORT).show();
+					        showToast("µÇÂ¼Ê§°Ü£¬ÇëÖØÐÂµÇÈë", Toast.LENGTH_SHORT);
 				        }
 			        }));
 
 			client.connect();
-
+			
 		} else {
 			Toast.makeText(WelcomeActivity.this, "Î´Á¬½ÓÍøÂç", Toast.LENGTH_SHORT)
 			        .show();

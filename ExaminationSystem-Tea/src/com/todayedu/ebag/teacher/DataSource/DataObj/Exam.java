@@ -40,7 +40,7 @@ public class Exam extends Data {
 	@Column(name = "ename")
 	private String ename;
 	@Column(name = "etotal")
-	private double total;// TODO:问鞠强，ExamObj中没有总分字段
+	private double total;// ExamObj中总分字段为points
 	@Column(name = "etime")
 	private long etime;
 	@Column(name = "state")
