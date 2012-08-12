@@ -47,10 +47,11 @@ public class LoginHandler extends BaseNetworkHandler {
 	public void sessionOpened(IoSession session) throws Exception {
 	
 		LoginRequest request = new LoginRequest();
+		request.setUid(1);
 		request.setUname(uname);
 		request.setUpwd(upwd);
 		session.write(request);
-		Log.i(TAG, "sessionOpened");
+		Log.i(TAG, "sessionOpened:" + uname + "   " + upwd);
 	}
 	
 	/**

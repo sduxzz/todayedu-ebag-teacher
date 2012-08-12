@@ -31,6 +31,5 @@ public class LoginResponse implements Serializable{
 	public void setClassSet(Set<Eclass> classSet) {
 		this.classSet = classSet;
 	}
-
 	
 }

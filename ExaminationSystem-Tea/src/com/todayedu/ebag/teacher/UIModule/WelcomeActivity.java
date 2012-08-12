@@ -6,7 +6,6 @@ import org.ebag.net.response.LoginResponse;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -65,7 +64,7 @@ public class WelcomeActivity extends BaseActivity {
 				        public void loginError(LoginResponse response, Throwable cause) {
 				        
 					        if (cause != null) {
-						        Log.i("WelcomeActivity", cause.getMessage());
+						        // Log.i("WelcomeActivity", cause.getMessage());
 						        cause.printStackTrace();
 					        }
 					        showToast("µÇÂ¼Ê§°Ü£¬ÇëÖØÐÂµÇÈë", Toast.LENGTH_SHORT);
