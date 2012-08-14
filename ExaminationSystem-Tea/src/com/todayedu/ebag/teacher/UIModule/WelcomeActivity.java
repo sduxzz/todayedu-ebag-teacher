@@ -6,6 +6,7 @@ import org.ebag.net.response.LoginResponse;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -39,6 +40,15 @@ public class WelcomeActivity extends BaseActivity {
 
 		et1 = (EditText) findViewById(R.id.main_et1);
 		et2 = (EditText) findViewById(R.id.main_et2);
+		// Button button = (Button) findViewById(R.id.main_btn);
+		// button.setOnClickListener(new OnClickListener() {
+		//
+		// @Override
+		// public void onClick(View v) {
+		//
+		// onConfirm(v);
+		// }
+		// });
 	}
 	
 	public void onConfirm(View view) {
@@ -48,7 +58,7 @@ public class WelcomeActivity extends BaseActivity {
 			String name = et1.getText().toString();
 			String password = et2.getText().toString();
 
-			NetworkClient client = new NetworkClient();
+			final NetworkClient client = new NetworkClient();
 			client.setHandler(new LoginHandler(this, name, password,
 			        new LoginCallBack() {
 				        
@@ -64,15 +74,20 @@ public class WelcomeActivity extends BaseActivity {
 				        public void loginError(LoginResponse response, Throwable cause) {
 				        
 					        if (cause != null) {
-						        // Log.i("WelcomeActivity", cause.getMessage());
-						        cause.printStackTrace();
+						        Log.i("WelcomeActivity", cause.getMessage());
 					        }
 					        showToast("µÇÂ¼Ê§°Ü£¬ÇëÖØÐÂµÇÈë", Toast.LENGTH_SHORT);
 				        }
 			        }));
 
-			client.connect();
-			
+			new Thread() {
+				
+				@Override
+				public void run() {
+				
+					client.connect();
+				}
+			}.start();
 		} else {
 			Toast.makeText(WelcomeActivity.this, "Î´Á¬½ÓÍøÂç", Toast.LENGTH_SHORT)
 			        .show();

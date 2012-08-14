@@ -11,7 +11,6 @@ import org.ebag.net.request.LoginRequest;
 import org.ebag.net.response.LoginResponse;
 
 import android.content.Context;
-import android.util.Log;
 
 
 /**
@@ -46,12 +45,12 @@ public class LoginHandler extends BaseNetworkHandler {
 	@Override
 	public void sessionOpened(IoSession session) throws Exception {
 	
+		super.sessionOpened(session);
 		LoginRequest request = new LoginRequest();
 		request.setUid(1);
 		request.setUname(uname);
 		request.setUpwd(upwd);
 		session.write(request);
-		Log.i(TAG, "sessionOpened:" + uname + "   " + upwd);
 	}
 	
 	/**
@@ -61,7 +60,6 @@ public class LoginHandler extends BaseNetworkHandler {
 	public void exceptionCaught(IoSession session, Throwable cause)
 			throws Exception {
 	
-		Log.i(TAG, "exceptionCaught");
 		super.exceptionCaught(session, cause);
 		callBack.loginError(null, cause);
 	}
@@ -74,7 +72,7 @@ public class LoginHandler extends BaseNetworkHandler {
 	public void messageReceived(IoSession session, Object message)
 			throws Exception {
 	
-		Log.i(TAG, "messageReceived");
+		super.messageReceived(session, message);
 		if (message instanceof LoginResponse) {
 			LoginResponse response = (LoginResponse) message;
 			if (response.result == signal.login_true) {
@@ -84,14 +82,4 @@ public class LoginHandler extends BaseNetworkHandler {
 			}
 		}
 	}
-	
-	/**
-	 * @see org.apache.mina.core.service.IoHandler#messageSent(org.apache.mina.core.session.IoSession, java.lang.Object)
-	 */
-	@Override
-	public void messageSent(IoSession session, Object message) throws Exception {
-	
-		Log.i(TAG, "messageSent");
-	}
-	
 }

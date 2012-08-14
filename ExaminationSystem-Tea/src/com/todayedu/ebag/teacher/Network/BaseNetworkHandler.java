@@ -9,8 +9,10 @@ import org.apache.mina.core.service.IoHandler;
 import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.util.Log;
 
 
 /**
@@ -34,11 +36,28 @@ public abstract class BaseNetworkHandler implements IoHandler {
 	@Override
 	public void sessionCreated(IoSession session) throws Exception {
 	
-		// zDialog = new ProgressDialog(zContext);
-		// zDialog.setTitle("∑√Œ Õ¯¬Á");
-		// zDialog.setMessage("loading,wait please...");
-		// zDialog.setCancelable(true);
-		// zDialog.show();
+		Log.i(TAG, "sessionCreated");
+		((Activity) zContext).runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+			
+				zDialog = new ProgressDialog(zContext);
+				zDialog.setTitle("∑√Œ Õ¯¬Á");
+				zDialog.setMessage("loading,wait please...");
+				zDialog.setCancelable(true);
+				zDialog.show();
+			}
+		});
+	}
+	
+	/**
+	 * @see org.apache.mina.core.service.IoHandler#sessionOpened(org.apache.mina.core.session.IoSession)
+	 */
+	@Override
+	public void sessionOpened(IoSession arg0) throws Exception {
+	
+		Log.i(TAG, "sessionOpened");
 	}
 	
 	/**
@@ -48,6 +67,7 @@ public abstract class BaseNetworkHandler implements IoHandler {
 	@Override
 	public void sessionIdle(IoSession arg0, IdleStatus arg1) throws Exception {
 	
+		Log.i(TAG, "sessionIdle");
 	}
 	
 	/**
@@ -56,6 +76,7 @@ public abstract class BaseNetworkHandler implements IoHandler {
 	@Override
 	public void sessionClosed(IoSession session) throws Exception {
 	
+		Log.i(TAG, "sessionClosed");
 		dismiss();
 	}
 	
@@ -67,6 +88,7 @@ public abstract class BaseNetworkHandler implements IoHandler {
 	public void exceptionCaught(IoSession session, Throwable cause)
 			throws Exception {
 	
+		Log.i(TAG, "exceptionCaught");
 		dismiss();
 	}
 	
@@ -77,19 +99,29 @@ public abstract class BaseNetworkHandler implements IoHandler {
 	@Override
 	public void messageSent(IoSession arg0, Object arg1) throws Exception {
 	
+		Log.i(TAG, "messageSent");
 	}
 	
 	/**
-	 * @see org.apache.mina.core.service.IoHandler#sessionOpened(org.apache.mina.core.session.IoSession)
+	 * @see org.apache.mina.core.service.IoHandler#messageReceived(org.apache.mina.core.session.IoSession,
+	 *      java.lang.Object)
 	 */
 	@Override
-	public void sessionOpened(IoSession arg0) throws Exception {
+	public void messageReceived(IoSession arg0, Object arg1) throws Exception {
 	
+		Log.i(TAG, "messageReceived");
 	}
 
 	private void dismiss() {
 	
-		// if (zDialog != null && zDialog.isShowing())
-		// zDialog.dismiss();
+		if (zDialog != null && zDialog.isShowing())
+			((Activity) zContext).runOnUiThread(new Runnable() {
+				
+				@Override
+				public void run() {
+				
+					zDialog.dismiss();
+				}
+			});
 	}
 }
