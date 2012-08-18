@@ -18,9 +18,7 @@ import com.todayedu.ebag.teacher.Database.annotation.Id;
 import com.todayedu.ebag.teacher.Database.annotation.Table;
 
 /**
- * the concrete class stand for the data which come from the database table
- * EXAM(eid integer,id integer,cid integer,etype integer,ename text,etotal
- * double,time long) 试卷实体
+ * 试卷实体
  * 
  * @author zhenzxie
  * 
@@ -100,6 +98,7 @@ public class Exam extends Data {
 		exam.ename = ename;
 		exam.etype = obj.type;
 		exam.etime = obj.time;
+		exam.total = obj.points;
 		
 		return exam;
 	}
@@ -117,6 +116,7 @@ public class Exam extends Data {
 		exam.ename = obj.name;
 		exam.etype = obj.type;
 		exam.etime = obj.time;
+		exam.total = obj.points;
 		
 		return exam;
 	}

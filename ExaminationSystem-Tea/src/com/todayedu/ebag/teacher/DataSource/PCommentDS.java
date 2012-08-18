@@ -5,6 +5,7 @@
  */
 package com.todayedu.ebag.teacher.DataSource;
 
+import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +21,18 @@ import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.Network.ExamHandler;
 import com.todayedu.ebag.teacher.Network.ExamHandler.ExamCallBack;
 import com.todayedu.ebag.teacher.Network.NetworkClient;
+import com.todayedu.ebag.teacher.Network.ResponeParseUtil;
 
 /**
  * @author zhenzxie
  * 
  */
-public class PCommentDS extends BaseDS {
+public class PCommentDS extends BaseDS implements Serializable {
+
+	/**
+     * 
+     */
+	private static final long serialVersionUID = -8223593166299776033L;
 
 	public PCommentDS(Class<? extends Data> cl) {
 	
@@ -51,7 +58,7 @@ public class PCommentDS extends BaseDS {
 		int state = Parameters.get(ParaIndex.EXAMSTATE_INDEX);
 		
 		List<Integer> idList = new ArrayList<Integer>();
-		idList.add(eid);
+		idList.add(eid);// only get a exam from server
 		List<Integer> stateList = new ArrayList<Integer>();
 		stateList.add(state);
 		List<Field> fieldList = new ArrayList<Field>();
@@ -67,6 +74,10 @@ public class PCommentDS extends BaseDS {
 			@Override
 			public void examSuccess(ExamResponse examResponse) {
 			
+				List<Data> list = ResponeParseUtil
+				        .parseExamResponse(examResponse);
+				PCommentDS.this.store(list);
+				PCommentDS.this.notifyDataChange();
 			}
 			
 			@Override

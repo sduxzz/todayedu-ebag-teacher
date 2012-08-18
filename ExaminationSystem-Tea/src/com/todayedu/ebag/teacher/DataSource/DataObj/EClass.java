@@ -15,8 +15,7 @@ import com.todayedu.ebag.teacher.Database.annotation.Id;
 import com.todayedu.ebag.teacher.Database.annotation.Table;
 
 /**
- * the concrete class stand for the data come from the data base table
- * ECLASS(cid integer,cname text) 班级实体
+ * 班级实体
  * 
  * @author zhenzxie
  * 

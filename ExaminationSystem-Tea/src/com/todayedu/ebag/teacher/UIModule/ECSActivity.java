@@ -12,8 +12,6 @@ import android.widget.AdapterView;
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.TempData;
 import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
-import com.todayedu.ebag.teacher.DataSource.ECSDS;
-import com.todayedu.ebag.teacher.DataSource.TempObj.ECS;
 
 /**
  * @author zhenzxie
@@ -36,9 +34,9 @@ public class ECSActivity extends MonitoredActivity {
 		elView.setOnItemClickListener(this);
 		
 		String[] keys = new String[] { "number", "state", "point", "flag" };
-		ECSDS ds = new ECSDS(ECS.class);
-		ds.localload(this);
-		adapter = elView.bindAdapter(ds, keys);
+		// ECSDS ds = new ECSDS(ECS.class);
+		// ds.localload(this);
+		// adapter = elView.bindAdapter(ds, keys);
 		addLifeCycleListener(adapter);
 	}
 	

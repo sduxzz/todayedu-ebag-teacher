@@ -13,8 +13,6 @@ import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
-import com.todayedu.ebag.teacher.DataSource.ECorrectDS;
-import com.todayedu.ebag.teacher.DataSource.TempObj.ECorrect;
 
 /**
  * @author zhenzxie
@@ -38,9 +36,9 @@ public class ECorrectActivity extends MonitoredActivity {
 		elView.setOnItemClickListener(this);
 
 		String[] keys = new String[] { "sname", "sid", "state" };
-		ECorrectDS ds = new ECorrectDS(ECorrect.class);
-		ds.load(this);
-		adapter = elView.bindAdapter(ds, keys);
+		// ECorrectDS ds = new ECorrectDS(ECorrect.class);
+		// ds.load(this);
+		// adapter = elView.bindAdapter(ds, keys);
 		addLifeCycleListener(adapter);
 	}
 	

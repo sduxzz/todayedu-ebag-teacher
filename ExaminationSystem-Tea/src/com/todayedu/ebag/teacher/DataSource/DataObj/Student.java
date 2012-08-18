@@ -21,8 +21,7 @@ import com.todayedu.ebag.teacher.Database.annotation.Id;
 import com.todayedu.ebag.teacher.Database.annotation.Table;
 
 /**
- * the concrete class stand for data which come from the database table
- * STUDENT(sid integer,cid integer,sname text) 学生实体
+ * 学生实体
  * 
  * @author zhenzxie
  * 

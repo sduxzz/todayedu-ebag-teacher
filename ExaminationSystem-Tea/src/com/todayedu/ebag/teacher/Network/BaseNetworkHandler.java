@@ -21,7 +21,7 @@ import android.util.Log;
  */
 public abstract class BaseNetworkHandler implements IoHandler {
 	
-	protected String TAG = this.getClass().getName();
+	protected String TAG = this.getClass().getSimpleName();
 	protected Context zContext;
 	private ProgressDialog zDialog;
 

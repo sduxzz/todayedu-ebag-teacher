@@ -8,7 +8,6 @@ package com.todayedu.ebag.teacher.Network;
 import java.net.InetSocketAddress;
 
 import org.apache.mina.core.filterchain.DefaultIoFilterChainBuilder;
-import org.apache.mina.core.future.ConnectFuture;
 import org.apache.mina.core.service.IoHandler;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.filter.codec.serialization.ObjectSerializationCodecFactory;
@@ -37,9 +36,16 @@ public class NetworkClient {
 		zConnector.setHandler(handler);
 	}
 	
-	public ConnectFuture connect() {
-		return zConnector.connect(new InetSocketAddress("211.87.227.10",
-		        I.tupload.mina_server_port));
+	public void connect() {
+		new Thread() {
+			
+			@Override
+			public void run() {
+				zConnector.connect(new InetSocketAddress("211.87.227.10",
+				        I.tupload.mina_server_port));
+				
+			}
+		}.start();
 	}
 	
 	public void disconnect() {

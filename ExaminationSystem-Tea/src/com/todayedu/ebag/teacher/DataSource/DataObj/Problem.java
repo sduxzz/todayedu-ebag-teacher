@@ -7,11 +7,10 @@ package com.todayedu.ebag.teacher.DataSource.DataObj;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
+import org.ebag.net.obj.I.choice;
 import org.ebag.net.obj.exam.ExamObj;
 import org.ebag.net.obj.exam.ProblemInfoObj;
-import org.ebag.net.response.ExamResponse;
 
 import android.content.Context;
 
@@ -21,9 +20,7 @@ import com.todayedu.ebag.teacher.Database.annotation.Id;
 import com.todayedu.ebag.teacher.Database.annotation.Table;
 
 /**
- * the concrete class stand for the data which come from the database table
- * PROBLEM(pid integer,ptype integer,content text,hint text,answer text,analysis
- * text) 问题实体
+ * 问题实体
  * 
  * @author zhenzxie
  * 
@@ -34,49 +31,29 @@ public class Problem extends Data {
 	@Id
 	@Column(name = "pid")
 	private int pid;
+	@Column(name = "number")
+	private int number;// index in exam
+	@Column(name = "state")
+	private int state = choice.answerState_waitComment;//defalut state is waitComment
 	@Column(name = "ptype")
 	private int ptype;
 	@Column(name = "point")
 	private double point;
-	@Column(name = "content")
-	private String content;
-	@Column(name = "hint")
-	private String hint;
 	@Column(name = "answer")
 	private String answer;
-	@Column(name = "analysis")
-	private String analysis;
 	
+
 	public Problem() {
 
 	}
 
-	public Problem(int pid, int ptype, double point, String content,
-			String hint, String answer, String analysis) {
+	public Problem(int pid, int ptype, double point, String answer) {
 
 		this.pid = pid;
 		this.ptype = ptype;
 		this.point = point;
-		this.content = content;
-		this.hint = hint;
 		this.answer = answer;
-		this.analysis = analysis;
 	}
-	/**
-	 * 
-	 * @param response
-	 * @param position
-	 * @return
-	 */
-	public static List<Data> parse(ExamResponse response, int position) {
-
-		List<ExamObj> examList = response.getExamList();
-		if(position >= examList.size()||position <0)
-			return null;
-		ExamObj obj = examList.get(position);
-		return parseToProblemList(obj);
-	}
-
 	/**
 	 * get Problem List from ExamObj's problemInfoObj List
 	 * 
@@ -89,12 +66,14 @@ public class Problem extends Data {
 		List<Data> problemList = new ArrayList<Data>();
 		Problem problem = null;
 		
+		int index = 0;
 		for (ProblemInfoObj info : infoObjList) {
 			problem = new Problem();
 			problem.setPid(info.id);
 			problem.setPtype(info.type);
 			problem.setPoint(info.point);
 			problem.setAnswer(info.answer);
+			problem.setNumber(++index);
 			problemList.add(problem);
 		}
 		
@@ -106,12 +85,6 @@ public class Problem extends Data {
 	
 		return false;
 	
-	}
-	
-	@Override
-	public Map<String, String> changeToMap(String[] keys) {
-	
-		return null;
 	}
 
 	/**
@@ -165,39 +138,7 @@ public class Problem extends Data {
 		this.point = point;
 	}
 	
-	/**
-	 * @return the content
-	 */
-	public String getContent() {
 	
-		return content;
-	}
-	
-	/**
-	 * @param content
-	 *            the content to set
-	 */
-	public void setContent(String content) {
-	
-		this.content = content;
-	}
-	
-	/**
-	 * @return the hint
-	 */
-	public String getHint() {
-	
-		return hint;
-	}
-	
-	/**
-	 * @param hint
-	 *            the hint to set
-	 */
-	public void setHint(String hint) {
-	
-		this.hint = hint;
-	}
 	
 	/**
 	 * @return the answer
@@ -217,30 +158,31 @@ public class Problem extends Data {
 	}
 	
 	/**
-	 * @return the analysis
+	 * @return the number
 	 */
-	public String getAnalysis() {
+	public int getNumber() {
 	
-		return analysis;
+		return number;
 	}
 	
 	/**
-	 * @param analysis
-	 *            the analysis to set
+	 * @param number
+	 *            the number to set
 	 */
-	public void setAnalysis(String analysis) {
+	public void setNumber(int number) {
 	
-		this.analysis = analysis;
+		this.number = number;
 	}
-	
+
 	/**
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 	
-		return "ProblemObj [pid=" + pid + ", ptype=" + ptype + ", point="
-				+ point + ", content=" + content + ", hint=" + hint
-				+ ", answer=" + answer + ", analysis=" + analysis + "]";
+		return "Problem [pid=" + pid + ", number=" + number + ", state="
+		        + state + ", ptype=" + ptype + ", point=" + point + ", answer="
+		        + answer + "]";
 	}
+	
 }

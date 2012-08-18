@@ -20,7 +20,7 @@ import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
  */
 public abstract class DataSource extends Observable {
 	
-	protected String TAG = this.getClass().getName();
+	protected String TAG = this.getClass().getSimpleName();
 	protected List<Data> zList = new ArrayList<Data>();
 	protected Class<? extends Data> zClass;
 	protected BaseDataAdapter zAdapter;

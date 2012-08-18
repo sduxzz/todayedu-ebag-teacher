@@ -13,7 +13,7 @@ import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.TempData;
 import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
 import com.todayedu.ebag.teacher.DataSource.PCommentDS;
-import com.todayedu.ebag.teacher.DataSource.TempObj.PComment;
+import com.todayedu.ebag.teacher.DataSource.DataObj.Problem;
 
 /**
  * @author zhenzxie
@@ -36,9 +36,10 @@ public class PCommentActivity extends MonitoredActivity {
 		elView.setHeaderView(R.array.pro_id_state);
 		elView.setOnItemClickListener(this);
 
-		String[] keys = new String[] { "number", "state", "point" };
-		PCommentDS ds = new PCommentDS(PComment.class);
+		String[] keys = new String[] { "number", "state" };
+		PCommentDS ds = new PCommentDS(Problem.class);
 		ds.load(this);
+
 		adapter = elView.bindAdapter(ds, keys);
 		addLifeCycleListener(adapter);
 	}

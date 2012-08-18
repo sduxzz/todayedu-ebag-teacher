@@ -40,15 +40,7 @@ public class WelcomeActivity extends BaseActivity {
 
 		et1 = (EditText) findViewById(R.id.main_et1);
 		et2 = (EditText) findViewById(R.id.main_et2);
-		// Button button = (Button) findViewById(R.id.main_btn);
-		// button.setOnClickListener(new OnClickListener() {
-		//
-		// @Override
-		// public void onClick(View v) {
-		//
-		// onConfirm(v);
-		// }
-		// });
+
 	}
 	
 	public void onConfirm(View view) {
@@ -79,15 +71,7 @@ public class WelcomeActivity extends BaseActivity {
 					        showToast("µÇÂ¼Ê§°Ü£¬ÇëÖØÐÂµÇÈë", Toast.LENGTH_SHORT);
 				        }
 			        }));
-
-			new Thread() {
-				
-				@Override
-				public void run() {
-				
-					client.connect();
-				}
-			}.start();
+			client.connect();
 		} else {
 			Toast.makeText(WelcomeActivity.this, "Î´Á¬½ÓÍøÂç", Toast.LENGTH_SHORT)
 			        .show();

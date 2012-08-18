@@ -28,4 +28,14 @@ public class LoginRequest implements Serializable{
 	public void setUpwd(String upwd) {
 		this.upwd = upwd;
 	}
+	
+	/**
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+	
+		return "LoginRequest [uid=" + uid + ", uname=" + uname + ", upwd="
+		        + upwd + "]";
+	}
 }

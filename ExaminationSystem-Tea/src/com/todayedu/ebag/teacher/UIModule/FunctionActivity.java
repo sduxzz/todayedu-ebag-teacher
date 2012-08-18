@@ -83,10 +83,17 @@ public class FunctionActivity extends MonitoredActivity implements OnItemSelecte
 	public void onItemSelected(AdapterView<?> parent, View view, int position,
 	        long id) {
 	
-		int cid = list.get(position - 1).getCid();
-		classid = cid;
-		Log.i(TAG, "onItemSelected cid is " + cid);
-		Parameters.add(String.valueOf(cid), ParaIndex.CID_INDEX);
+		Object object = spinner.getItemAtPosition(position);
+		
+		if (object != null) {
+			final int cid = list.get(position).getCid();
+			classid = cid;
+			Log.i(TAG, "onItemSelected cid is " + cid + " position is "
+			        + position);
+			// add cid to Parameters
+			Parameters.add(String.valueOf(cid), ParaIndex.CID_INDEX);
+		}
+
 	}
 
 	@Override
@@ -165,7 +172,7 @@ public class FunctionActivity extends MonitoredActivity implements OnItemSelecte
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		this.list = list;
 		return names;
 	}
 	

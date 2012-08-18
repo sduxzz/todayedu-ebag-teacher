@@ -29,7 +29,12 @@
         </activity>
 
         <!-- 一级Activity -->
-        <activity
+         <activity
+            android:name=".UIModule.ExamShowActivity"
+            android:label="@string/comm_app_name"
+            android:theme="@android:style/Theme.Black.NoTitleBar" >
+        </activity>
+   <!-- <activity
             android:name=".UIModule.ChooseActivity"
             android:label="@string/comm_app_name"
             android:theme="@android:style/Theme.Black.NoTitleBar" >
@@ -54,7 +59,7 @@
             android:label="@string/comm_app_name"
             android:theme="@android:style/Theme.Black.NoTitleBar" >
         </activity>
-
+ -->
         <!-- 二级Activity -->
         <activity
             android:name=".UIModule.CFunctionActivity"

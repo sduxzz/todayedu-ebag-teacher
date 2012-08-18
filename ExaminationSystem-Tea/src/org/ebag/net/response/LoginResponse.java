@@ -32,4 +32,15 @@ public class LoginResponse implements Serializable{
 		this.classSet = classSet;
 	}
 	
+	/**
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+	
+		return "LoginResponse [result=" + result + ", user=" + user
+		        + ", classSet=" + classSet + "]";
+	}
+
+	
 }

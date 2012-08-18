@@ -19,12 +19,9 @@ import android.util.Log;
 import com.todayedu.ebag.teacher.DataSource.Data;
 import com.todayedu.ebag.teacher.DataSource.DataSource;
 import com.todayedu.ebag.teacher.DataSource.DataSourceLoader;
-import com.todayedu.ebag.teacher.DataSource.DataObj.CEP;
 import com.todayedu.ebag.teacher.DataSource.DataObj.EClass;
-import com.todayedu.ebag.teacher.DataSource.DataObj.ES;
 import com.todayedu.ebag.teacher.DataSource.DataObj.Exam;
 import com.todayedu.ebag.teacher.DataSource.DataObj.Problem;
-import com.todayedu.ebag.teacher.DataSource.DataObj.SP;
 import com.todayedu.ebag.teacher.DataSource.DataObj.Student;
 import com.todayedu.ebag.teacher.Database.annotation.Column;
 
@@ -46,16 +43,16 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 	
-		Class<?>[] classes = { CEP.class, EClass.class, ES.class, Exam.class,
-				Problem.class, SP.class, Student.class };
+		Class<?>[] classes = { EClass.class, Exam.class, Problem.class,
+		        Student.class };
 		TableHelper.createTablesByClasses(db, classes);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 	
-		Class<?>[] classes = { CEP.class, EClass.class, ES.class, Exam.class,
-				Problem.class, SP.class, Student.class };
+		Class<?>[] classes = { EClass.class, Exam.class, Problem.class,
+		        Student.class };
 		TableHelper.dropTablesByClasses(db, classes);
 		onCreate(db);
 	}
