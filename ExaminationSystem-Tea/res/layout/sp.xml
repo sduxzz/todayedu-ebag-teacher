@@ -2,14 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@android:color/white" >
-    <com.todayedu.ebag.teacher.UIModule.ListView1
+    <ListView
         android:id="@+id/el_examlistview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true">
-    </com.todayedu.ebag.teacher.UIModule.ListView1>
+    </ListView>
     <Button 
         android:text="@string/sp_exam_synch"
         android:layout_width="wrap_content"

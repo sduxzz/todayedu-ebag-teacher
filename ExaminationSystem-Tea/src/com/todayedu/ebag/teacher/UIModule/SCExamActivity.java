@@ -8,6 +8,7 @@ package com.todayedu.ebag.teacher.UIModule;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.todayedu.ebag.teacher.Parameters;
@@ -26,7 +27,7 @@ public class SCExamActivity extends MonitoredActivity {
 	private TextView tv_2;
 	private TextView tv_4;
 	private TextView tv_6;
-	private ListView3 elView;
+	private ListView elView;
 
 	/**
 	 * @see com.todayedu.ebag.teacher.UIModule.MonitoredActivity#onCreate(android.os.Bundle)
@@ -39,7 +40,7 @@ public class SCExamActivity extends MonitoredActivity {
 		tv_2 = (TextView) findViewById(R.id.scexam_tv2);
 		tv_4 = (TextView) findViewById(R.id.scexam_tv4);
 		tv_6 = (TextView) findViewById(R.id.scexam_tv6);
-		elView = (ListView3) findViewById(R.id.scexam);
+		elView = (ListView) findViewById(R.id.scexam);
 		elView.addHeaderView(HeaderViewFactory.createHeaderView2(this,
 		        R.array.exam_preview));
 		// adapter = new DataAdapter3(this, new SCExamDS(this),

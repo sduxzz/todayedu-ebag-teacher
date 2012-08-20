@@ -40,14 +40,14 @@
         android:layout_alignLeft="@+id/scstate_tv2"
         android:text="XXXX" />
 
-     <com.todayedu.ebag.teacher.UIModule.ListView3
+     <ListView
         android:id="@+id/scstate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/scstate_tv3"
         android:layout_marginTop="25dp" >
-    </com.todayedu.ebag.teacher.UIModule.ListView3>
+    </ListView>
     
     
 </RelativeLayout>

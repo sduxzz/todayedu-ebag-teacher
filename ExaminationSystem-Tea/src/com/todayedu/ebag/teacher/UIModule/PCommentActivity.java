@@ -8,6 +8,7 @@ package com.todayedu.ebag.teacher.UIModule;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.TempData;
@@ -23,6 +24,7 @@ public class PCommentActivity extends MonitoredActivity {
 	
 	private BaseDataAdapter adapter;
 	private PCommentDS ds;
+	private ListView elView;
 
 	/**
 	 * @see com.todayedu.ebag.teacher.UIModule.MonitoredActivity#onCreate(android.os.Bundle)
@@ -31,9 +33,9 @@ public class PCommentActivity extends MonitoredActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 	
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.pcomment);
+		setContentView(R.layout.list);
 
-		ListView2 elView = (ListView2) findViewById(R.id.pstate);
+		elView = (ListView) findViewById(R.id.lv);
 		elView.addHeaderView(HeaderViewFactory.createHeaderView2(this,
 		        R.array.pro_id_state));
 		elView.setOnItemClickListener(this);
@@ -41,8 +43,11 @@ public class PCommentActivity extends MonitoredActivity {
 		String[] keys = new String[] { "number", "state" };
 		ds = new PCommentDS(Problem.class);
 		ds.load(this);
-
-		adapter = elView.bindAdapter(ds, keys);
+		int[] zTextView_ID = new int[] { R.id.lv2_tv_1, R.id.lv2_tv_2 };
+		int zLayout_ID = R.layout.lv_2;
+		adapter = new BaseDataAdapter(this, ds, zLayout_ID, keys,
+		        zTextView_ID);
+		elView.setAdapter(adapter);
 		// addLifeCycleListener(adapter);
 	}
 	

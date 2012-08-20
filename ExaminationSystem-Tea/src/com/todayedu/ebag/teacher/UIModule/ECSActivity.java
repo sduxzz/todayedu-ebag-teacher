@@ -8,6 +8,7 @@ package com.todayedu.ebag.teacher.UIModule;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.TempData;
@@ -20,6 +21,7 @@ import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
 public class ECSActivity extends MonitoredActivity {
 	
 	private BaseDataAdapter adapter;
+	private ListView elView;
 	/**
 	 * @see com.todayedu.ebag.teacher.UIModule.MonitoredActivity#onCreate(android.os.Bundle)
 	 */
@@ -27,9 +29,9 @@ public class ECSActivity extends MonitoredActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 	
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ecs);
+		setContentView(R.layout.list);
 
-		ListView2 elView = (ListView2) findViewById(R.id.ecs);
+		elView = (ListView) findViewById(R.id.lv);
 		elView.addHeaderView(HeaderViewFactory.createHeaderView2(this,
 		        R.array.pro_id_state));
 		elView.setOnItemClickListener(this);

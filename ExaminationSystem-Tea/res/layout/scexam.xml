@@ -2,8 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-
+    android:orientation="vertical" 
+    android:background="@android:color/white" >
+
     <TextView
         android:id="@+id/scexam_tv1"
         android:layout_width="wrap_content"
@@ -58,13 +59,13 @@
         android:layout_alignLeft="@+id/scexam_tv4"
         android:text="XXXX" />
 
-    <com.todayedu.ebag.teacher.UIModule.ListView3
+    <ListView
         android:id="@+id/scexam"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/scexam_tv5"
         android:layout_marginTop="16dp" >
-    </com.todayedu.ebag.teacher.UIModule.ListView3>
+    </ListView>
 
 </RelativeLayout>

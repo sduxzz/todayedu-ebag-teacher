@@ -5,10 +5,12 @@
  */
 package com.todayedu.ebag.teacher.UIModule;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.Parameters.ParaIndex;
@@ -38,6 +40,7 @@ public class ExamShowActivity extends MonitoredActivity {
 	        AExpandableActivity.class };
 	
 	private BaseDataAdapter adapter;
+	private ListView elView;
 
 	/*
 	 * the mode of this ExamShowActivity;
@@ -77,16 +80,23 @@ public class ExamShowActivity extends MonitoredActivity {
 	 */
 	private void init() {
 	
-		ListView1 elView = (ListView1) findViewById(R.id.el_examlistview);
+		elView = (ListView) findViewById(R.id.el_examlistview);
 		elView.addHeaderView(HeaderViewFactory.createHeaderView2(this,
 		        allHeadViewTestId[mode]));
 		elView.setOnItemClickListener(this);
 		
+		elView.setBackgroundColor(Color.WHITE);
+		elView.setCacheColorHint(Color.WHITE);
+
 		String[] keys = new String[] { "ename", "eid" };
 		BaseDS ds = new ExamListDS(Exam.class);
 		ds.load(this);
 
-		adapter = elView.bindAdapter(ds, keys);
+		int[] zTextView_ID = new int[] { R.id.lv1_tv_1 };
+		int zLayout_ID = R.layout.lv_1;
+
+		adapter = new BaseDataAdapter(this, ds, zLayout_ID, keys, zTextView_ID);
+		elView.setAdapter(adapter);
 		// addLifeCycleListener(adapter);
 	}
 	

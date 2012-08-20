@@ -16,7 +16,7 @@ import android.content.Context;
 public class SCStateDS extends BaseDS {
 
 	
-	public SCStateDS(Class<Data> cl) {
+	public SCStateDS(Class<? extends Data> cl) {
 	
 		super(cl);
 	}

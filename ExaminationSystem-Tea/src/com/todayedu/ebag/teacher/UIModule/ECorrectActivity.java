@@ -8,6 +8,7 @@ package com.todayedu.ebag.teacher.UIModule;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.Parameters.ParaIndex;
@@ -21,7 +22,7 @@ import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
 public class ECorrectActivity extends MonitoredActivity {
 	
 	private BaseDataAdapter adapter;
-
+	private ListView elView;
 	/**
 	 * @see com.todayedu.ebag.teacher.UIModule.MonitoredActivity#onCreate(android.os.Bundle)
 	 */
@@ -29,9 +30,9 @@ public class ECorrectActivity extends MonitoredActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 	
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.ecorrect);
+		setContentView(R.layout.list);
 
-		ListView3 elView = (ListView3) findViewById(R.id.ecorrect);
+		elView = (ListView) findViewById(R.id.lv);
 		elView.setOnItemClickListener(this);
 		elView.addHeaderView(HeaderViewFactory.createHeaderView3(this,
 		        R.array.exam_corrent));
