@@ -23,6 +23,7 @@ import com.todayedu.ebag.teacher.Database.DataBaseHelper;
 import com.todayedu.ebag.teacher.Database.annotation.Column;
 import com.todayedu.ebag.teacher.Database.annotation.Id;
 import com.todayedu.ebag.teacher.Database.annotation.Table;
+import com.todayedu.ebag.teacher.Network.UrlBuilder;
 
 /**
  * the entity of Problem
@@ -45,7 +46,9 @@ public class Problem extends Data {
 	private int number;// index in exam
 	private int ptype;
 	private double point;
+	private String content;
 	private String answer;
+	private String analysis;
 	
 	static DataBaseHelper helper;
 
@@ -71,7 +74,8 @@ public class Problem extends Data {
 		List<ProblemInfoObj> infoObjList = obj.pInfoList;
 		List<Data> problemList = new ArrayList<Data>();
 		Problem problem = null;
-		Log.i("Problem", "parseToProblemList:" + infoObjList.size());
+		Log.i("Problem", "parse2ProblemList: pInfoList's length is "
+		        + infoObjList.size());
 		int index = 0;
 		for (ProblemInfoObj info : infoObjList) {
 			problem = new Problem();
@@ -80,10 +84,13 @@ public class Problem extends Data {
 			problem.setPoint(info.point);
 			problem.setAnswer(info.answer);
 			problem.setNumber(++index);
-			problem.setState(StateStr.COMMENT);
 			//problem.setState(getStateFromDB(info.id, context));//TODO:get the problem state from db
+			problem.setState(StateStr.COMMENT);
+			problem.setContent(UrlBuilder.problemContentUrl(info.id));
+			problem.setAnswer(UrlBuilder.problemAnswerUrl(info.id));
+			problem.setAnalysis(UrlBuilder.problemAnalysis(info.id));
 			problemList.add(problem);
-			Log.i("Problem", "parseToProblemList:" + problem);
+			Log.i("Problem", "parse2ProblemList:" + problem);
 		}
 		
 		return problemList;
@@ -217,15 +224,84 @@ public class Problem extends Data {
 		this.answer = answer;
 	}
 
+	
+	/**
+	 * @return the eid
+	 */
+	public int getEid() {
+	
+		return eid;
+	}
+	
+	/**
+	 * @param eid
+	 *            the eid to set
+	 */
+	public void setEid(int eid) {
+	
+		this.eid = eid;
+	}
+	
+	/**
+	 * @return the cid
+	 */
+	public int getCid() {
+	
+		return cid;
+	}
+	
+	/**
+	 * @param cid
+	 *            the cid to set
+	 */
+	public void setCid(int cid) {
+	
+		this.cid = cid;
+	}
+	
+	/**
+	 * @return the content
+	 */
+	public String getContent() {
+	
+		return content;
+	}
+	
+	/**
+	 * @param content
+	 *            the content to set
+	 */
+	public void setContent(String content) {
+	
+		this.content = content;
+	}
+	
+	/**
+	 * @return the analysis
+	 */
+	public String getAnalysis() {
+	
+		return analysis;
+	}
+	
+    /**
+	 * @param analysis
+	 *            the analysis to set
+	 */
+	public void setAnalysis(String analysis) {
+	
+		this.analysis = analysis;
+	}
+	
 	/**
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 	
-		return "Problem [pid=" + pid + ", number=" + number + ", state="
-		        + state + ", ptype=" + ptype + ", point=" + point + ", answer="
-		        + answer + "]";
+		return "Problem [pid=" + pid + ", eid=" + eid + ", cid=" + cid
+		        + ", state=" + state + ", number=" + number + ", ptype="
+		        + ptype + ", point=" + point + ", content=" + content
+		        + ", answer=" + answer + ", analysis=" + analysis + "]";
 	}
-	
 }

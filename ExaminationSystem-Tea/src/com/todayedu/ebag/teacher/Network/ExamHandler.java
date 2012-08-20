@@ -108,11 +108,11 @@ public class ExamHandler extends BaseNetworkHandler {
 	@Override
 	public void messageReceived(IoSession session, Object message)
 			throws Exception {
-	
-		super.messageReceived(session, message);
+
 		if (message instanceof ExamResponse) {
 			ExamResponse response = (ExamResponse) message;
 			examCallBack.examSuccess(response);
 		}
+		super.messageReceived(session, message);
 	}
 }

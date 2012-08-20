@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent" 
+    android:background="@android:color/white">
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -13,6 +14,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
+            style="@style/listviewfont"
             android:text="@string/comm_pro_id_colon" />
 
         <TextView
@@ -21,38 +23,43 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/pcc_tv1"
             android:layout_toRightOf="@+id/pcc_tv1"
+            style="@style/listviewfont"
             android:text="XXXX" />
         
         <TextView
             android:id="@+id/pcc_tv3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/pcc_tv1"
-            android:layout_below="@+id/pcc_tv1"
+            android:layout_alignTop="@+id/pcc_tv1"
+            android:layout_toRightOf="@+id/pcc_tv2"
+            style="@style/listviewfont"
             android:text="@string/comm_pro_score_colon" />
 
         <TextView
             android:id="@+id/pcc_tv4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-          	android:layout_alignTop="@+id/pcc_tv3"
-          	android:layout_alignLeft="@+id/pcc_tv2"
+            android:layout_alignTop="@+id/pcc_tv1"
+            android:layout_toRightOf="@+id/pcc_tv3"
+            style="@style/listviewfont"
             android:text="XXXX" />
         
         <TextView
             android:id="@+id/pcc_tv5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/pcc_tv1"
-            android:layout_below="@+id/pcc_tv3"
+            android:layout_alignTop="@+id/pcc_tv1"
+            android:layout_toRightOf="@+id/pcc_tv4"
+            style="@style/listviewfont"
             android:text="@string/comm_stu_pro_state_colon" />
 
         <TextView
             android:id="@+id/pcc_tv6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/pcc_tv5"
-            android:layout_alignLeft="@+id/pcc_tv2"
+            android:layout_alignTop="@+id/pcc_tv1"
+            android:layout_toRightOf="@+id/pcc_tv5"
+            style="@style/listviewfont"
             android:text="XXXX" />
         
         <WebView

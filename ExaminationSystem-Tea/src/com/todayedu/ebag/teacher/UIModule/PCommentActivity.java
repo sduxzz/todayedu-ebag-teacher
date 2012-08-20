@@ -22,6 +22,7 @@ import com.todayedu.ebag.teacher.DataSource.DataObj.Problem;
 public class PCommentActivity extends MonitoredActivity {
 	
 	private BaseDataAdapter adapter;
+	private PCommentDS ds;
 
 	/**
 	 * @see com.todayedu.ebag.teacher.UIModule.MonitoredActivity#onCreate(android.os.Bundle)
@@ -37,7 +38,7 @@ public class PCommentActivity extends MonitoredActivity {
 		elView.setOnItemClickListener(this);
 
 		String[] keys = new String[] { "number", "state" };
-		PCommentDS ds = new PCommentDS(Problem.class);
+		ds = new PCommentDS(Problem.class);
 		ds.load(this);
 
 		adapter = elView.bindAdapter(ds, keys);
@@ -52,7 +53,7 @@ public class PCommentActivity extends MonitoredActivity {
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 	
-		TempData.storeData(adapter.getzDataSource(), position - 1);
+		TempData.storeData(ds, position - 1);
 		start(PCCActivity.class);
 	}
 }
