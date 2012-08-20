@@ -32,14 +32,14 @@ public class ECorrectActivity extends MonitoredActivity {
 		setContentView(R.layout.ecorrect);
 
 		ListView3 elView = (ListView3) findViewById(R.id.ecorrect);
-		elView.setHeaderView(R.array.exam_corrent);
 		elView.setOnItemClickListener(this);
-
+		elView.addHeaderView(HeaderViewFactory.createHeaderView3(this,
+		        R.array.exam_corrent));
 		String[] keys = new String[] { "sname", "sid", "state" };
 		// ECorrectDS ds = new ECorrectDS(ECorrect.class);
 		// ds.load(this);
 		// adapter = elView.bindAdapter(ds, keys);
-		addLifeCycleListener(adapter);
+		// addLifeCycleListener(adapter);
 	}
 	
 	/**

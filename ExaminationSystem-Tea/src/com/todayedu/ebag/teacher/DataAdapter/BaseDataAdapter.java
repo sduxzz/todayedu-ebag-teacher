@@ -20,15 +20,12 @@ import android.widget.TextView;
 
 import com.todayedu.ebag.teacher.DataSource.Data;
 import com.todayedu.ebag.teacher.DataSource.DataSource;
-import com.todayedu.ebag.teacher.UIModule.MonitoredActivity;
-import com.todayedu.ebag.teacher.UIModule.MonitoredActivity.LifeCycleListener;
 
 /**
  * @author zhenzxie
  * 
  */
-public class BaseDataAdapter extends BaseAdapter implements Observer,
-		LifeCycleListener {
+public class BaseDataAdapter extends BaseAdapter implements Observer {
 	
 	protected DataSource zDataSource;
 	
@@ -287,35 +284,4 @@ public class BaseDataAdapter extends BaseAdapter implements Observer,
 	
 		this.zKeys = zKeys;
 	}
-
-	@Override
-	public void onActivityCreated(MonitoredActivity activity) {
-	
-	}
-	
-	@Override
-	public void onActivityStarted(MonitoredActivity activity) {
-	
-	}
-	
-	@Override
-	public void onActivityResumed(MonitoredActivity activity) {
-	
-	}
-	
-	@Override
-	public void onActivityPaused(MonitoredActivity activity) {
-	
-	}
-	
-	@Override
-	public void onActivityStopped(MonitoredActivity activity) {
-	
-	}
-	
-	@Override
-	public void onActivityDestroyed(MonitoredActivity activity) {
-	
-	}
-	
 }

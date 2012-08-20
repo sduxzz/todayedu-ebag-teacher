@@ -78,7 +78,8 @@ public class ExamShowActivity extends MonitoredActivity {
 	private void init() {
 	
 		ListView1 elView = (ListView1) findViewById(R.id.el_examlistview);
-		elView.setHeaderView(allHeadViewTestId[mode]);
+		elView.addHeaderView(HeaderViewFactory.createHeaderView2(this,
+		        allHeadViewTestId[mode]));
 		elView.setOnItemClickListener(this);
 		
 		String[] keys = new String[] { "ename", "eid" };
@@ -86,7 +87,7 @@ public class ExamShowActivity extends MonitoredActivity {
 		ds.load(this);
 
 		adapter = elView.bindAdapter(ds, keys);
-		addLifeCycleListener(adapter);
+		// addLifeCycleListener(adapter);
 	}
 	
 	public void onExamSynch(View view) {

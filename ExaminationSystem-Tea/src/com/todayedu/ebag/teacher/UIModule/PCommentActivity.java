@@ -34,7 +34,8 @@ public class PCommentActivity extends MonitoredActivity {
 		setContentView(R.layout.pcomment);
 
 		ListView2 elView = (ListView2) findViewById(R.id.pstate);
-		elView.setHeaderView(R.array.pro_id_state);
+		elView.addHeaderView(HeaderViewFactory.createHeaderView2(this,
+		        R.array.pro_id_state));
 		elView.setOnItemClickListener(this);
 
 		String[] keys = new String[] { "number", "state" };
@@ -42,7 +43,7 @@ public class PCommentActivity extends MonitoredActivity {
 		ds.load(this);
 
 		adapter = elView.bindAdapter(ds, keys);
-		addLifeCycleListener(adapter);
+		// addLifeCycleListener(adapter);
 	}
 	
 	/**

@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.R;
-import com.todayedu.ebag.teacher.DataAdapter.DataAdapter3;
+import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
 import com.todayedu.ebag.teacher.Database.DataBaseHelper;
 
 /**
@@ -22,7 +22,7 @@ import com.todayedu.ebag.teacher.Database.DataBaseHelper;
  */
 public class SCExamActivity extends MonitoredActivity {
 	
-	private DataAdapter3 adapter;
+	private BaseDataAdapter adapter;
 	private TextView tv_2;
 	private TextView tv_4;
 	private TextView tv_6;
@@ -40,12 +40,12 @@ public class SCExamActivity extends MonitoredActivity {
 		tv_4 = (TextView) findViewById(R.id.scexam_tv4);
 		tv_6 = (TextView) findViewById(R.id.scexam_tv6);
 		elView = (ListView3) findViewById(R.id.scexam);
-		elView.setHeaderView(R.array.exam_preview);
-		
+		elView.addHeaderView(HeaderViewFactory.createHeaderView2(this,
+		        R.array.exam_preview));
 		// adapter = new DataAdapter3(this, new SCExamDS(this),
 		// elView.zLayout_ID, elView.zTextView_KEY, elView.zTextView_ID);
 		// elView.bindAdapter(adapter);
-		addLifeCycleListener(adapter);
+		// addLifeCycleListener(adapter);
 		
 		DataBaseHelper helper = new DataBaseHelper(this);
 		SQLiteDatabase database = helper.getReadableDatabase();

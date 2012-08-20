@@ -8,7 +8,6 @@ package com.todayedu.ebag.teacher.UIModule;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.ListView;
 
 import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
@@ -38,17 +37,36 @@ public abstract class BaseListView extends ListView {
 	}
 	
 	/**
-	 * the subclass may call this method to set a header for itself, more detail
-	 * see {@link ListView#addHeaderView(View)}
-	 * 
-	 * @param headerView
+	 * @param zLayout_ID
+	 *            the zLayout_ID to set
 	 */
-	public void setHeaderView(int layout_id, int resource_id, int which) {
+	public void setzLayout_ID(int zLayout_ID) {
 	
-		BaseHeaderView headerView = HeaderViewFactory.createHeaderView(
-				layout_id, resource_id, which);
-		addHeaderView(headerView.getHeaderView(zContext), null, false);
+		this.zLayout_ID = zLayout_ID;
 	}
+	
+	/**
+	 * @param zTextView_ID
+	 *            the zTextView_ID to set
+	 */
+	public void setzTextView_ID(int[] zTextView_ID) {
+	
+		this.zTextView_ID = zTextView_ID;
+	}
+
+	// /**
+	// * the subclass may call this method to set a header for itself, more
+	// detail
+	// * see {@link ListView#addHeaderView(View)}
+	// *
+	// * @param headerView
+	// */
+	// public void setHeaderView(int resource_id, int which) {
+	//
+	// BaseHeaderView headerView = HeaderViewFactory.createHeaderView(
+	// resource_id, which);
+	// addHeaderView(headerView.getHeaderView(zContext), null, false);
+	// }
 	
 	/**
 	 * 
@@ -58,6 +76,11 @@ public abstract class BaseListView extends ListView {
 	 *            dataSource
 	 * @return
 	 */
-	public abstract BaseDataAdapter bindAdapter(DataSource dataSource,
-			String[] keys);
+	public BaseDataAdapter bindAdapter(DataSource dataSource, String[] keys) {
+	
+		zAdapter = new BaseDataAdapter(zContext, dataSource, zLayout_ID, keys,
+		        zTextView_ID);
+		setAdapter(zAdapter);
+		return zAdapter;
+	}
 }

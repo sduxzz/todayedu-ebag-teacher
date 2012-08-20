@@ -30,14 +30,15 @@ public class ECSActivity extends MonitoredActivity {
 		setContentView(R.layout.ecs);
 
 		ListView2 elView = (ListView2) findViewById(R.id.ecs);
-		elView.setHeaderView(R.array.pro_id_state);
+		elView.addHeaderView(HeaderViewFactory.createHeaderView2(this,
+		        R.array.pro_id_state));
 		elView.setOnItemClickListener(this);
 		
 		String[] keys = new String[] { "number", "state", "point", "flag" };
 		// ECSDS ds = new ECSDS(ECS.class);
 		// ds.localload(this);
 		// adapter = elView.bindAdapter(ds, keys);
-		addLifeCycleListener(adapter);
+		// addLifeCycleListener(adapter);
 	}
 	
 	public void onExamSynch(View view) {

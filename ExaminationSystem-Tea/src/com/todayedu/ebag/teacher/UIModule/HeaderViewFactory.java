@@ -5,17 +5,34 @@
  */
 package com.todayedu.ebag.teacher.UIModule;
 
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
+
+import com.todayedu.ebag.teacher.R;
+
 /**
- * the factory for BaseHeaderView
+ * the factory for HeaderView
  * 
  * @author zhenzxie
  * 
  */
 public class HeaderViewFactory {
+
+	/**
+	 * create HeaderView with specific resource
+	 * 
+	 * @param layout_id
+	 * @param resource_id
+	 * @param which
+	 * @return BaseHeaderView
+	 */
+	public static View createHeaderView1(Context context, int resource_id) {
 	
-	public static final int HV_1_SIG = 1;
-	public static final int HV_2_SIG = 2;
-	public static final int HV_3_SIG = 3;
+		return getHeaderView(context, R.layout.hv_1, resource_id,
+		        new int[] { R.id.hv1_tv_1 });
+	}
 	
 	/**
 	 * create BaseHeaderView with specific resource
@@ -25,21 +42,52 @@ public class HeaderViewFactory {
 	 * @param which
 	 * @return BaseHeaderView
 	 */
-	public static BaseHeaderView createHeaderView(int layout_id,
-	        int resource_id, int which) {
+	public static View createHeaderView2(Context context, int resource_id) {
 	
-		BaseHeaderView headerView = null;
-		switch (which) {
-			case HV_1_SIG:
-				headerView = new HeaderView1(layout_id, resource_id);
-				break;
-			case HV_2_SIG:
-				headerView = new HeaderView2(layout_id, resource_id);
-				break;
-			case HV_3_SIG:
-				headerView = new HeaderView3(layout_id, resource_id);
-				break;
-		}
-		return headerView;
+		return getHeaderView(context, R.layout.hv_2, resource_id, new int[] {
+		        R.id.hv2_tv_1, R.id.hv2_tv_2 });
 	}
+	
+	/**
+	 * create BaseHeaderView with specific resource
+	 * 
+	 * @param layout_id
+	 * @param resource_id
+	 * @param which
+	 * @return BaseHeaderView
+	 */
+	public static View createHeaderView3(Context context, int resource_id) {
+	
+		return getHeaderView(context, R.layout.hv_3, resource_id, new int[] {
+		        R.id.hv3_tv_1, R.id.hv3_tv_2, R.id.hv3_tv_3 });
+	}
+
+	/**
+	 * 
+	 * @param context
+	 * @param layout_id
+	 *            the layout resource id of header view
+	 * @param resource_id
+	 *            the text resource id of header view
+	 * @param textView_id
+	 *            the text views' id of this header view
+	 * @return view
+	 */
+	private static View getHeaderView(Context context, int layout_id,
+	        int resource_id, int[] textView_id) {
+	
+		LayoutInflater inflater = (LayoutInflater) context
+		        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		String[] resource = context.getResources().getStringArray(resource_id);
+		TextView tv = null;
+
+		View view = inflater.inflate(layout_id, null);
+		int index = 0;
+		for (int id : textView_id) {
+			tv = (TextView) view.findViewById(id);
+			tv.setText(resource[index++]);
+		}
+		return view;
+	}
+
 }
