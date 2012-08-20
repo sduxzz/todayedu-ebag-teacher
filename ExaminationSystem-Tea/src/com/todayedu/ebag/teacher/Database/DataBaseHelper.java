@@ -5,7 +5,6 @@
  */
 package com.todayedu.ebag.teacher.Database;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +15,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.todayedu.ebag.teacher.Parameters;
+import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.DataSource.Data;
 import com.todayedu.ebag.teacher.DataSource.DataSource;
 import com.todayedu.ebag.teacher.DataSource.DataSourceLoader;
@@ -23,7 +24,6 @@ import com.todayedu.ebag.teacher.DataSource.DataObj.EClass;
 import com.todayedu.ebag.teacher.DataSource.DataObj.Exam;
 import com.todayedu.ebag.teacher.DataSource.DataObj.Problem;
 import com.todayedu.ebag.teacher.DataSource.DataObj.Student;
-import com.todayedu.ebag.teacher.Database.annotation.Column;
 
 /**
  * @author zhenzxie
@@ -66,15 +66,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 		}
 	}
 
-	public <T> long insert(Class<T> clazz, T entity, String tableName) {
+	public <T> long insert(Class<T> clazz, T entity, String tableName,
+	        ContentValues cv) {
 	
 		Log.d(TAG,
-				"[insert]: inset into " + tableName + " " + entity.toString());
+		        "[insert]: inset into " + tableName + " " + entity.toString());
 		SQLiteDatabase db = this.getWritableDatabase();
-		ContentValues cv = new ContentValues();
 
 		try {
-			setContentValues(clazz, entity, cv);
 			long row = db.insert(tableName, null, cv);
 			return row;
 		} catch (Exception e) {
@@ -88,23 +87,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 		return 0L;
 	}
 	
-	private <T> void setContentValues(Class<T> clazz, T entity, ContentValues cv)
-			throws IllegalAccessException {
-	
-		Field[] allFields = clazz.getDeclaredFields();
-		for (Field field : allFields) {
-			if (!field.isAnnotationPresent(Column.class)) {
-				continue;
-			}
-			field.setAccessible(true);
-			Object fieldValue = field.get(entity);
-			if (fieldValue == null)
-				continue;
-			Column column = field.getAnnotation(Column.class);
-			cv.put(column.name(), fieldValue.toString());
-		}
-	}
-	
 	/**
 	 * 
 	 * @param sql
@@ -113,7 +95,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 	 * @return
 	 */
 	public List<Data> query2MapList(String sql, String[] selectionArgs,
-			DataSourceLoader loader) {
+	        DataSourceLoader loader) {
 	
 		Log.d(TAG, "[query2MapList]: " + sql);
 		List<Data> list = new ArrayList<Data>();
@@ -145,6 +127,23 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 			}
 		}
 		return list;
+	}
+
+	public String queryProState(int pid) {
+	
+		String state = null;
+		String eid = Parameters.getStr(ParaIndex.EID_INDEX);
+		String cid = Parameters.getStr(ParaIndex.CID_INDEX);
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.query(
+		        "PROBLEM",
+		        new String[] { "state" },
+		        "where pid = ? and eid = ? and cid = ?",
+		        new String[] { String.valueOf(pid), eid, cid }, null, null,
+		        null);
+		state = cursor.getString(cursor.getColumnIndex("state"));
+		
+		return state;
 	}
 
 }

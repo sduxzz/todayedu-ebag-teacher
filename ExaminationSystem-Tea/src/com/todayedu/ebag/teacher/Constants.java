@@ -17,7 +17,6 @@ public interface Constants {
 		
 		public static final int HANDINED = 10010;
 		public static final int CORRECTED = 10020;
-		public static final int COMMENTED = 10030;
 	}
 
 	public static class StateStr {

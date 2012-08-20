@@ -9,8 +9,11 @@ import java.lang.reflect.Field;
 
 import com.todayedu.ebag.teacher.DataSource.Data;
 import com.todayedu.ebag.teacher.DataSource.DataSource;
+import com.todayedu.ebag.teacher.DataSource.PCommentDS;
 
 /**
+ * this class use to store {@link PCommentDS} momentarily
+ * 
  * @author zhenzxie
  * 
  */
@@ -32,10 +35,9 @@ public class TempData {
 	
 	/*
 	 * because this method was only called when app want to reset the state of
-	 * problem and state is presented as int in the database,so the type of
-	 * value is int.
+	 * problem,so here the type of value is String.
 	 */
-	public static void setState(int value) {
+	public static void setState(String value) {
 	
 		set(zIndex, value);
 	}
@@ -76,18 +78,9 @@ public class TempData {
 		return value;
 	}
 	
-	private static void set(int index, int value) {
+	private static void set(int index, String value) {
 	
 		Data data = zDataSource.pick().get(index);
-		Class<? extends Data> cl = data.getClass();
-		Field field = null;
-		try {
-			field = cl.getDeclaredField("state");
-			field.setAccessible(true);
-			field.setInt(data, value);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		data.setState(value);
 	}
-
 }

@@ -14,6 +14,7 @@ import org.ebag.net.response.ClassInfoResponse;
 import org.ebag.net.response.ExamResponse;
 import org.ebag.net.response.LoginResponse;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.todayedu.ebag.teacher.Parameters;
@@ -31,6 +32,8 @@ import ebag.pojo.Eclass;
  */
 public class ResponeParseUtil {
 
+	public static final String TAG = "ResponeParseUtil";
+
 	public static ArrayList<EClass> parseLoginResponse(LoginResponse response) {
     
 		Set<Eclass> classSet = response.getClassSet();
@@ -42,7 +45,7 @@ public class ResponeParseUtil {
 			ec.setCid(cs.getId());
 			ec.setCname(cs.getClassname());
     		list.add(ec);
-			Log.i("ResponeParseUtil", "parseLoginResponse: " + ec.toString());
+			Log.i(TAG, "parseLoginResponse: " + ec.toString());
     	}
     	
     	return list;
@@ -66,21 +69,30 @@ public class ResponeParseUtil {
     	for (ExamObj obj : examList) {
     		exam = Exam.convert(obj);
     		list.add(exam);
+			Log.i(TAG, "parseExamResponse:" + exam.toString());
     	}
     	
     	return list;
     }
 
 	/**
-     * 
-     * @param response
-     * @param position
-     * @return
-     */
-	public static List<Data> parseExamResponse2ProblemList(ExamResponse response) {
+	 * 
+	 * @param response
+	 * @param context
+	 * @return
+	 */
+	public static List<Data> parseExamResponse2ProblemList(
+	        ExamResponse response, Context context) {
     
     	List<ExamObj> examList = response.getExamList();
 		ExamObj obj = examList.get(0);
-    	return Problem.parseToProblemList(obj);
+		Log.i(TAG, "parseExamResponse2ProblemList: the examlist's length is "
+		        + examList.size());
+		if (obj == null) {
+			Log.i(TAG,
+			        "parseExamResponse2ProblemList: ExamObj is null");
+			return null;
+		}
+		return Problem.parse2ProblemList(obj, context);
     }
 }

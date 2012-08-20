@@ -5,15 +5,11 @@
  */
 package com.todayedu.ebag.teacher.UIModule;
 
-import org.ebag.net.obj.I.choice;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.todayedu.ebag.teacher.Constants.State;
-import com.todayedu.ebag.teacher.Constants.StateStr;
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.TempData;
 
@@ -81,12 +77,6 @@ public class ECSSActivity extends MonitoredActivity {
 		number = TempData.getCurrent("number");
 		state = TempData.getCurrent("state");
 		point = TempData.getCurrent("point");
-		
-		if (state.equals(String.valueOf(choice.answerState_waitComment))) {
-			state = StateStr.COMMENT;
-		} else if (state.equals(String.valueOf(State.COMMENTED))) {
-			state = StateStr.COMMENTED;
-		}
 		
 		ecss_tv2.setText(number);
 		ecss_tv4.setText(state);

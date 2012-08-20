@@ -5,7 +5,6 @@
  */
 package com.todayedu.ebag.teacher.Network;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
 import org.apache.mina.core.session.IdleStatus;
@@ -27,8 +26,7 @@ public class AnswerHandler extends BaseNetworkHandler {
 	/** 请求答题详情的id,为null则返回全部id的答案 */
 	public List<Integer> idList;
 	/** 请求字段,为null则返回全部字段 */
-	public List<Field> fieldList;
-
+	public List<String> fieldList;
 
 	/**
 	 * @param context
@@ -38,8 +36,8 @@ public class AnswerHandler extends BaseNetworkHandler {
 	 * @param idList
 	 * @param fieldList
 	 */
-	public AnswerHandler(Context context, int uid,
-			int examId, List<Integer> idList, List<Field> fieldList) {
+	public AnswerHandler(Context context, int uid, int examId,
+	        List<Integer> idList, List<String> fieldList) {
 	
 		super(context);
 		this.uid = uid;
@@ -84,7 +82,7 @@ public class AnswerHandler extends BaseNetworkHandler {
 	 */
 	@Override
 	public void sessionIdle(IoSession session, IdleStatus status)
-			throws Exception {
+	        throws Exception {
 	
 	}
 	
@@ -94,7 +92,7 @@ public class AnswerHandler extends BaseNetworkHandler {
 	 */
 	@Override
 	public void exceptionCaught(IoSession session, Throwable cause)
-			throws Exception {
+	        throws Exception {
 	
 	}
 	
@@ -104,7 +102,7 @@ public class AnswerHandler extends BaseNetworkHandler {
 	 */
 	@Override
 	public void messageReceived(IoSession session, Object message)
-			throws Exception {
+	        throws Exception {
 	
 	}
 	

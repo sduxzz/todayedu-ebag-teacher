@@ -5,7 +5,6 @@
  */
 package com.todayedu.ebag.teacher.Network;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
 import org.apache.mina.core.session.IoSession;
@@ -13,6 +12,10 @@ import org.ebag.net.request.ExamRequet;
 import org.ebag.net.response.ExamResponse;
 
 import android.content.Context;
+import android.util.Log;
+
+import com.todayedu.ebag.teacher.Parameters;
+import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 
 
 /**
@@ -39,7 +42,7 @@ public class ExamHandler extends BaseNetworkHandler {
 	/** 请求id，为null则返回全部对应未考 */
 	private List<Integer> idList;// idList放的是试卷id
 	/** 请求字段,为空则返回全部字段 */
-	private List<Field> fieldList;
+	private List<String> fieldList;
 
 	protected ExamCallBack examCallBack;
 	/**
@@ -50,7 +53,8 @@ public class ExamHandler extends BaseNetworkHandler {
 	 * @param fieldList
 	 */
 	public ExamHandler(Context context, ExamCallBack callBack, int classId,
-			List<Integer> stateList, List<Integer> idList, List<Field> fieldList) {
+	        List<Integer> stateList, List<Integer> idList,
+	        List<String> fieldList) {
 	
 		super(context);
 		this.examCallBack = callBack;
@@ -66,12 +70,16 @@ public class ExamHandler extends BaseNetworkHandler {
 	@Override
 	public void sessionOpened(IoSession session) throws Exception {
 	
+		super.sessionOpened(session);
 		ExamRequet request = new ExamRequet();
+		request.uid = Parameters.get(ParaIndex.UID_INDEX);
 		request.classId = classId;
-		request.setIdList(idList);
-		request.setFieldList(fieldList);
+		request.isTeacher = true;
+		request.idList = idList;
+		request.fieldList = fieldList;
 		request.stateList = stateList;
 		session.write(request);
+		Log.i(TAG, "sessionOpened:" + request);
 	}
 	
 	/**
@@ -80,6 +88,7 @@ public class ExamHandler extends BaseNetworkHandler {
 	@Override
 	public void sessionClosed(IoSession session) throws Exception {
 	
+		super.sessionClosed(session);
 	}
 	
 	/**
@@ -89,6 +98,7 @@ public class ExamHandler extends BaseNetworkHandler {
 	public void exceptionCaught(IoSession session, Throwable cause)
 			throws Exception {
 	
+		super.exceptionCaught(session, cause);
 		examCallBack.examError(cause);
 	}
 	
@@ -99,6 +109,7 @@ public class ExamHandler extends BaseNetworkHandler {
 	public void messageReceived(IoSession session, Object message)
 			throws Exception {
 	
+		super.messageReceived(session, message);
 		if (message instanceof ExamResponse) {
 			ExamResponse response = (ExamResponse) message;
 			examCallBack.examSuccess(response);

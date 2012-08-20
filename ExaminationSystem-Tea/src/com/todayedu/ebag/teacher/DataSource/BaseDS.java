@@ -46,7 +46,7 @@ public abstract class BaseDS extends DataSource {
 	}
 	
 	/**
-	 * load the data from the local database
+	 * load the data from the local database.
 	 * 
 	 * @param context
 	 */
@@ -65,7 +65,7 @@ public abstract class BaseDS extends DataSource {
 	 * 
 	 * @param context
 	 */
-	public void load(Context context) {
+	public final void load(Context context) {
 	
 		if (NetWorkUtil.isConnected(context)) {
 			download(context);

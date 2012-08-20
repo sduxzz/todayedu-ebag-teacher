@@ -5,9 +5,6 @@
  */
 package com.todayedu.ebag.teacher;
 
-
-
-
 /**
  * The stack that is used in delivering parameters. You must be careful when you
  * use it.
@@ -19,18 +16,18 @@ public class Parameters {
 	
 	public static class ParaIndex {
 		
-		public static final int CID_INDEX = 0;
-		public static final int EID_INDEX = 1;
-		public static final int SID_INDEX = 2;
-		public static final int PID_INDEX = 3;
-		public static final int EXAMSTATE_INDEX = 4;
-		public static final int PROBLEMSTATE_INDEX = 5;
-		public static final int PROBLEMNUMBER_INDEX = 6;
-		public static final int EXAMSHOWACTIVITYMODE_INDEX = 7;
+		public static final int UID_INDEX = 0;
+		public static final int CID_INDEX = 1;
+		public static final int EID_INDEX = 2;
+		public static final int SID_INDEX = 3;
+		public static final int PID_INDEX = 4;
+		public static final int EXAMSTATE_INDEX = 5;
+		public static final int PROBLEMSTATE_INDEX = 6;
+		public static final int PROBLEMNUMBER_INDEX = 7;
+		public static final int EXAMSHOWACTIVITYMODE_INDEX = 8;
 	}
 
 	private static int[] parameters = new int[10];
-	private static int pointer = 0;
 	
 	public static synchronized void add(int parameter, int index) {
 	
@@ -40,10 +37,10 @@ public class Parameters {
 	public static synchronized void add(String parameter, int index) {
 	
 		try {
-	        parameters[index] = Integer.parseInt(parameter);
-        } catch (NumberFormatException e) {
-	        e.printStackTrace();
-        }
+			parameters[index] = Integer.parseInt(parameter);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static synchronized int get(int index) {
@@ -62,9 +59,26 @@ public class Parameters {
 	}
 	
 	public static synchronized void clean() {
-	
-		for (; pointer >= 0; pointer--)
+
+		for (int pointer = 0; pointer < 10; pointer++)
 			parameters[pointer] = 0;
 	}
 
+	/**
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+	
+		return "Parameters[ uid:" + parameters[ParaIndex.UID_INDEX] + " cid:"
+		        + parameters[ParaIndex.CID_INDEX] + " eid:"
+		        + parameters[ParaIndex.EID_INDEX] + " sid:"
+		        + parameters[ParaIndex.SID_INDEX] + " pid:"
+		        + parameters[ParaIndex.PID_INDEX] + " exam state:"
+		        + parameters[ParaIndex.EXAMSTATE_INDEX] + "problem state:"
+		        + parameters[ParaIndex.PROBLEMSTATE_INDEX] + "problem number:"
+		        + parameters[ParaIndex.PROBLEMNUMBER_INDEX]
+		        + "exam show acitivity mode:"
+		        + parameters[ParaIndex.EXAMSHOWACTIVITYMODE_INDEX];
+	}
 }

@@ -11,6 +11,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.todayedu.ebag.teacher.Parameters;
+import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.DataSource.Data;
 import com.todayedu.ebag.teacher.Database.DataBaseHelper;
 import com.todayedu.ebag.teacher.Database.annotation.Column;
@@ -26,11 +28,9 @@ import com.todayedu.ebag.teacher.Database.annotation.Table;
 @Table(name = "EXAM")
 public class Exam extends Data {
 
-	@Id(isAutoIncrement = true)
+	@Id
 	@Column(name = "eid")
 	private int eid;
-	@Column(name = "id")
-	private int id;
 	@Column(name = "cid")
 	private int cid;
 	@Column(name = "etype")
@@ -48,24 +48,7 @@ public class Exam extends Data {
 
 	}
 	
-	public Exam(int id, int type, String name, double total, long time,
-	        int state) {
-
-		this.id = id;
-		this.etype = type;
-		this.ename = name;
-		this.total = total;
-		this.etime = time;
-		this.state = state;
-	}
-
-	public Exam(int eid, int id, int cid, int etype, String ename,
-	        double total, long etime, int state) {
 	
-		this(id, etype, ename, total, etime, state);
-		this.eid = eid;
-		this.cid = cid;
-	}
 
 	public boolean save(Context context) {
 	
@@ -94,7 +77,7 @@ public class Exam extends Data {
 			ename = ename + "[ " + count + " ]";
 		
 		Exam exam = new Exam();
-		exam.id = id;
+		exam.eid = id;
 		exam.ename = ename;
 		exam.etype = obj.type;
 		exam.etime = obj.time;
@@ -112,7 +95,8 @@ public class Exam extends Data {
 	public static Exam convert(ExamObj obj) {
 	
 		Exam exam = new Exam();
-		exam.id = obj.id;
+		exam.eid = obj.id;
+		exam.cid = Parameters.get(ParaIndex.CID_INDEX);
 		exam.ename = obj.name;
 		exam.etype = obj.type;
 		exam.etime = obj.time;
@@ -136,23 +120,6 @@ public class Exam extends Data {
 	public void setEid(int eid) {
 
 		this.eid = eid;
-	}
-
-	/**
-	 * @return the id
-	 */
-	public int getId() {
-
-		return id;
-	}
-
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setId(int id) {
-
-		this.id = id;
 	}
 
 	/**
@@ -257,14 +224,16 @@ public class Exam extends Data {
 		this.state = state;
 	}
 
+
 	/**
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 	
-		return "Exam [eid=" + eid + ", id=" + id + ", cid=" + cid + ", etype="
-		        + etype + ", ename=" + ename + ", total=" + total + ", etime="
-		        + etime + ", state=" + state + "]";
+		return "Exam [eid=" + eid + ", cid=" + cid + ", etype=" + etype
+		        + ", ename=" + ename + ", total=" + total + ", etime=" + etime
+		        + ", state=" + state + "]";
 	}
+
 }

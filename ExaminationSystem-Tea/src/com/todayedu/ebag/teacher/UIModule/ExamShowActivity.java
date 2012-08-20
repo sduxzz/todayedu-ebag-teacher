@@ -51,7 +51,7 @@ public class ExamShowActivity extends MonitoredActivity {
 	 * Parameters[ParaIndex.EXAMSHOWACTIVITYMODE],so the value in it must range
 	 * from 0 to allHeadViewId.leng,and I didn't check mode's value.
 	 */
-	private int mode;
+	private int mode = -100;
 	
 	/**
 	 * @see com.todayedu.ebag.teacher.UIModule.MonitoredActivity#onCreate(android.os.Bundle)
@@ -68,7 +68,7 @@ public class ExamShowActivity extends MonitoredActivity {
 		 * not,I must change this method which pass and save the value of mode
 		 * from FunctionnActivity
 		 */
-		Log.i(TAG, "onCreate mode is " + mode);
+		Log.i(TAG, "onCreate£º mode is " + mode);
 		init();
 	}
 	

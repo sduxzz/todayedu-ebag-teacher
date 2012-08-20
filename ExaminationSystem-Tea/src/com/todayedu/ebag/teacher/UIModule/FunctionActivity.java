@@ -6,6 +6,7 @@
 package com.todayedu.ebag.teacher.UIModule;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.ebag.net.obj.I.choice;
 
@@ -49,6 +50,7 @@ public class FunctionActivity extends MonitoredActivity implements OnItemSelecte
 			names = getNames(getIntent().getExtras());
 		}
 		initSpinner(names);
+		Log.i(TAG, "onCreate:" + Arrays.toString(names));
 	}
 	
 	/**
@@ -88,7 +90,7 @@ public class FunctionActivity extends MonitoredActivity implements OnItemSelecte
 		if (object != null) {
 			final int cid = list.get(position).getCid();
 			classid = cid;
-			Log.i(TAG, "onItemSelected cid is " + cid + " position is "
+			Log.i(TAG, "onItemSelected: cid is " + cid + " position is "
 			        + position);
 			// add cid to Parameters
 			Parameters.add(String.valueOf(cid), ParaIndex.CID_INDEX);
@@ -103,18 +105,18 @@ public class FunctionActivity extends MonitoredActivity implements OnItemSelecte
 
 	public void onChoose(View view) {
 	
-		/* 0 stand for that all exam will be selected */
-		jumpTo(choice.answerState_waitComment, 0);
+		/* 0 stand for that all exam will be selected,not matter the state of exam */
+		jumpTo(0, 0);
 	}
 
 	public void onStart(View view) {
     
-		jumpTo(choice.answerState_waitComment, 1);
+		jumpTo(choice.answerState_waitAnser, 1);
     }
 
 	public void onCorrect(View view) {
     
-		jumpTo(choice.answerState_waitComment, 2);
+		jumpTo(choice.answerState_waitMark, 2);
     }
 
 	public void onComment(View view) {
@@ -124,7 +126,7 @@ public class FunctionActivity extends MonitoredActivity implements OnItemSelecte
 
 	public void onAnalysis(View view) {
     
-		jumpTo(choice.answerState_waitComment, 4);
+		jumpTo(choice.answerState_finish, 4);
     }
 
 	private int classid = -100;

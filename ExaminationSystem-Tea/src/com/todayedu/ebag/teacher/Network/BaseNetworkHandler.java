@@ -45,7 +45,7 @@ public abstract class BaseNetworkHandler implements IoHandler {
 				zDialog = new ProgressDialog(zContext);
 				zDialog.setTitle("∑√Œ Õ¯¬Á");
 				zDialog.setMessage("loading,wait please...");
-				zDialog.setCancelable(true);
+				zDialog.setCancelable(false);
 				zDialog.show();
 			}
 		});
@@ -89,6 +89,7 @@ public abstract class BaseNetworkHandler implements IoHandler {
 			throws Exception {
 	
 		Log.i(TAG, "exceptionCaught");
+		cause.printStackTrace();
 		dismiss();
 	}
 	
@@ -110,11 +111,12 @@ public abstract class BaseNetworkHandler implements IoHandler {
 	public void messageReceived(IoSession arg0, Object arg1) throws Exception {
 	
 		Log.i(TAG, "messageReceived");
+		dismiss();
 	}
 
 	private void dismiss() {
 	
-		if (zDialog != null && zDialog.isShowing())
+		if (zDialog != null)
 			((Activity) zContext).runOnUiThread(new Runnable() {
 				
 				@Override

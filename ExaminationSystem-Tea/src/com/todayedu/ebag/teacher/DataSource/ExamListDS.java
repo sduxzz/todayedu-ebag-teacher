@@ -5,13 +5,12 @@
  */
 package com.todayedu.ebag.teacher.DataSource;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.ebag.net.obj.exam.ExamObj;
 import org.ebag.net.response.ExamResponse;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
@@ -54,33 +53,40 @@ public class ExamListDS extends BaseDS {
 	}
 
 	@Override
-	public void download(Context context) {
+	public void download(final Context context) {
 	
 		int cid = Parameters.get(ParaIndex.CID_INDEX);
 		int state = Parameters.get(ParaIndex.EXAMSTATE_INDEX);
+
 		List<Integer> stateList = null;
 		if (state != 0) {// when state is 0(request all exam),so stateList is null;
 			stateList = new ArrayList<Integer>();
 			stateList.add(state);
 		}
-		List<Field> fieldList = new ArrayList<Field>();
-		Class<ExamObj> cl = ExamObj.class;
+		List<String> fieldList = new ArrayList<String>();
 		try {
-			fieldList.add(cl.getDeclaredField("name"));
-			fieldList.add(cl.getDeclaredField("id"));
+			fieldList.add("name");
+			fieldList.add("id");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		NetworkClient client = new NetworkClient();
+
 		ExamCallBack callBack = new ExamCallBack() {
 			
 			@Override
 			public void examSuccess(ExamResponse examResponse) {
 			
-				List<Data> list = ResponeParseUtil
+				final List<Data> list = ResponeParseUtil
 				        .parseExamResponse(examResponse);
-				ExamListDS.this.store(list);
-				ExamListDS.this.notifyDataChange();
+				((Activity) context).runOnUiThread(new Runnable() {
+					
+					@Override
+					public void run() {
+					
+						ExamListDS.this.store(list);
+						ExamListDS.this.notifyDataChange();
+					}
+				});
 			}
 			
 			@Override
@@ -89,6 +95,7 @@ public class ExamListDS extends BaseDS {
 				Log.i(TAG, cause.getMessage());
 			}
 		};
+		NetworkClient client = new NetworkClient();
 		client.setHandler(new ExamHandler(context, callBack, cid, stateList,
 		        null, fieldList));
 		client.connect();

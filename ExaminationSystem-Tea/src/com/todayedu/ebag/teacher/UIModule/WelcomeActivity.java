@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.todayedu.ebag.teacher.Parameters;
+import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.DataSource.DataObj.EClass;
 import com.todayedu.ebag.teacher.Network.LoginHandler;
@@ -18,6 +20,8 @@ import com.todayedu.ebag.teacher.Network.LoginHandler.LoginCallBack;
 import com.todayedu.ebag.teacher.Network.NetWorkUtil;
 import com.todayedu.ebag.teacher.Network.NetworkClient;
 import com.todayedu.ebag.teacher.Network.ResponeParseUtil;
+
+import ebag.pojo.Euser;
 
 /**
  * the welcome activity,teacher should login
@@ -57,6 +61,9 @@ public class WelcomeActivity extends BaseActivity {
 				        @Override
 				        public void loginSuccess(LoginResponse response) {
 				        
+					        Euser user = response.user;
+					        Parameters.add(user.getId(), ParaIndex.UID_INDEX);//add uid to globle parameter
+
 					        ArrayList<EClass> list = ResponeParseUtil
 					                .parseLoginResponse(response);
 					        start(list);

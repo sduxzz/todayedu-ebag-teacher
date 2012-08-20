@@ -55,11 +55,6 @@ public class DataAdapter2 extends BaseDataAdapter {
 				if (i == 1) {// NOTE:change the string which present the state
 								// of exams and the index of zIds is 1.
 					if (text.equals(String
-							.valueOf(choice.answerState_waitComment))) {
-						text = StateStr.COMMENT;
-					} else if (text.equals(String.valueOf(State.COMMENTED))) {
-						text = StateStr.COMMENTED;
-					} else if (text.equals(String
 							.valueOf(choice.answerState_waitMark))) {
 						text = StateStr.CORRECT;
 					} else if (text.equals(String.valueOf(State.CORRECTED))) {
