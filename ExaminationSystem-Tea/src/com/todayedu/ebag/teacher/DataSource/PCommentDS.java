@@ -26,7 +26,7 @@ import com.todayedu.ebag.teacher.Network.ResponeParseUtil;
  * @author zhenzxie
  * 
  */
-public class PCommentDS extends BaseDS implements Serializable {
+public class PCommentDS extends BaseDataSource implements Serializable {
 
 	/**
      * 

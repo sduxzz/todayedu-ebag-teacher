@@ -17,8 +17,8 @@ import android.util.Log;
 
 import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.Parameters.ParaIndex;
+import com.todayedu.ebag.teacher.DataSource.BaseDataSource;
 import com.todayedu.ebag.teacher.DataSource.Data;
-import com.todayedu.ebag.teacher.DataSource.DataSource;
 import com.todayedu.ebag.teacher.DataSource.DataSourceLoader;
 import com.todayedu.ebag.teacher.DataSource.DataObj.EClass;
 import com.todayedu.ebag.teacher.DataSource.DataObj.Exam;
@@ -100,7 +100,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 		Log.d(TAG, "[query2MapList]: " + sql);
 		List<Data> list = new ArrayList<Data>();
 		SQLiteDatabase db = this.getReadableDatabase();
-		DataSource ds = loader.getzDataSource();
+		BaseDataSource ds = loader.getzDataSource();
 		Class<? extends Data> cl = ds.getzClass();
 		Cursor cursor = db.rawQuery(sql, selectionArgs);
 		try {

@@ -14,7 +14,7 @@ import com.todayedu.ebag.teacher.Parameters.ParaIndex;
  * @author zhenzxie
  * 
  */
-public class ECorrectDS extends BaseDS {
+public class ECorrectDS extends BaseDataSource {
 	
 	public ECorrectDS(Class<? extends Data> cl) {
 	

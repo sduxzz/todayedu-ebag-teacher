@@ -13,7 +13,7 @@ import android.content.Context;
  * @author zhenzxie
  * 
  */
-public class SCExamDS extends BaseDS {
+public class SCExamDS extends BaseDataSource {
 
 	
 	

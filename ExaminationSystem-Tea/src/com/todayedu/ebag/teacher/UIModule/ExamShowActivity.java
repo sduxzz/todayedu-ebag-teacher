@@ -16,7 +16,7 @@ import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
-import com.todayedu.ebag.teacher.DataSource.BaseDS;
+import com.todayedu.ebag.teacher.DataSource.BaseDataSource;
 import com.todayedu.ebag.teacher.DataSource.ExamListDS;
 import com.todayedu.ebag.teacher.DataSource.DataObj.Exam;
 
@@ -39,8 +39,9 @@ public class ExamShowActivity extends MonitoredActivity {
 	        ECorrectActivity.class, PCommentActivity.class,
 	        AExpandableActivity.class };
 	
+	private ListView lv;
 	private BaseDataAdapter adapter;
-	private ListView elView;
+	private BaseDataSource ds;
 
 	/*
 	 * the mode of this ExamShowActivity;
@@ -80,23 +81,23 @@ public class ExamShowActivity extends MonitoredActivity {
 	 */
 	private void init() {
 	
-		elView = (ListView) findViewById(R.id.el_examlistview);
-		elView.addHeaderView(HeaderViewFactory.createHeaderView2(this,
+		lv = (ListView) findViewById(R.id.el_examlistview);
+		lv.addHeaderView(HeaderViewFactory.createHeaderView2(this,
 		        allHeadViewTestId[mode]));
-		elView.setOnItemClickListener(this);
+		lv.setOnItemClickListener(this);
 		
-		elView.setBackgroundColor(Color.WHITE);
-		elView.setCacheColorHint(Color.WHITE);
+		lv.setBackgroundColor(Color.WHITE);
+		lv.setCacheColorHint(Color.WHITE);
 
 		String[] keys = new String[] { "ename", "eid" };
-		BaseDS ds = new ExamListDS(Exam.class);
+		ds = new ExamListDS(Exam.class);
 		ds.load(this);
 
 		int[] zTextView_ID = new int[] { R.id.lv1_tv_1 };
 		int zLayout_ID = R.layout.lv_1;
 
 		adapter = new BaseDataAdapter(this, ds, zLayout_ID, keys, zTextView_ID);
-		elView.setAdapter(adapter);
+		lv.setAdapter(adapter);
 		// addLifeCycleListener(adapter);
 	}
 	

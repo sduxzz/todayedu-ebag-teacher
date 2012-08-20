@@ -18,8 +18,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.todayedu.ebag.teacher.DataSource.BaseDataSource;
 import com.todayedu.ebag.teacher.DataSource.Data;
-import com.todayedu.ebag.teacher.DataSource.DataSource;
 
 /**
  * @author zhenzxie
@@ -27,7 +27,7 @@ import com.todayedu.ebag.teacher.DataSource.DataSource;
  */
 public class BaseDataAdapter extends BaseAdapter implements Observer {
 	
-	protected DataSource zDataSource;
+	protected BaseDataSource zDataSource;
 	
 	protected int[] zIds;
 	protected String[] zKeys;
@@ -45,7 +45,7 @@ public class BaseDataAdapter extends BaseAdapter implements Observer {
 	 *            dataSource
 	 * @param ids
 	 */
-	public BaseDataAdapter(Context context, DataSource dataSource,
+	public BaseDataAdapter(Context context, BaseDataSource dataSource,
 			int resource, String[] keys, int[] ids) {
 	
 		zDataSource = dataSource;
@@ -254,7 +254,7 @@ public class BaseDataAdapter extends BaseAdapter implements Observer {
 	/**
 	 * @return the zDataSource
 	 */
-	public DataSource getzDataSource() {
+	public BaseDataSource getzDataSource() {
 	
 		return zDataSource;
 	}
@@ -263,7 +263,7 @@ public class BaseDataAdapter extends BaseAdapter implements Observer {
 	 * @param zDataSource
 	 *            the zDataSource to set
 	 */
-	public void setzDataSource(DataSource zDataSource) {
+	public void setzDataSource(BaseDataSource zDataSource) {
 	
 		this.zDataSource = zDataSource;
 	}

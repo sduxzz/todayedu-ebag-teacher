@@ -13,7 +13,7 @@ import android.content.Context;
  * @author zhenzxie
  * 
  */
-public class SCStateDS extends BaseDS {
+public class SCStateDS extends BaseDataSource {
 
 	
 	public SCStateDS(Class<? extends Data> cl) {

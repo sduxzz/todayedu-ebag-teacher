@@ -15,7 +15,7 @@ import com.todayedu.ebag.teacher.Parameters.ParaIndex;
  * @author zhenzxie
  * 
  */
-public class ECSDS extends BaseDS {
+public class ECSDS extends BaseDataSource {
 	
 	public ECSDS(Class<? extends Data> cl) {
 	

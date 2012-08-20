@@ -7,8 +7,8 @@ package com.todayedu.ebag.teacher;
 
 import java.lang.reflect.Field;
 
+import com.todayedu.ebag.teacher.DataSource.BaseDataSource;
 import com.todayedu.ebag.teacher.DataSource.Data;
-import com.todayedu.ebag.teacher.DataSource.DataSource;
 import com.todayedu.ebag.teacher.DataSource.PCommentDS;
 
 /**
@@ -19,10 +19,10 @@ import com.todayedu.ebag.teacher.DataSource.PCommentDS;
  */
 public class TempData {
 	
-	private static DataSource zDataSource;
+	private static BaseDataSource zDataSource;
 	private static int zIndex;/* rang from 0 to zDataSource.getData().size()-1 */
 	
-	public static void storeData(DataSource dataSource, int index) {
+	public static void storeData(BaseDataSource dataSource, int index) {
 	
 		zDataSource = dataSource;
 		zIndex = index;

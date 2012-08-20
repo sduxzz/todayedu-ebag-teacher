@@ -27,7 +27,7 @@ import com.todayedu.ebag.teacher.Network.ResponeParseUtil;
  * @author zhenzxie
  * 
  */
-public class ExamListDS extends BaseDS {
+public class ExamListDS extends BaseDataSource {
 
 	public ExamListDS(Class<? extends Data> cl) {
 	
