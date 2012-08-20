@@ -21,7 +21,7 @@ import com.todayedu.ebag.teacher.Database.DataBaseHelper;
  * @author zhenzxie
  * 
  */
-public class SCExamActivity extends MonitoredActivity {
+public class SCExamActivity extends BaseActivity {
 	
 	private BaseDataAdapter adapter;
 	private TextView tv_2;

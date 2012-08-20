@@ -13,7 +13,7 @@ import com.todayedu.ebag.teacher.R;
  * @author zhenzxie
  * 
  */
-public class AEPSActivity extends MonitoredActivity {
+public class AEPSActivity extends BaseActivity {
 	
 	/**
 	 * @see com.todayedu.ebag.teacher.UIModule.MonitoredActivity#onCreate(android.os.Bundle)

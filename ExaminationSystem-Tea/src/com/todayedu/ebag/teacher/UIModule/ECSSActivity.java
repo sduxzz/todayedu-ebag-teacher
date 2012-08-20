@@ -17,7 +17,7 @@ import com.todayedu.ebag.teacher.TempData;
  * @author zhenzxie
  *
  */
-public class ECSSActivity extends MonitoredActivity {
+public class ECSSActivity extends BaseActivity {
 	
 	private TextView ecss_tv2;
 	private TextView ecss_tv4;

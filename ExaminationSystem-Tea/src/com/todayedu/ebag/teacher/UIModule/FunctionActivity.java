@@ -33,7 +33,7 @@ import com.todayedu.ebag.teacher.DataSource.DataObj.EClass;
  * @author zhenzxie
  * 
  */
-public class FunctionActivity extends MonitoredActivity implements OnItemSelectedListener {
+public class FunctionActivity extends BaseActivity implements OnItemSelectedListener {
 
 	/**
 	 * @see android.app.Activity#onCreate(android.os.Bundle)

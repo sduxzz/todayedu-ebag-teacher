@@ -19,7 +19,7 @@ import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
  * @author zhenzxie
  * 
  */
-public class ECorrectActivity extends MonitoredActivity {
+public class ECorrectActivity extends BaseActivity {
 	
 	private BaseDataAdapter adapter;
 	private ListView elView;

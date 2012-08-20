@@ -20,7 +20,7 @@ import com.todayedu.ebag.teacher.DataSource.DataObj.Problem;
  * @author zhenzxie
  * 
  */
-public class PCommentActivity extends MonitoredActivity {
+public class PCommentActivity extends BaseActivity {
 	
 	private BaseDataAdapter adapter;
 	private PCommentDS ds;

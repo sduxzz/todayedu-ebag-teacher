@@ -28,7 +28,7 @@ import com.todayedu.ebag.teacher.DataSource.DataObj.Exam;
  * @author zhenzxie
  * 
  */
-public class ExamShowActivity extends MonitoredActivity {
+public class ExamShowActivity extends BaseActivity {
 	
 	/* target header view's text id */
 	private static final int[] allHeadViewTestId = new int[] { R.array.choose,

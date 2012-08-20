@@ -5,11 +5,11 @@
  */
 package com.todayedu.ebag.teacher.UIModule;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -17,7 +17,8 @@ import android.widget.Toast;
 
 /**
  * the base activity i used on my application it supplies some useful method
- * that call safely through other thread.
+ * that call safely through other thread. it will notify the listeners which are
+ * registered on it notification list
  * 
  * @author zhenzxie
  * 
@@ -25,75 +26,69 @@ import android.widget.Toast;
 public class BaseActivity extends Activity implements OnItemClickListener {
 	
 	protected String TAG = this.getClass().getSimpleName();
+	private ArrayList<LifeCycleListener> zListeners = new ArrayList<LifeCycleListener>();
+	
+	/**
+     * the listener used during the activity life cycle.
+     * 
+     * @author zhenzxie
+     * 
+     */
+	public interface LifeCycleListener {
+    	
+    	public void onActivityCreated(BaseActivity activity);
+    	
+    	public void onActivityStarted(BaseActivity activity);
+    	
+    	public void onActivityResumed(BaseActivity activity);
+    	
+    	public void onActivityPaused(BaseActivity activity);
+    	
+    	public void onActivityStopped(BaseActivity activity);
+    	
+    	public void onActivityDestroyed(BaseActivity activity);
+    	
+    }
 
-	private class HandlerCallback implements Handler.Callback {
-		
-		@Override
-		public boolean handleMessage(Message msg) {
-		
-			switch (msg.what) {
-				case SHOWTOAST_SIG:
-					Toast.makeText(BaseActivity.this, msg.obj.toString(),
-					        msg.arg1).show();
-					break;
-				case DISMISSDIALOG_SIG:
-					zDialog.dismiss();
-					break;
-			}
-			return false;
-		}
-	}
-	
-	private static final int SHOWTOAST_SIG = 0;
-	private static final int DISMISSDIALOG_SIG = 1;
-	
 	/**
-     */
-	protected Handler zHandler = new Handler(new HandlerCallback());
-	
-	/**
-     */
-	private ProgressDialog zDialog;
-	
-	/**
-	 * {@link #showDialog(String, String)}
+	 * a simple adapter for LifeCycleListener
 	 * 
-	 * @param message
-	 */
-	public void showDialog(String message) {
-	
-		showDialog(null, message);
-	}
-	
-	/**
-	 * show a dialog with specific title and message
+	 * @author zhenzxie
 	 * 
-	 * @param title
-	 * @param message
 	 */
-	public void showDialog(final String title, final String message) {
-	
-		dissDialog();
-		zHandler.post(new Runnable() {
-			
-			@Override
-			public void run() {
-			
-				zDialog = ProgressDialog
-				        .show(BaseActivity.this, title, message);
-			}
-		});
-	}
-	
-	/**
-	 * dismiss a dialog
-	 */
-	public void dissDialog() {
-	
-		if (zDialog != null && zDialog.isShowing())
-			zHandler.sendEmptyMessage(DISMISSDIALOG_SIG);
-	}
-	
+	public class LifeCycleAdapter implements LifeCycleListener {
+    	
+    	@Override
+    	public void onActivityCreated(BaseActivity activity) {
+    	
+    	}
+    	
+    	@Override
+    	public void onActivityStarted(BaseActivity activity) {
+    	
+    	}
+    	
+    	@Override
+    	public void onActivityResumed(BaseActivity activity) {
+    	
+    	}
+    	
+    	@Override
+    	public void onActivityPaused(BaseActivity activity) {
+    	
+    	}
+    	
+    	@Override
+    	public void onActivityStopped(BaseActivity activity) {
+    	
+    	}
+    	
+    	@Override
+    	public void onActivityDestroyed(BaseActivity activity) {
+    	
+    	}
+    }
+
 	/**
 	 * {@link #showToast(String, int)}
 	 * 
@@ -110,11 +105,16 @@ public class BaseActivity extends Activity implements OnItemClickListener {
 	 * @param message
 	 * @param duration
 	 */
-	public void showToast(String message, int duration) {
-	
-		Message msg = zHandler.obtainMessage(SHOWTOAST_SIG, message);
-		msg.arg1 = duration;
-		zHandler.sendMessage(msg);
+	public void showToast(final String message, final int duration) {
+		
+		this.runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+			
+				Toast.makeText(BaseActivity.this, message, duration).show();
+			}
+		});
 	}
 	
 	public void start(Class<?> cls) {
@@ -127,5 +127,99 @@ public class BaseActivity extends Activity implements OnItemClickListener {
     public void onItemClick(AdapterView<?> parent, View view, int position,
             long id) {
     
+    }
+
+	/**
+     * @see android.app.Activity#onCreate(android.os.Bundle)
+     */
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+    
+    	super.onCreate(savedInstanceState);
+    	for (LifeCycleListener listener : zListeners) {
+    		listener.onActivityCreated(this);
+    	}
+    }
+
+	/**
+     * @see android.app.Activity#onStart()
+     */
+    @Override
+    protected void onStart() {
+    
+    	for (LifeCycleListener listener : zListeners) {
+    		listener.onActivityStarted(this);
+    	}
+    	super.onStart();
+    }
+
+	/**
+     * @see android.app.Activity#onResume()
+     */
+    @Override
+    protected void onResume() {
+    
+    	for (LifeCycleListener listener : zListeners) {
+    		listener.onActivityResumed(this);
+    	}
+    	super.onResume();
+    }
+
+	/**
+     * @see android.app.Activity#onPause()
+     */
+    @Override
+    protected void onPause() {
+    
+    	for (LifeCycleListener listener : zListeners) {
+    		listener.onActivityPaused(this);
+    	}
+    	super.onPause();
+    }
+
+	/**
+     * @see android.app.Activity#onStop()
+     */
+    @Override
+    protected void onStop() {
+    
+    	for (LifeCycleListener listener : zListeners) {
+    		listener.onActivityStopped(this);
+    	}
+    	super.onStop();
+    }
+
+	/**
+     * @see android.app.Activity#onDestroy()
+     */
+    @Override
+    protected void onDestroy() {
+    
+    	for (LifeCycleListener listener : zListeners) {
+    		listener.onActivityDestroyed(this);
+    	}
+    	super.onDestroy();
+    }
+
+	/**
+     * add life cycle listener to the list
+     * 
+     * @param listener
+     */
+    public void addLifeCycleListener(LifeCycleListener listener) {
+    
+    	if (zListeners.contains(listener))
+    		return;
+    	zListeners.add(listener);
+    }
+
+	/**
+     * remove life cycle listener from the list
+     * 
+     * @param listener
+     */
+    public void removeLifeCycleListener(LifeCycleListener listener) {
+    
+    	zListeners.remove(listener);
     }
 }

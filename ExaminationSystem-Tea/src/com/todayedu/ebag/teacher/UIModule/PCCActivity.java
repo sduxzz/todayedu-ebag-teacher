@@ -19,7 +19,7 @@ import com.todayedu.ebag.teacher.TempData;
  * @author zhenzxie
  *
  */
-public class PCCActivity extends MonitoredActivity {
+public class PCCActivity extends BaseActivity {
 	
 	private TextView pcc_tv2;
 	private TextView pcc_tv4;
