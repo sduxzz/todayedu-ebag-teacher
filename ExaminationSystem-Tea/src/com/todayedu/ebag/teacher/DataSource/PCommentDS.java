@@ -9,33 +9,29 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.ebag.net.response.ExamResponse;
-
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
 import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.Network.ExamHandler;
-import com.todayedu.ebag.teacher.Network.ExamHandler.ExamCallBack;
+import com.todayedu.ebag.teacher.Network.NetworkCallBack;
 import com.todayedu.ebag.teacher.Network.NetworkClient;
-import com.todayedu.ebag.teacher.Network.ResponeParseUtil;
 
 /**
  * @author zhenzxie
  * 
  */
-public class PCommentDS extends BaseDataSource implements Serializable {
+public class PCommentDS extends BaseDataSource implements Serializable, NetworkCallBack {
 
 	/**
      * 
      */
 	private static final long serialVersionUID = -8223593166299776033L;
 
-	public PCommentDS(Class<? extends Data> cl) {
+	public PCommentDS(DSCallback callback) {
 	
-		super(cl);
+		super(callback);
 	}
 
 	@Override
@@ -64,33 +60,14 @@ public class PCommentDS extends BaseDataSource implements Serializable {
 			e.printStackTrace();
 		}
 
-		ExamCallBack callBack = new ExamCallBack() {
-			
-			@Override
-			public void examSuccess(ExamResponse examResponse) {
-			
-				final List<Data> list = ResponeParseUtil
-				        .parseExamResponse2ProblemList(examResponse, context);
-				((Activity) context).runOnUiThread(new Runnable() {
-					
-					@Override
-					public void run() {
-					
-						PCommentDS.this.store(list);
-						PCommentDS.this.notifyDataChange();
-					}
-				});
-			}
-			
-			@Override
-			public void examError(Throwable cause) {
-			
-				Log.i(TAG, cause.getMessage());
-			}
-		};
 		NetworkClient client = new NetworkClient();
-		client.setHandler(new ExamHandler(context, callBack, cid, null,
+		client.setHandler(new ExamHandler(context, this, cid, null,
 		        idList, fieldList));
 		client.connect();
+	}
+
+	@Override
+	public void createMaps(String[] keys) {
+	
 	}
 }

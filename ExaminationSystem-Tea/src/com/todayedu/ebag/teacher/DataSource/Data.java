@@ -16,66 +16,55 @@ import android.util.Log;
 import com.todayedu.ebag.teacher.TempData;
 import com.todayedu.ebag.teacher.DataSource.DataObj.Problem;
 
-
 /**
  * @author zhenzxie
- *
+ * 
  */
 public abstract class Data {
 	
 	public String TAG = this.getClass().getSimpleName();
 
-	public static String[] keys = null;
-	{
-		Class<? extends Data> cl = Data.class;
-		Field[] fields = cl.getDeclaredFields();
-		keys = new String[fields.length];
-		int i = 0;
-		for (Field field : fields) {
-			keys[i++] = field.getName();
-			Log.i(TAG, field.getName());
-		}
+	public void save(Context context) {
+	
 	}
-
-	public abstract boolean save(Context context);
 	
 	public void fillData(final Cursor cursor) {
 	
-		Class<? extends Data> cl = this.getClass();
-		Field field = null;
-
-		for (String key : keys) {
-			try {
-				field = cl.getDeclaredField(key);
-				field.setAccessible(true);
-				Class<?> fieldType = field.getType();
-				int c = cursor.getColumnIndex(key);
-				if (c < 0) {
-					continue;
-				} else if ((Integer.TYPE == fieldType)
-				        || (Integer.class == fieldType)) {
-					field.setInt(this, cursor.getInt(c));
-				} else if (String.class == fieldType) {
-					field.set(this, cursor.getString(c));
-				} else if ((Long.TYPE == fieldType)
-				        || (Long.class == fieldType)) {
-					field.set(this, Long.valueOf(cursor.getLong(c)));
-				} else if ((Double.TYPE == fieldType)
-				        || (Double.class == fieldType)) {
-					field.set(this, Double.valueOf(cursor.getDouble(c)));
-				}// this case only can appear the situation listed above,if you
-				 // want to add some different situations,please add here with
-				 // "else if"
-			} catch (SecurityException e) {
-				e.printStackTrace();
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (NoSuchFieldException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			}
-		}
+		// Class<? extends Data> cl = this.getClass();
+		// Field field = null;
+		//
+		// for (String key : keys) {
+		// try {
+		// field = cl.getDeclaredField(key);
+		// field.setAccessible(true);
+		// Class<?> fieldType = field.getType();
+		// int c = cursor.getColumnIndex(key);
+		// if (c < 0) {
+		// continue;
+		// } else if ((Integer.TYPE == fieldType)
+		// || (Integer.class == fieldType)) {
+		// field.setInt(this, cursor.getInt(c));
+		// } else if (String.class == fieldType) {
+		// field.set(this, cursor.getString(c));
+		// } else if ((Long.TYPE == fieldType)
+		// || (Long.class == fieldType)) {
+		// field.set(this, Long.valueOf(cursor.getLong(c)));
+		// } else if ((Double.TYPE == fieldType)
+		// || (Double.class == fieldType)) {
+		// field.set(this, Double.valueOf(cursor.getDouble(c)));
+		// }// this case only can appear the situation listed above,if you
+		// // want to add some different situations,please add here with
+		// // "else if"
+		// } catch (SecurityException e) {
+		// e.printStackTrace();
+		// } catch (IllegalArgumentException e) {
+		// e.printStackTrace();
+		// } catch (NoSuchFieldException e) {
+		// e.printStackTrace();
+		// } catch (IllegalAccessException e) {
+		// e.printStackTrace();
+		// }
+		// }
 	}
 
 	/**

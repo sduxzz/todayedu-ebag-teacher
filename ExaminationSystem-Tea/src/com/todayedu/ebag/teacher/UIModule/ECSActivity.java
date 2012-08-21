@@ -11,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.todayedu.ebag.teacher.R;
-import com.todayedu.ebag.teacher.TempData;
 import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
 
 /**
@@ -55,7 +54,7 @@ public class ECSActivity extends BaseActivity {
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 	
-		TempData.storeData(adapter.getzDataSource(), position - 1);
-		start(ECSSActivity.class);
+		// TempData.storeData(adapter.getzDataSource(), position - 1);
+		// start(ECSSActivity.class);
 	}
 }

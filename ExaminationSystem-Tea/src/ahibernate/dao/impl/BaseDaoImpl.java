@@ -13,7 +13,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.todayedu.ebag.teacher.DataSource.DataSourceLoader;
+import com.todayedu.ebag.teacher.DataSource.DBLoader;
 import com.todayedu.ebag.teacher.Database.annotation.Column;
 import com.todayedu.ebag.teacher.Database.annotation.Id;
 import com.todayedu.ebag.teacher.Database.annotation.Table;
@@ -318,7 +318,7 @@ public class BaseDaoImpl<T> {
 
 	public List<Map<String, String>> query2MapList(String sql,
 	        String[] selectionArgs, String[] columnName, String[] keys,
-			DataSourceLoader loader) {
+			DBLoader loader) {
 	
 		Log.d(TAG, "[query2MapList]: " + sql);
 		SQLiteDatabase db = null;

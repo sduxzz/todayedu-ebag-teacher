@@ -46,15 +46,14 @@ public class BaseDataAdapter extends BaseAdapter implements Observer {
 	 * @param ids
 	 */
 	public BaseDataAdapter(Context context, BaseDataSource dataSource,
-			int resource, String[] keys, int[] ids) {
+	        int resource, int[] ids, String[] keys) {
 	
 		zDataSource = dataSource;
 		mResource = mDropDownResource = resource;
-		zKeys = keys;
 		zIds = ids;
+		zKeys = keys;
 		mInflater = (LayoutInflater) context
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		dataSource.addObserver(this);
 	}
 	
 	/**
@@ -62,7 +61,7 @@ public class BaseDataAdapter extends BaseAdapter implements Observer {
 	 */
 	public int getCount() {
 	
-		return zDataSource.pick().size();
+		return zDataSource.getList().size();
 	}
 	
 	/**
@@ -70,7 +69,7 @@ public class BaseDataAdapter extends BaseAdapter implements Observer {
 	 */
 	public Object getItem(int position) {
 	
-		return zDataSource.pick().get(position);
+		return zDataSource.getList().get(position);
 	}
 	
 	/**
@@ -127,12 +126,10 @@ public class BaseDataAdapter extends BaseAdapter implements Observer {
 	
 	protected void bindView(int position, View view) {
 	
-		final Map<String, String> dataSet = zDataSource.pick().get(position)
-				.changeToMap(zKeys);
+		final Map<String, String> dataSet = zDataSource.getData().get(position);
 		if (dataSet == null) {
 			return;
 		}
-		
 		final String[] from = zKeys;
 		final int[] to = zIds;
 		final int count = to.length;
@@ -249,39 +246,5 @@ public class BaseDataAdapter extends BaseAdapter implements Observer {
 	public void update(Observable observable, Object data) {
 	
 		notifyDataSetChanged();
-	}
-	
-	/**
-	 * @return the zDataSource
-	 */
-	public BaseDataSource getzDataSource() {
-	
-		return zDataSource;
-	}
-	
-	/**
-	 * @param zDataSource
-	 *            the zDataSource to set
-	 */
-	public void setzDataSource(BaseDataSource zDataSource) {
-	
-		this.zDataSource = zDataSource;
-	}
-	
-	/**
-	 * @return the zKeys
-	 */
-	public String[] getzKeys() {
-	
-		return zKeys;
-	}
-	
-	/**
-	 * @param zKeys
-	 *            the zKeys to set
-	 */
-	public void setzKeys(String[] zKeys) {
-	
-		this.zKeys = zKeys;
 	}
 }

@@ -5,7 +5,10 @@
  */
 package com.todayedu.ebag.teacher.UIModule;
 
-import android.graphics.Color;
+import java.util.List;
+
+import org.ebag.net.response.ExamResponse;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,8 +20,10 @@ import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
 import com.todayedu.ebag.teacher.DataSource.BaseDataSource;
+import com.todayedu.ebag.teacher.DataSource.DSCallback;
+import com.todayedu.ebag.teacher.DataSource.Data;
 import com.todayedu.ebag.teacher.DataSource.ExamListDS;
-import com.todayedu.ebag.teacher.DataSource.DataObj.Exam;
+import com.todayedu.ebag.teacher.Network.ResponeParseUtil;
 
 /**
  * Show exam list which exam is under special state.This activity has five modes
@@ -31,7 +36,7 @@ import com.todayedu.ebag.teacher.DataSource.DataObj.Exam;
 public class ExamShowActivity extends BaseActivity {
 	
 	/* target header view's text id */
-	private static final int[] allHeadViewTestId = new int[] { R.array.choose,
+	static final int[] allHeadViewTestId = new int[] { R.array.choose,
 	        R.array.start, R.array.correct, R.array.comment, R.array.analysis };
 	/* next target activity's Class */
 	private static final Class<?>[] allTargetActivity = new Class[] {
@@ -55,7 +60,7 @@ public class ExamShowActivity extends BaseActivity {
 	 * Parameters[ParaIndex.EXAMSHOWACTIVITYMODE],so the value in it must range
 	 * from 0 to allHeadViewId.leng,and I didn't check mode's value.
 	 */
-	private int mode = -100;
+	int mode = -100;
 	
 	/**
 	 * @see com.todayedu.ebag.teacher.UIModule.MonitoredActivity#onCreate(android.os.Bundle)
@@ -77,30 +82,54 @@ public class ExamShowActivity extends BaseActivity {
 	}
 	
 	/**
-	 * init the listView1,adapter,ds
+	 * init the lv,adapter,ds
 	 */
-	private void init() {
-	
-		lv = (ListView) findViewById(R.id.el_examlistview);
-		lv.addHeaderView(HeaderViewFactory.createHeaderView2(this,
-		        allHeadViewTestId[mode]));
-		lv.setOnItemClickListener(this);
-		
-		lv.setBackgroundColor(Color.WHITE);
-		lv.setCacheColorHint(Color.WHITE);
+	protected void init() {
 
-		String[] keys = new String[] { "ename", "eid" };
-		ds = new ExamListDS(Exam.class);
+		final String[] keys = new String[] { "ename", "eid" };
+		ds = new ExamListDS(new DSCallback() {
+			
+			@Override
+			public void onLoadSuccess(Object object) {
+			
+				ExamResponse examResponse = (ExamResponse) object;
+				final List<Data> list = ResponeParseUtil
+				        .parseExamResponse(examResponse);
+				ExamShowActivity.this.runOnUiThread(new Runnable() {
+					
+					@Override
+					public void run() {
+					
+						ds.setList(list);
+						ds.createMaps(keys);
+						ds.notifyDataChange();
+					}
+				});
+			}
+			
+			@Override
+			public void onLoadFailed(Throwable throwable) {
+			
+				if (throwable != null) {
+					Log.i(TAG, throwable.getMessage());
+				}
+				showToast("º”‘ÿ ˝æ› ß∞‹");
+			}
+		});
 		ds.load(this);
 
-		int[] zTextView_ID = new int[] { R.id.lv1_tv_1 };
-		int zLayout_ID = R.layout.lv_1;
+		adapter = new BaseDataAdapter(this, ds, R.layout.lv_1,
+		        new int[] { R.id.lv1_tv_1 }, keys);
+		ds.addObserver(adapter);
 
-		adapter = new BaseDataAdapter(this, ds, zLayout_ID, keys, zTextView_ID);
-		lv.setAdapter(adapter);
+		lv = (ListView) findViewById(R.id.el_examlistview);
+		View headerView = HeaderViewFactory.createHeaderView2(this,
+		        allHeadViewTestId[mode]);
+		initListView(lv, headerView, adapter);
+		
 		// addLifeCycleListener(adapter);
 	}
-	
+
 	public void onExamSynch(View view) {
 	
 	}
@@ -113,8 +142,7 @@ public class ExamShowActivity extends BaseActivity {
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 	        long id) {
 	
-		String eid = adapter.getzDataSource().pick().get(position - 1)
-		        .valueOfKey("eid");
+		String eid = ds.getData().get(position-1).get("eid");
 		Parameters.add(eid, ParaIndex.EID_INDEX);
 		start(allTargetActivity[mode]);
 	}

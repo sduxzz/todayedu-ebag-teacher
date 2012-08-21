@@ -5,9 +5,6 @@
  */
 package com.todayedu.ebag.teacher.Database;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -17,9 +14,6 @@ import android.util.Log;
 
 import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.Parameters.ParaIndex;
-import com.todayedu.ebag.teacher.DataSource.BaseDataSource;
-import com.todayedu.ebag.teacher.DataSource.Data;
-import com.todayedu.ebag.teacher.DataSource.DataSourceLoader;
 import com.todayedu.ebag.teacher.DataSource.DataObj.EClass;
 import com.todayedu.ebag.teacher.DataSource.DataObj.Exam;
 import com.todayedu.ebag.teacher.DataSource.DataObj.Problem;
@@ -94,40 +88,40 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 	 * @param loader
 	 * @return
 	 */
-	public List<Data> query2MapList(String sql, String[] selectionArgs,
-	        DataSourceLoader loader) {
-	
-		Log.d(TAG, "[query2MapList]: " + sql);
-		List<Data> list = new ArrayList<Data>();
-		SQLiteDatabase db = this.getReadableDatabase();
-		BaseDataSource ds = loader.getzDataSource();
-		Class<? extends Data> cl = ds.getzClass();
-		Cursor cursor = db.rawQuery(sql, selectionArgs);
-		try {
-			Data entity;
-			int count = cursor.getCount();
-			int num = 0;
-			if (cursor.moveToFirst()) {
-				do {
-					num++;
-					entity = cl.newInstance();
-					entity.fillData(cursor);
-					list.add(entity);
-					loader.onPublishProgress(num * 10 / count * 10);
-				} while (cursor.moveToNext());
-			}
-		} catch (Exception e) {
-			Log.e(TAG, "[query2MapList] from DB exception");
-		} finally {
-			if (cursor != null) {
-				cursor.close();
-			}
-			if (db != null) {
-				db.close();
-			}
-		}
-		return list;
-	}
+	// public List<Data> query2MapList(String sql, String[] selectionArgs,
+	// DataSourceLoader loader) {
+	//
+	// Log.d(TAG, "[query2MapList]: " + sql);
+	// List<Data> list = new ArrayList<Data>();
+	// SQLiteDatabase db = this.getReadableDatabase();
+	// BaseDataSource ds = loader.getzDataSource();
+	// Class<? extends Data> cl = ds.getzClass();
+	// Cursor cursor = db.rawQuery(sql, selectionArgs);
+	// try {
+	// Data entity;
+	// int count = cursor.getCount();
+	// int num = 0;
+	// if (cursor.moveToFirst()) {
+	// do {
+	// num++;
+	// entity = cl.newInstance();
+	// entity.fillData(cursor);
+	// list.add(entity);
+	// loader.onPublishProgress(num * 10 / count * 10);
+	// } while (cursor.moveToNext());
+	// }
+	// } catch (Exception e) {
+	// Log.e(TAG, "[query2MapList] from DB exception");
+	// } finally {
+	// if (cursor != null) {
+	// cursor.close();
+	// }
+	// if (db != null) {
+	// db.close();
+	// }
+	// }
+	// return list;
+	// }
 
 	public String queryProState(int pid) {
 	

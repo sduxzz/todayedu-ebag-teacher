@@ -27,9 +27,10 @@ public class ClassInfoHandler extends BaseNetworkHandler {
 	 * @param dataSource
 	 * @param classId
 	 */
-	public ClassInfoHandler(Context context, int classId) {
+	public ClassInfoHandler(Context context, NetworkCallBack callBack,
+	        int classId) {
 	
-		super(context);
+		super(context, callBack);
 		this.classId = classId;
 	}
 

@@ -18,7 +18,7 @@ import com.todayedu.ebag.teacher.Database.DataBaseHelper;
  * @param <T>
  * 
  */
-public class DataSourceLoader extends AsyncTask<Context, Integer, List<Data>> {
+public class DBLoader extends AsyncTask<Context, Integer, List<Data>> {
 	
 	public static final String TAG = "DataSourceLoader";
 	
@@ -27,7 +27,7 @@ public class DataSourceLoader extends AsyncTask<Context, Integer, List<Data>> {
 	protected String zSql;
 	protected String[] zSA;
 
-	public DataSourceLoader(BaseDataSource dataSource, Context context,
+	public DBLoader(BaseDataSource dataSource, Context context,
 			String sql, String[] selectionArgs) {
 	
 		zDataSource = dataSource;
@@ -52,7 +52,8 @@ public class DataSourceLoader extends AsyncTask<Context, Integer, List<Data>> {
 	
 		Context context = params[0];
 		DataBaseHelper helper = new DataBaseHelper(context);
-		return helper.query2MapList(zSql, zSA, this);
+		// return helper.query2MapList(zSql, zSA, this);
+		return null;
 	}
 
 	/**
@@ -77,7 +78,7 @@ public class DataSourceLoader extends AsyncTask<Context, Integer, List<Data>> {
 	
 		zDialog.dismiss();
 
-		zDataSource.store(result);
+		zDataSource.setList(result);
 		zDataSource.notifyDataChange();
 	}
 

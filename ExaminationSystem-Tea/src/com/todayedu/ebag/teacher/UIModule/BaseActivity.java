@@ -9,16 +9,19 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.Toast;
 
 /**
  * the base activity i used on my application it supplies some useful method
- * that call safely through other thread. it will notify the listeners which are
- * registered on it notification list
+ * that call safely through other thread. it also will notify the listeners
+ * which are registered on it notification list
  * 
  * @author zhenzxie
  * 
@@ -117,6 +120,34 @@ public class BaseActivity extends Activity implements OnItemClickListener {
 		});
 	}
 	
+	/**
+	 * {@link #showToast(int, int)}
+	 * 
+	 * @param resourceId
+	 */
+	public void showToast(int resourceId) {
+	
+		showToast(resourceId, 0);
+	}
+	
+	/**
+	 * show a toast with specific message and duration
+	 * 
+	 * @param resourceId
+	 * @param duration
+	 */
+	public void showToast(final int resourceId, final int duration) {
+	
+		this.runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+			
+				Toast.makeText(BaseActivity.this, resourceId, duration).show();
+			}
+		});
+	}
+
 	public void start(Class<?> cls) {
 	
 		Intent intent = new Intent(this, cls);
@@ -222,4 +253,19 @@ public class BaseActivity extends Activity implements OnItemClickListener {
     
     	zListeners.remove(listener);
     }
+
+	/**
+     * @param lv
+     * @param headerView
+     */
+	protected void initListView(ListView lv, View headerView,
+	        BaseAdapter adapter) {
+    
+        lv.addHeaderView(headerView);
+    	lv.setOnItemClickListener(this);
+    	lv.setBackgroundColor(Color.WHITE);
+    	lv.setCacheColorHint(Color.WHITE);
+		lv.setAdapter(adapter);
+    }
+
 }

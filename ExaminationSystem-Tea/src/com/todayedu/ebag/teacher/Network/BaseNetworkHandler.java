@@ -24,10 +24,12 @@ public abstract class BaseNetworkHandler implements IoHandler {
 	protected String TAG = this.getClass().getSimpleName();
 	protected Context zContext;
 	private ProgressDialog zDialog;
-
-	public BaseNetworkHandler(Context context) {
+	protected NetworkCallBack networkCallBack;
+	
+	public BaseNetworkHandler(Context context, NetworkCallBack callBack) {
 	
 		this.zContext = context;
+		this.networkCallBack = callBack;
 	}
 
 	/**
@@ -90,6 +92,7 @@ public abstract class BaseNetworkHandler implements IoHandler {
 	
 		Log.i(TAG, "exceptionCaught");
 		cause.printStackTrace();
+		networkCallBack.failed(cause);
 		dismiss();
 	}
 	

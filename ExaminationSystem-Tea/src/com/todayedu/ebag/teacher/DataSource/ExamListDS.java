@@ -6,20 +6,18 @@
 package com.todayedu.ebag.teacher.DataSource;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.ebag.net.response.ExamResponse;
-
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
 import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.Parameters.ParaIndex;
+import com.todayedu.ebag.teacher.DataSource.DataObj.Exam;
 import com.todayedu.ebag.teacher.Network.ExamHandler;
-import com.todayedu.ebag.teacher.Network.ExamHandler.ExamCallBack;
 import com.todayedu.ebag.teacher.Network.NetworkClient;
-import com.todayedu.ebag.teacher.Network.ResponeParseUtil;
 
 /**
  * this DataSource is used for ExamShowActivity
@@ -29,9 +27,9 @@ import com.todayedu.ebag.teacher.Network.ResponeParseUtil;
  */
 public class ExamListDS extends BaseDataSource {
 
-	public ExamListDS(Class<? extends Data> cl) {
+	public ExamListDS(DSCallback callback) {
 	
-		super(cl);
+		super(callback);
 	}
 
 	@Override
@@ -53,7 +51,7 @@ public class ExamListDS extends BaseDataSource {
 	}
 
 	@Override
-	public void download(final Context context) {
+	public void download(Context context) {
 	
 		int cid = Parameters.get(ParaIndex.CID_INDEX);
 		int state = Parameters.get(ParaIndex.EXAMSTATE_INDEX);
@@ -71,33 +69,28 @@ public class ExamListDS extends BaseDataSource {
 			e.printStackTrace();
 		}
 
-		ExamCallBack callBack = new ExamCallBack() {
-			
-			@Override
-			public void examSuccess(ExamResponse examResponse) {
-			
-				final List<Data> list = ResponeParseUtil
-				        .parseExamResponse(examResponse);
-				((Activity) context).runOnUiThread(new Runnable() {
-					
-					@Override
-					public void run() {
-					
-						ExamListDS.this.store(list);
-						ExamListDS.this.notifyDataChange();
-					}
-				});
-			}
-			
-			@Override
-			public void examError(Throwable cause) {
-
-				Log.i(TAG, cause.getMessage());
-			}
-		};
 		NetworkClient client = new NetworkClient();
-		client.setHandler(new ExamHandler(context, callBack, cid, stateList,
+		client.setHandler(new ExamHandler(context, this, cid, stateList,
 		        null, fieldList));
 		client.connect();
+	}
+	
+	/**
+	 * @see com.todayedu.ebag.teacher.DataSource.BaseDataSource#fillMaps()
+	 */
+	@Override
+	public void createMaps(String[] keys) {
+	
+		List<? extends Data> list = this.getList();
+		List<Map<String, String>> maps = this.getData();
+		Map<String, String> map = null;
+		Exam exam = null;
+		for (Data data : list) {
+			exam = (Exam) data;
+			map = new HashMap<String, String>();
+			map.put(keys[0], exam.getEname());
+			map.put(keys[1], String.valueOf(exam.getState()));
+			maps.add(map);
+		}
 	}
 }

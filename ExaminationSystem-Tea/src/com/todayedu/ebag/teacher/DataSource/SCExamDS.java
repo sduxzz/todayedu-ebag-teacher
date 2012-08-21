@@ -15,11 +15,9 @@ import android.content.Context;
  */
 public class SCExamDS extends BaseDataSource {
 
+	public SCExamDS(DSCallback callback) {
 	
-	
-	public SCExamDS(Class<Data> cl) {
-	
-		super(cl);
+		super(callback);
 	}
 
 	@Override
@@ -28,16 +26,13 @@ public class SCExamDS extends BaseDataSource {
 	}
 	
 	@Override
-	public boolean save(Context context) {
-	
-		return false;
-	}
-	
-	@Override
 	public void download(Context context) {
 	
 	}
 	
-
+	@Override
+	public void createMaps(String[] keys) {
+	
+	}
 	
 }

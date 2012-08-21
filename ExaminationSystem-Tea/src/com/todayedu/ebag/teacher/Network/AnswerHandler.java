@@ -36,10 +36,10 @@ public class AnswerHandler extends BaseNetworkHandler {
 	 * @param idList
 	 * @param fieldList
 	 */
-	public AnswerHandler(Context context, int uid, int examId,
-	        List<Integer> idList, List<String> fieldList) {
+	public AnswerHandler(Context context, NetworkCallBack callBack, int uid,
+	        int examId, List<Integer> idList, List<String> fieldList) {
 	
-		super(context);
+		super(context, callBack);
 		this.uid = uid;
 		this.examId = examId;
 		this.idList = idList;

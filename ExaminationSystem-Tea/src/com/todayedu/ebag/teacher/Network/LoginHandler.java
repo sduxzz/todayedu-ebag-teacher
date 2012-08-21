@@ -18,25 +18,18 @@ import android.content.Context;
  *
  */
 public class LoginHandler extends BaseNetworkHandler {
-	
-	public interface LoginCallBack {
-		
-		public void loginSuccess(LoginResponse response);
-		
-		public void loginError(LoginResponse response, Throwable cause);
-	}
 
 	public String uname;
 	public String upwd;
-	public LoginCallBack callBack;
+	public NetworkCallBack networkCallBack;
 	
 	public LoginHandler(Context context, String uname, String upwd,
-	        LoginCallBack callBack) {
+	        NetworkCallBack networkCallBack) {
 	
-		super(context);
+		super(context, networkCallBack);
 		this.uname = uname;
 		this.upwd = upwd;
-		this.callBack = callBack;
+		this.networkCallBack = networkCallBack;
 	}
 
 	/**
@@ -54,17 +47,6 @@ public class LoginHandler extends BaseNetworkHandler {
 	}
 	
 	/**
-	 * @see org.apache.mina.core.service.IoHandler#exceptionCaught(org.apache.mina.core.session.IoSession, java.lang.Throwable)
-	 */
-	@Override
-	public void exceptionCaught(IoSession session, Throwable cause)
-			throws Exception {
-	
-		super.exceptionCaught(session, cause);
-		callBack.loginError(null, cause);
-	}
-	
-	/**
 	 * @see org.apache.mina.core.service.IoHandler#messageReceived(org.apache.mina.core.session.IoSession,
 	 *      java.lang.Object)
 	 */
@@ -76,9 +58,10 @@ public class LoginHandler extends BaseNetworkHandler {
 		if (message instanceof LoginResponse) {
 			LoginResponse response = (LoginResponse) message;
 			if (response.result == signal.login_true) {
-				callBack.loginSuccess(response);
+				networkCallBack.success(response);
 			} else {
-				callBack.loginError(response, null);
+				networkCallBack.failed(new Throwable(
+				        "The return isn't correct type"));
 			}
 		}
 	}

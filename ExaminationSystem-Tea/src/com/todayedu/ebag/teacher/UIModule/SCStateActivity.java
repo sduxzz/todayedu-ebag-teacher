@@ -16,7 +16,6 @@ import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
 import com.todayedu.ebag.teacher.DataSource.SCStateDS;
-import com.todayedu.ebag.teacher.DataSource.DataObj.Problem;
 import com.todayedu.ebag.teacher.Database.DataBaseHelper;
 
 /**
@@ -48,17 +47,26 @@ public class SCStateActivity extends BaseActivity {
 		        R.id.lv3_tv_3 };
 		int zLayout_ID = R.layout.lv_3;
 		
-		adapter = new BaseDataAdapter(this, new SCStateDS(Problem.class),
-		        zLayout_ID, null, zTextView_ID);
+		adapter = new BaseDataAdapter(this, new SCStateDS(null), zLayout_ID,
+		        zTextView_ID, null);
 		elView.setAdapter(adapter);
-		//addLifeCycleListener(adapter);
+		// addLifeCycleListener(adapter);
 		
 		DataBaseHelper helper = new DataBaseHelper(this);
 		SQLiteDatabase database = helper.getReadableDatabase();
 		Cursor cursor = database
-				.rawQuery(
-						"select sname,STUDENT.sid,state from STUDENT,ES where STUDENT.sid = ES.sid and eid = ?",
-						new String[] { Parameters.getStr(ParaIndex.EID_INDEX) });//TODO:how to get information about exam's address and exam's people
+		        .rawQuery(
+		                "select sname,STUDENT.sid,state from STUDENT,ES where STUDENT.sid = ES.sid and eid = ?",
+		                new String[] { Parameters.getStr(ParaIndex.EID_INDEX) });// TODO:how
+		                                                                         // to
+		                                                                         // get
+		                                                                         // information
+		                                                                         // about
+		                                                                         // exam's
+		                                                                         // address
+		                                                                         // and
+		                                                                         // exam's
+		                                                                         // people
 		if (cursor.moveToFirst()) {
 			getAndSet(tv_2, "", cursor);
 			getAndSet(tv_4, "", cursor);

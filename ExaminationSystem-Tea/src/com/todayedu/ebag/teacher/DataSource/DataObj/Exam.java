@@ -48,13 +48,6 @@ public class Exam extends Data {
 
 	}
 	
-	
-
-	public boolean save(Context context) {
-	
-		return false;
-	}
-
 	/**
 	 * convert ExamObj to Exam this method can rename the exam's name according
 	 * to the count of the same of exam,but it will cost more time

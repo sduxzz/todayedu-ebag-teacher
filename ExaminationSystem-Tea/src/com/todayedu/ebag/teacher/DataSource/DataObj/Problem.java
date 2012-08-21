@@ -106,7 +106,7 @@ public class Problem extends Data {
 	}
 
 	@Override
-	public boolean save(Context context) {
+	public void save(Context context) {
 	
 		if (helper == null) {
 			helper = new DataBaseHelper(context);
@@ -117,7 +117,6 @@ public class Problem extends Data {
 		cv.put("cid", cid);
 		cv.put("state", state);
 		helper.insert(Problem.class, this, "PROBLEM", cv);
-		return true;
 	}
 	
 	/**

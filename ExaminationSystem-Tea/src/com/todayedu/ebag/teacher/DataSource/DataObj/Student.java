@@ -11,8 +11,6 @@ import java.util.Map;
 
 import org.ebag.net.response.ClassInfoResponse;
 
-import android.content.Context;
-
 import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.DataSource.Data;
@@ -46,13 +44,6 @@ public class Student extends Data {
 		this.sid = sid;
 		this.cid = classid;
 		this.sname = sname;
-	}
-	
-	@Override
-	public boolean save(Context context) {
-	
-		return false;
-	
 	}
 
 	@Override

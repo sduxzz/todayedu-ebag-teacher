@@ -16,8 +16,8 @@ import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.DataSource.DataObj.EClass;
 import com.todayedu.ebag.teacher.Network.LoginHandler;
-import com.todayedu.ebag.teacher.Network.LoginHandler.LoginCallBack;
 import com.todayedu.ebag.teacher.Network.NetWorkUtil;
+import com.todayedu.ebag.teacher.Network.NetworkCallBack;
 import com.todayedu.ebag.teacher.Network.NetworkClient;
 import com.todayedu.ebag.teacher.Network.ResponeParseUtil;
 
@@ -56,21 +56,22 @@ public class WelcomeActivity extends BaseActivity {
 
 			final NetworkClient client = new NetworkClient();
 			client.setHandler(new LoginHandler(this, name, password,
-			        new LoginCallBack() {
+			        new NetworkCallBack() {
 				        
 				        @Override
-				        public void loginSuccess(LoginResponse response) {
+				        public void success(Object response) {
 				        
-					        Euser user = response.user;
+					        LoginResponse loginResponse = (LoginResponse) response;
+					        Euser user = loginResponse.user;
 					        Parameters.add(user.getId(), ParaIndex.UID_INDEX);//add uid to globle parameter
 
 					        ArrayList<EClass> list = ResponeParseUtil
-					                .parseLoginResponse(response);
+					                .parseLoginResponse(loginResponse);
 					        start(list);
 				        }
 				        
 				        @Override
-				        public void loginError(LoginResponse response, Throwable cause) {
+				        public void failed(Throwable cause) {
 				        
 					        if (cause != null) {
 						        Log.i("WelcomeActivity", cause.getMessage());

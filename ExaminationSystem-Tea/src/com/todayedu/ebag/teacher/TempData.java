@@ -59,12 +59,12 @@ public class TempData {
 
 	public static boolean isLast() {
 	
-		return zIndex == zDataSource.pick().size() - 1;
+		return zIndex == zDataSource.getList().size() - 1;
 	}
 	
 	private static String get(int index, String key) {
 	
-		Data data = zDataSource.pick().get(index);
+		Data data = zDataSource.getList().get(index);
 		Class<? extends Data> cl = data.getClass();
 		Field field = null;
 		String value = null;
@@ -80,7 +80,7 @@ public class TempData {
 	
 	private static void set(int index, String value) {
 	
-		Data data = zDataSource.pick().get(index);
+		Data data = zDataSource.getList().get(index);
 		data.setState(value);
 	}
 }

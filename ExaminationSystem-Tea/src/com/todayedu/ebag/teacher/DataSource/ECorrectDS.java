@@ -15,10 +15,10 @@ import com.todayedu.ebag.teacher.Parameters.ParaIndex;
  * 
  */
 public class ECorrectDS extends BaseDataSource {
+
+	public ECorrectDS(DSCallback callback) {
 	
-	public ECorrectDS(Class<? extends Data> cl) {
-	
-		super(cl);
+		super(callback);
 	}
 
 	@Override
@@ -43,8 +43,7 @@ public class ECorrectDS extends BaseDataSource {
 	}
 	
 	@Override
-	public boolean save(Context context) {
+	public void createMaps(String[] keys) {
 	
-		return false;
 	}
 }

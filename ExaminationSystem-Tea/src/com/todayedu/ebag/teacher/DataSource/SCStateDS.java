@@ -16,9 +16,10 @@ import android.content.Context;
 public class SCStateDS extends BaseDataSource {
 
 	
-	public SCStateDS(Class<? extends Data> cl) {
 	
-		super(cl);
+	public SCStateDS(DSCallback callback) {
+	
+		super(callback);
 	}
 
 	@Override
@@ -27,15 +28,12 @@ public class SCStateDS extends BaseDataSource {
 	}
 
 	@Override
-	public boolean save(Context context) {
-	
-		return false;
-	}
-	
-	@Override
 	public void download(Context context) {
 	
 	}
-	
 
+	@Override
+	public void createMaps(String[] keys) {
+	
+	}
 }

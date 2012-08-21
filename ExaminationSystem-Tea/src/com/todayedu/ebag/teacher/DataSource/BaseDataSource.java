@@ -6,81 +6,70 @@
 package com.todayedu.ebag.teacher.DataSource;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
-import java.util.Observer;
 
 import android.content.Context;
 import android.widget.Toast;
 
 import com.todayedu.ebag.teacher.R;
-import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
 import com.todayedu.ebag.teacher.Network.NetWorkUtil;
-
-
+import com.todayedu.ebag.teacher.Network.NetworkCallBack;
+import com.todayedu.ebag.teacher.UIModule.BaseActivity;
+import com.todayedu.ebag.teacher.UIModule.BaseActivity.LifeCycleListener;
 
 /**
  * @author zhenzxie
  * 
  */
-public abstract class BaseDataSource extends Observable {
+public abstract class BaseDataSource extends Observable implements LifeCycleListener, NetworkCallBack {
 	
 	protected String TAG = this.getClass().getSimpleName();
-	protected List<Data> zList = new ArrayList<Data>();
-	protected Class<? extends Data> zClass;
-	protected BaseDataAdapter zAdapter;
+	protected List<? extends Data> list = new ArrayList<Data>();
+	protected List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+	protected DSCallback callback;
 
-	public BaseDataSource(Class<? extends Data> cl) {
+	public BaseDataSource(DSCallback callback) {
 	
-		this.zClass = cl;
+		this.callback = callback;
 	}
 
 	/**
-	 * 
-	 * @see com.todayedu.ebag.teacher.DataSource.DataSource#save(android.content.Context)
+	 * fill List<Map<String,String> with specified keys
 	 */
-	public boolean save(Context context) {
-	
-		Iterator<Data> iterator = zList.iterator();
-		boolean result = true;
-		while (iterator.hasNext()) {
-			if (result) {
-				result = iterator.next().save(context);
-			} else {
-				iterator.next().save(context);
-			}
-		}
-		return result;
-	}
-	
+	public abstract void createMaps(String[] keys);
+
 	/**
 	 * load the data from the local database.
 	 * 
 	 * @param context
+	 * 
 	 */
-	public abstract void localload(Context context);
+	protected abstract void localload(Context context);
 	
 	/**
 	 * down load the data from server
 	 * 
 	 * @param context
+	 * 
 	 */
-	public abstract void download(Context context);
+	protected abstract void download(Context context);
 	
 	/**
 	 * load the data from server if network is available or local database if
 	 * there isn't network connection.
 	 * 
 	 * @param context
+	 * 
 	 */
 	public final void load(Context context) {
 	
 		if (NetWorkUtil.isConnected(context)) {
 			download(context);
 		} else {
-			Toast.makeText(context, R.string.sp_networkalter, Toast.LENGTH_LONG)
-					.show();
+			// TODO:showToast肯能不需要
+			((BaseActivity)context).showToast(R.string.sp_networkalter,Toast.LENGTH_LONG);
 			localload(context);
 		}
 	}
@@ -95,58 +84,122 @@ public abstract class BaseDataSource extends Observable {
 	 */
 	protected void localload(Context context, String sql, String[] selectArgs) {
 	
-		DataSourceLoader loader = new DataSourceLoader(this, context,
-				sql, selectArgs);
+		DBLoader loader = new DBLoader(this, context, sql,
+		        selectArgs);
 		loader.execute(context);
+	}
+	
+	/**
+	 * 
+	 * @see com.todayedu.ebag.teacher.DataSource.DataSource#save(android.content.Context)
+	 */
+	public void save(Context context) {
+	
+		for (Data d : list) {
+			d.save(context);
+		}
 	}
 
 	public void notifyDataChange() {
-    
-    	setChanged();
-    	notifyObservers();
-    	clearChanged();
-    }
+	
+		setChanged();
+		notifyObservers();
+		clearChanged();
+	}
+	
+	/**
+	 * @return the list
+	 */
+	public List<? extends Data> getList() {
+	
+		return list;
+	}
+	
+	/**
+	 * set the list and fill the Maps
+	 * 
+	 * @param list
+	 *            the list to set
+	 */
+	public void setList(List<? extends Data> list) {
+	
+		this.list = list;
+	}
+	
+	/**
+	 * @return the data
+	 */
+	public List<Map<String, String>> getData() {
+	
+		return data;
+	}
+	
+	/**
+	 * @see com.todayedu.ebag.teacher.UIModule.BaseActivity.LifeCycleListener#onActivityCreated(com.todayedu.ebag.teacher.UIModule.BaseActivity)
+	 */
+	@Override
+	public void onActivityCreated(BaseActivity activity) {
+	
+	}
+	
+	/**
+	 * @see com.todayedu.ebag.teacher.UIModule.BaseActivity.LifeCycleListener#onActivityStarted(com.todayedu.ebag.teacher.UIModule.BaseActivity)
+	 */
+	@Override
+	public void onActivityStarted(BaseActivity activity) {
+	
+	}
+	
+	/**
+	 * @see com.todayedu.ebag.teacher.UIModule.BaseActivity.LifeCycleListener#onActivityResumed(com.todayedu.ebag.teacher.UIModule.BaseActivity)
+	 */
+	@Override
+	public void onActivityResumed(BaseActivity activity) {
+	
+	}
+	
+	/**
+	 * @see com.todayedu.ebag.teacher.UIModule.BaseActivity.LifeCycleListener#onActivityPaused(com.todayedu.ebag.teacher.UIModule.BaseActivity)
+	 */
+	@Override
+	public void onActivityPaused(BaseActivity activity) {
+	
+	}
+	
+	/**
+	 * @see com.todayedu.ebag.teacher.UIModule.BaseActivity.LifeCycleListener#onActivityStopped(com.todayedu.ebag.teacher.UIModule.BaseActivity)
+	 */
+	@Override
+	public void onActivityStopped(BaseActivity activity) {
+	
+	}
+	
+	/**
+	 * @see com.todayedu.ebag.teacher.UIModule.BaseActivity.LifeCycleListener#onActivityDestroyed(com.todayedu.ebag.teacher.UIModule.BaseActivity)
+	 */
+	@Override
+	public void onActivityDestroyed(BaseActivity activity) {
+	
+	}
+	
+	/**
+	 * 
+	 * @see com.todayedu.ebag.teacher.Network.NetworkCallBack#success(java.lang.Object)
+	 */
+	@Override
+	public void success(Object response) {
+	
+		callback.onLoadSuccess(response);
+	}
 
 	/**
-     * @see java.util.Observable#addObserver(java.util.Observer)
-     */
-    @Override
-    public void addObserver(Observer observer) {
-    
-    	super.addObserver(observer);
-    	zAdapter = (BaseDataAdapter) observer;
-    }
-
-	public void store(List<Data> list) {
-    
-    	zList = list;
-    }
-
-	public List<Data> pick() {
-    
-    	return zList;
-    }
-
-	public BaseDataAdapter getAdapter() {
-    
-    	return zAdapter;
-    }
-
-	/**
-     * @return the zClass
-     */
-    public Class<? extends Data> getzClass() {
-    
-    	return zClass;
-    }
-
-	/**
-     * @param zClass
-     *            the zClass to set
-     */
-    public void setzClass(Class<? extends Data> zClass) {
-    
-    	this.zClass = zClass;
-    }
+	 * 
+	 * @see com.todayedu.ebag.teacher.Network.NetworkCallBack#failed(java.lang.Throwable)
+	 */
+	@Override
+	public void failed(Throwable throwable) {
+	
+		callback.onLoadFailed(throwable);
+	}
 
 }

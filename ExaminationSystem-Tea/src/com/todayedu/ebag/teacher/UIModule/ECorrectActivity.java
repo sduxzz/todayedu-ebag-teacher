@@ -10,8 +10,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.todayedu.ebag.teacher.Parameters;
-import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
 
@@ -51,10 +49,10 @@ public class ECorrectActivity extends BaseActivity {
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 	
-		String sid = adapter.getzDataSource().pick().get(position - 1)
-				.valueOfKey("sid");
-		Parameters.add(sid, ParaIndex.SID_INDEX);
-		start(ECSActivity.class);
+		// String sid = adapter.getzDataSource().getList().get(position - 1)
+		// .valueOfKey("sid");
+		// Parameters.add(sid, ParaIndex.SID_INDEX);
+		// start(ECSActivity.class);
 	}
 
 }

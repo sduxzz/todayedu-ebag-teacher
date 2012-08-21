@@ -7,8 +7,6 @@ package com.todayedu.ebag.teacher.DataSource.DataObj;
 
 import java.io.Serializable;
 
-import android.content.Context;
-
 import com.todayedu.ebag.teacher.DataSource.Data;
 import com.todayedu.ebag.teacher.Database.annotation.Column;
 import com.todayedu.ebag.teacher.Database.annotation.Id;
@@ -46,13 +44,6 @@ public class EClass extends Data implements Serializable {
 	
 		this.cid = cid;
 		this.cname = cname;
-	}
-	
-	@Override
-	public boolean save(Context context) {
-	
-		return false;
-	
 	}
 	
 	/**
