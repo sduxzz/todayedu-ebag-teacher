@@ -41,6 +41,7 @@ public class PCommentActivity extends BaseActivity {
 	
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list);
+		Log.i(TAG, "onCreate");
 
 		final String[] keys = new String[] { "number", "state" };
 		ds = new PCommentDS(new DSCallback() {
@@ -88,6 +89,20 @@ public class PCommentActivity extends BaseActivity {
 
 	}
 	
+	/**
+	 * @see com.todayedu.ebag.teacher.UIModule.BaseActivity#onResume()
+	 */
+	@Override
+	protected void onResume() {
+	
+		super.onResume();
+		Log.i(TAG, "onResume");
+		if (ds != null && adapter != null) {
+			ds.notifyDataChange();
+			Log.i(TAG, "onResume notifyDataChange");
+		}
+	}
+
 	/**
 	 * @see com.todayedu.ebag.teacher.UIModule.BaseActivity#onItemClick(android.widget.AdapterView,
 	 *      android.view.View, int, long)
