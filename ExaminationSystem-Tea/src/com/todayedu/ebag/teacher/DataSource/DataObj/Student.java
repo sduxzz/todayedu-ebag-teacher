@@ -7,7 +7,6 @@ package com.todayedu.ebag.teacher.DataSource.DataObj;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.ebag.net.response.ClassInfoResponse;
 
@@ -34,24 +33,21 @@ public class Student extends Data {
 	private int cid;
 	@Column(name = "sname")
 	private String sname;
+	private String state;
 	
 	public Student() {
 
 	}
 
-	public Student(int sid, int classid, String sname) {
-
+	public Student(int sid, int cid, String sname, String state) {
+	
+		super();
 		this.sid = sid;
-		this.cid = classid;
+		this.cid = cid;
 		this.sname = sname;
+		this.state = state;
 	}
 
-	@Override
-	public Map<String, String> changeToMap(String[] keys) {
-	
-		return null;
-	}
-	
 	public static List<Data> parse(ClassInfoResponse response){
 		
 		List<Integer> studentIdList = response.getStudentIdList();
@@ -69,6 +65,7 @@ public class Student extends Data {
 		return list;
 	}
 
+	
 	/**
 	 * @return the sid
 	 */
@@ -87,23 +84,23 @@ public class Student extends Data {
 	}
 	
 	/**
-	 * @return the classid
+	 * @return the cid
 	 */
-	public int getClassid() {
+	public int getCid() {
 	
 		return cid;
 	}
 	
 	/**
-	 * @param classid
-	 *            the classid to set
+	 * @param cid
+	 *            the cid to set
 	 */
-	public void setClassid(int classid) {
+	public void setCid(int cid) {
 	
-		this.cid = classid;
+		this.cid = cid;
 	}
 	
-	/**
+    /**
 	 * @return the sname
 	 */
 	public String getSname() {
@@ -121,12 +118,29 @@ public class Student extends Data {
 	}
 	
 	/**
+	 * @return the state
+	 */
+	public String getState() {
+	
+		return state;
+	}
+	
+	/**
+	 * @param state
+	 *            the state to set
+	 */
+	public void setState(String state) {
+	
+		this.state = state;
+	}
+	
+	/**
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 	
-		return "StudentObj [sid=" + sid + ", classid=" + cid + ", sname="
-				+ sname + "]";
+		return "Student [sid=" + sid + ", cid=" + cid + ", sname=" + sname
+		        + ", state=" + state + "]";
 	}
 }

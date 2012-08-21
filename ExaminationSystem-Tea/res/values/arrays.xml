@@ -19,7 +19,6 @@
     
     <string-array name="exam_preview">
         <item>@string/comm_pro_id</item>
-        <item>@string/comm_pro_content</item>
         <item>@string/comm_pro_score</item>
     </string-array>
     

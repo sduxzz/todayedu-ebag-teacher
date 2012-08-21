@@ -5,17 +5,24 @@
  */
 package com.todayedu.ebag.teacher.UIModule;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import java.util.List;
+
+import org.ebag.net.response.ExamResponse;
+
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.todayedu.ebag.teacher.Parameters;
-import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
-import com.todayedu.ebag.teacher.Database.DataBaseHelper;
+import com.todayedu.ebag.teacher.DataSource.DSCallback;
+import com.todayedu.ebag.teacher.DataSource.Data;
+import com.todayedu.ebag.teacher.DataSource.SCExamDS;
+import com.todayedu.ebag.teacher.DataSource.DataObj.Exam;
+import com.todayedu.ebag.teacher.Network.ResponeParseUtil;
 
 /**
  * @author zhenzxie
@@ -24,10 +31,11 @@ import com.todayedu.ebag.teacher.Database.DataBaseHelper;
 public class SCExamActivity extends BaseActivity {
 	
 	private BaseDataAdapter adapter;
+	private SCExamDS ds;
 	private TextView tv_2;
 	private TextView tv_4;
 	private TextView tv_6;
-	private ListView elView;
+	private ListView lv;
 
 	/**
 	 * @see com.todayedu.ebag.teacher.UIModule.MonitoredActivity#onCreate(android.os.Bundle)
@@ -40,30 +48,54 @@ public class SCExamActivity extends BaseActivity {
 		tv_2 = (TextView) findViewById(R.id.scexam_tv2);
 		tv_4 = (TextView) findViewById(R.id.scexam_tv4);
 		tv_6 = (TextView) findViewById(R.id.scexam_tv6);
-		elView = (ListView) findViewById(R.id.scexam);
-		elView.addHeaderView(HeaderViewFactory.createHeaderView2(this,
-		        R.array.exam_preview));
-		// adapter = new DataAdapter3(this, new SCExamDS(this),
-		// elView.zLayout_ID, elView.zTextView_KEY, elView.zTextView_ID);
-		// elView.bindAdapter(adapter);
-		// addLifeCycleListener(adapter);
+		Exam exam = Parameters.getExam();
+		tv_2.setText(exam.getEname());
+		tv_4.setText(String.valueOf(exam.getTotal()) + "分");
+		tv_6.setText(String.valueOf(exam.getEtime()));
 		
-		DataBaseHelper helper = new DataBaseHelper(this);
-		SQLiteDatabase database = helper.getReadableDatabase();
-		Cursor cursor = database
-				.rawQuery(
-						"select ename,etotal,etime, from PROBLEM,EXAM,EP where PROBLEM.pid = EP.pid and EXAM.Eid = EP.eid and EXAM.eid = ?",
-						new String[] { Parameters.getStr(ParaIndex.EID_INDEX) });
-		if (cursor.moveToFirst()) {
-			getAndSet(tv_2, "ename", cursor);
-			getAndSet(tv_4, "etotal", cursor);
-			getAndSet(tv_6, "etime", cursor);
-		}
+		final String[] keys = new String[] { "number", "point" };
+		ds = new SCExamDS(new DSCallback() {
+			
+			@Override
+			public void onLoadSuccess(Object object) {
+			
+				ExamResponse examResponse = (ExamResponse) object;
+				final List<Data> list = ResponeParseUtil
+				        .parseExamResponse(examResponse);
+				SCExamActivity.this.runOnUiThread(new Runnable() {
+					
+					@Override
+					public void run() {
+					
+						ds.setList(list);
+						ds.createMaps(keys);
+						ds.notifyDataChange();
+					}
+				});
+			}
+			
+			@Override
+			public void onLoadFailed(Throwable throwable) {
+			
+				if (throwable != null) {
+					Log.i(TAG, throwable.getMessage());
+				}
+				showToast("加载数据失败");
+			}
+		});
+		ds.load(this);
+		addLifeCycleListener(ds);
+		
+		adapter = new BaseDataAdapter(this, ds, R.layout.lv_2, new int[] {
+		        R.id.lv2_tv_1, R.id.lv2_tv_2, }, keys);
+		ds.addObserver(adapter);
+		
+		lv = (ListView) findViewById(R.id.scexam);
+		View headerView = HeaderViewFactory.createHeaderView2(this,
+				 R.array.exam_preview);
+		initListView(lv, headerView, adapter);
+	
 		
 	}
 	
-	public void getAndSet(TextView tv, String column, Cursor cursor) {
-	
-		tv.setText(cursor.getString(cursor.getColumnIndex(column)));
-	}
 }

@@ -9,35 +9,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="18dp"
         android:text="@string/sp_scstate_address" />
+    
+     <TextView
+        android:id="@+id/scstate_tv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/scstate_tv1"
+        android:layout_toRightOf="@+id/scstate_tv1"
+        android:text="XXXX" />
 
     <TextView
         android:id="@+id/scstate_tv3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/scstate_tv1"
-        android:layout_below="@+id/scstate_tv1"
-        android:layout_marginTop="16dp"
+        android:layout_alignTop="@+id/scstate_tv1"
+        android:layout_toRightOf="@+id/scstate_tv2"
         android:text="@string/sp_scstate_people" />
-
-    <TextView
-        android:id="@+id/scstate_tv2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/scstate_tv1"
-        android:layout_alignBottom="@+id/scstate_tv1"
-        android:layout_marginLeft="16dp"
-        android:layout_toRightOf="@+id/scstate_tv1"
-        android:text="XXXX" />
 
     <TextView
         android:id="@+id/scstate_tv4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/scstate_tv3"
-        android:layout_alignLeft="@+id/scstate_tv2"
+        android:layout_alignTop="@+id/scstate_tv1"
+        android:layout_toRightOf="@+id/scstate_tv3"
         android:text="XXXX" />
 
      <ListView

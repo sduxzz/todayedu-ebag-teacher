@@ -5,29 +5,38 @@
  */
 package com.todayedu.ebag.teacher.UIModule;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import java.util.List;
+
+import org.ebag.net.obj.I.choice;
+import org.ebag.net.response.ExamResponse;
+
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.todayedu.ebag.teacher.Parameters;
-import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
+import com.todayedu.ebag.teacher.DataSource.DSCallback;
+import com.todayedu.ebag.teacher.DataSource.Data;
 import com.todayedu.ebag.teacher.DataSource.SCStateDS;
-import com.todayedu.ebag.teacher.Database.DataBaseHelper;
+import com.todayedu.ebag.teacher.Network.ResponeParseUtil;
 
 /**
+ * 考场状态
+ * 
  * @author zhenzxie
  * 
  */
 public class SCStateActivity extends BaseActivity {
 	
 	private BaseDataAdapter adapter;
+	private SCStateDS ds;
 	private TextView tv_2;
 	private TextView tv_4;
-	private ListView elView;
+	private ListView lv;
 
 	/**
 	 * @see com.todayedu.ebag.teacher.UIModule.MonitoredActivity#onCreate(android.os.Bundle)
@@ -39,44 +48,54 @@ public class SCStateActivity extends BaseActivity {
 		setContentView(R.layout.scstate);
 		tv_2 = (TextView) findViewById(R.id.scstate_tv2);
 		tv_4 = (TextView) findViewById(R.id.scstate_tv4);
-		elView = (ListView) findViewById(R.id.scstate);
-		elView.addHeaderView(HeaderViewFactory.createHeaderView2(this,
-		        R.array.exam_lookup_during));
-		
-		int[] zTextView_ID = new int[] { R.id.lv3_tv_1, R.id.lv3_tv_2,
-		        R.id.lv3_tv_3 };
-		int zLayout_ID = R.layout.lv_3;
-		
-		adapter = new BaseDataAdapter(this, new SCStateDS(null), zLayout_ID,
-		        zTextView_ID, null);
-		elView.setAdapter(adapter);
-		// addLifeCycleListener(adapter);
-		
-		DataBaseHelper helper = new DataBaseHelper(this);
-		SQLiteDatabase database = helper.getReadableDatabase();
-		Cursor cursor = database
-		        .rawQuery(
-		                "select sname,STUDENT.sid,state from STUDENT,ES where STUDENT.sid = ES.sid and eid = ?",
-		                new String[] { Parameters.getStr(ParaIndex.EID_INDEX) });// TODO:how
-		                                                                         // to
-		                                                                         // get
-		                                                                         // information
-		                                                                         // about
-		                                                                         // exam's
-		                                                                         // address
-		                                                                         // and
-		                                                                         // exam's
-		                                                                         // people
-		if (cursor.moveToFirst()) {
-			getAndSet(tv_2, "", cursor);
-			getAndSet(tv_4, "", cursor);
+		int etype = Parameters.getExam().getEtype();
+		if (etype == choice.examType_exam) {
+			tv_2.setText(R.string.comm_school);
+		} else {
+			tv_2.setText(R.string.comm_home);
 		}
-
+		tv_4.setText(Parameters.getClassName());
+		
+		final String[] keys = new String[] { "sname", "sid", "state" };
+		ds = new SCStateDS(new DSCallback() {
+			
+			@Override
+			public void onLoadSuccess(Object object) {
+			
+				ExamResponse examResponse = (ExamResponse) object;
+				final List<Data> list = ResponeParseUtil
+				        .parseExamResponse(examResponse);
+				SCStateActivity.this.runOnUiThread(new Runnable() {
+					
+					@Override
+					public void run() {
+					
+						ds.setList(list);
+						ds.createMaps(keys);
+						ds.notifyDataChange();
+					}
+				});
+			}
+			
+			@Override
+			public void onLoadFailed(Throwable throwable) {
+			
+				if (throwable != null) {
+					Log.i(TAG, throwable.getMessage());
+				}
+				showToast("加载数据失败");
+			}
+		});
+		ds.load(this);
+		addLifeCycleListener(ds);
+		
+		adapter = new BaseDataAdapter(this, ds, R.layout.lv_3, new int[] {
+		        R.id.lv3_tv_1, R.id.lv3_tv_2, R.id.lv3_tv_3 }, keys);
+		ds.addObserver(adapter);
+		
+		lv = (ListView) findViewById(R.id.scstate);
+		View headerView = HeaderViewFactory.createHeaderView3(this,
+		        R.array.exam_lookup_during);
+		initListView(lv, headerView, adapter);
 	}
-	
-	public void getAndSet(TextView tv, String column, Cursor cursor) {
-	
-		tv.setText(cursor.getString(cursor.getColumnIndex(column)));
-	}
-	
 }

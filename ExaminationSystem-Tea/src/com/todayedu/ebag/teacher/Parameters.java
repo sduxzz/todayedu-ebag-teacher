@@ -5,6 +5,8 @@
  */
 package com.todayedu.ebag.teacher;
 
+import com.todayedu.ebag.teacher.DataSource.DataObj.Exam;
+
 /**
  * The stack that is used in delivering parameters. You must be careful when you
  * use it.
@@ -28,6 +30,8 @@ public class Parameters {
 	}
 
 	private static int[] parameters = new int[10];
+	private static String className;
+	private static Exam exam;
 	
 	public static synchronized void add(int parameter, int index) {
 	
@@ -63,6 +67,39 @@ public class Parameters {
 		for (int pointer = 0; pointer < 10; pointer++)
 			parameters[pointer] = 0;
 	}
+	
+	/**
+	 * @return the className
+	 */
+	public static String getClassName() {
+	
+		return className;
+	}
+	
+	/**
+	 * @param className
+	 *            the className to set
+	 */
+	public static void setClassName(String className) {
+	
+		Parameters.className = className;
+	}
+
+	/**
+     * @return the exam
+     */
+    public static Exam getExam() {
+    
+	    return exam;
+    }
+
+	/**
+     * @param exam the exam to set
+     */
+    public static void setExam(Exam exam) {
+    
+	    Parameters.exam = exam;
+    }
 
 	/**
 	 * @see java.lang.Object#toString()
@@ -79,6 +116,7 @@ public class Parameters {
 		        + parameters[ParaIndex.PROBLEMSTATE_INDEX] + "problem number:"
 		        + parameters[ParaIndex.PROBLEMNUMBER_INDEX]
 		        + "exam show acitivity mode:"
-		        + parameters[ParaIndex.EXAMSHOWACTIVITYMODE_INDEX];
+		        + parameters[ParaIndex.EXAMSHOWACTIVITYMODE_INDEX]
+		        + "class name:" + className + "exam:" + exam;
 	}
 }

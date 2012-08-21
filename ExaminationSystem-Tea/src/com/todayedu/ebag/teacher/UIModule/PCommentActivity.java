@@ -24,6 +24,8 @@ import com.todayedu.ebag.teacher.DataSource.PCommentDS;
 import com.todayedu.ebag.teacher.Network.ResponeParseUtil;
 
 /**
+ * 讲评试卷的题目列表
+ * 
  * @author zhenzxie
  * 
  */
@@ -31,7 +33,7 @@ public class PCommentActivity extends BaseActivity {
 	
 	private BaseDataAdapter adapter;
 	private PCommentDS ds;
-	private ListView elView;
+	private ListView lv;
 
 	/**
 	 * @see com.todayedu.ebag.teacher.UIModule.MonitoredActivity#onCreate(android.os.Bundle)
@@ -82,10 +84,10 @@ public class PCommentActivity extends BaseActivity {
 		        R.id.lv2_tv_1, R.id.lv2_tv_2 }, keys);
 		ds.addObserver(adapter);
 		
-		elView = (ListView) findViewById(R.id.lv);
+		lv = (ListView) findViewById(R.id.lv);
 		View headerView = HeaderViewFactory.createHeaderView2(this,
 		        R.array.pro_id_state);
-		initListView(elView, headerView, adapter);
+		initListView(lv, headerView, adapter);
 
 	}
 	

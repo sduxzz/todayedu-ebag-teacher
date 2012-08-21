@@ -5,7 +5,6 @@
  */
 package com.todayedu.ebag.teacher.Network;
 
-import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 import org.ebag.net.request.ClassInfoRequest;
 import org.ebag.net.response.ClassInfoResponse;
@@ -33,14 +32,6 @@ public class ClassInfoHandler extends BaseNetworkHandler {
 		super(context, callBack);
 		this.classId = classId;
 	}
-
-	/**
-	 * @see org.apache.mina.core.service.IoHandler#sessionCreated(org.apache.mina.core.session.IoSession)
-	 */
-	@Override
-	public void sessionCreated(IoSession session) throws Exception {
-
-	}
 	
 	/**
 	 * @see org.apache.mina.core.service.IoHandler#sessionOpened(org.apache.mina.core.session.IoSession)
@@ -48,35 +39,10 @@ public class ClassInfoHandler extends BaseNetworkHandler {
 	@Override
 	public void sessionOpened(IoSession session) throws Exception {
 	
+		super.sessionOpened(session);
 		ClassInfoRequest request = new ClassInfoRequest();
 		request.classId = classId;
 		session.write(request);
-	}
-	
-	/**
-	 * @see org.apache.mina.core.service.IoHandler#sessionClosed(org.apache.mina.core.session.IoSession)
-	 */
-	@Override
-	public void sessionClosed(IoSession session) throws Exception {
-	
-	}
-	
-	/**
-	 * @see org.apache.mina.core.service.IoHandler#sessionIdle(org.apache.mina.core.session.IoSession, org.apache.mina.core.session.IdleStatus)
-	 */
-	@Override
-	public void sessionIdle(IoSession session, IdleStatus status)
-			throws Exception {
-	
-	}
-	
-	/**
-	 * @see org.apache.mina.core.service.IoHandler#exceptionCaught(org.apache.mina.core.session.IoSession, java.lang.Throwable)
-	 */
-	@Override
-	public void exceptionCaught(IoSession session, Throwable cause)
-			throws Exception {
-	
 	}
 	
 	/**
@@ -87,16 +53,11 @@ public class ClassInfoHandler extends BaseNetworkHandler {
 			throws Exception {
 	
 		if (message instanceof ClassInfoResponse) {
-			
+			networkCallBack.success(message);
+		} else {
+			networkCallBack
+			        .failed(new Throwable("The return isn't right type."));
 		}
+		super.messageReceived(session, message);
 	}
-	
-	/**
-	 * @see org.apache.mina.core.service.IoHandler#messageSent(org.apache.mina.core.session.IoSession, java.lang.Object)
-	 */
-	@Override
-	public void messageSent(IoSession session, Object message) throws Exception {
-	
-	}
-	
 }

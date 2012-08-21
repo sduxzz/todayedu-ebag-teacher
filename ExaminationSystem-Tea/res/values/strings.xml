@@ -29,6 +29,8 @@
     <string name="comm_confirm">确定</string>
     <string name="comm_cancel">取消</string>
     <string name="comm_goback">返回</string>
+    <string name="comm_home">家庭作业</string>
+    <string name="comm_school">学校考试</string>
 
     <!-- functionlist(fl) -->
     <string name="fl_exam_choose">我的试卷</string>

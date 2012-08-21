@@ -35,6 +35,7 @@ import com.todayedu.ebag.teacher.DataSource.DataObj.EClass;
  */
 public class FunctionActivity extends BaseActivity implements OnItemSelectedListener {
 
+	private String[] names = null;
 	/**
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
 	 */
@@ -43,7 +44,7 @@ public class FunctionActivity extends BaseActivity implements OnItemSelectedList
 	
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.function);
-		String[] names = null;
+
 		if (savedInstanceState != null) {
 			names = getNames(savedInstanceState);
 		} else {
@@ -93,7 +94,8 @@ public class FunctionActivity extends BaseActivity implements OnItemSelectedList
 			Log.i(TAG, "onItemSelected: cid is " + cid + " position is "
 			        + position);
 			// add cid to Parameters
-			Parameters.add(String.valueOf(cid), ParaIndex.CID_INDEX);
+			Parameters.add(cid, ParaIndex.CID_INDEX);
+			Parameters.setClassName(names[position - 1]);
 		}
 
 	}

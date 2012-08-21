@@ -88,10 +88,10 @@ public final class R {
         public static final int pcc_wv3=0x7f070034;
         public static final int scexam=0x7f07003f;
         public static final int scexam_tv1=0x7f070039;
-        public static final int scexam_tv2=0x7f07003c;
-        public static final int scexam_tv3=0x7f07003a;
-        public static final int scexam_tv4=0x7f07003d;
-        public static final int scexam_tv5=0x7f07003b;
+        public static final int scexam_tv2=0x7f07003a;
+        public static final int scexam_tv3=0x7f07003b;
+        public static final int scexam_tv4=0x7f07003c;
+        public static final int scexam_tv5=0x7f07003d;
         public static final int scexam_tv6=0x7f07003e;
         public static final int schoose_end=0x7f070043;
         public static final int schoose_exam=0x7f070041;
@@ -99,8 +99,8 @@ public final class R {
         public static final int schoose_state=0x7f070040;
         public static final int scstate=0x7f070048;
         public static final int scstate_tv1=0x7f070044;
-        public static final int scstate_tv2=0x7f070046;
-        public static final int scstate_tv3=0x7f070045;
+        public static final int scstate_tv2=0x7f070045;
+        public static final int scstate_tv3=0x7f070046;
         public static final int scstate_tv4=0x7f070047;
     }
     public static final class layout {
@@ -126,12 +126,12 @@ public final class R {
         public static final int sp=0x7f030013;
     }
     public static final class string {
-        public static final int an_detail=0x7f050027;
-        public static final int an_max=0x7f050026;
-        public static final int an_min=0x7f050025;
+        public static final int an_detail=0x7f050029;
+        public static final int an_max=0x7f050028;
+        public static final int an_min=0x7f050027;
         /**  analysis(an) 
          */
-        public static final int an_total=0x7f050024;
+        public static final int an_total=0x7f050026;
         /**  common(comm) 
          */
         public static final int comm_app_name=0x7f050000;
@@ -144,6 +144,7 @@ public final class R {
         public static final int comm_exam_totaltime=0x7f050014;
         public static final int comm_exam_totaltime_colon=0x7f050015;
         public static final int comm_goback=0x7f05001a;
+        public static final int comm_home=0x7f05001b;
         public static final int comm_pro_analysis=0x7f050011;
         public static final int comm_pro_answer=0x7f05000a;
         public static final int comm_pro_answer_colon=0x7f05000b;
@@ -156,39 +157,40 @@ public final class R {
         public static final int comm_pro_id_colon=0x7f050007;
         public static final int comm_pro_score=0x7f05000e;
         public static final int comm_pro_score_colon=0x7f05000f;
+        public static final int comm_school=0x7f05001c;
         public static final int comm_stu_id=0x7f050001;
         public static final int comm_stu_name=0x7f050002;
         public static final int comm_stu_pro_state=0x7f050004;
         public static final int comm_stu_pro_state_colon=0x7f050005;
         public static final int comm_stu_score=0x7f050003;
-        public static final int fl_exam_analysis=0x7f05001f;
+        public static final int fl_exam_analysis=0x7f050021;
         /**  functionlist(fl) 
          */
-        public static final int fl_exam_choose=0x7f05001b;
-        public static final int fl_exam_comment=0x7f05001c;
-        public static final int fl_exam_correct=0x7f05001e;
-        public static final int fl_exam_start=0x7f05001d;
-        public static final int sc_end=0x7f050023;
-        public static final int sc_exam=0x7f050021;
-        public static final int sc_start=0x7f050022;
+        public static final int fl_exam_choose=0x7f05001d;
+        public static final int fl_exam_comment=0x7f05001e;
+        public static final int fl_exam_correct=0x7f050020;
+        public static final int fl_exam_start=0x7f05001f;
+        public static final int sc_end=0x7f050025;
+        public static final int sc_exam=0x7f050023;
+        public static final int sc_start=0x7f050024;
         /**  schoose(sc) 
          */
-        public static final int sc_state=0x7f050020;
+        public static final int sc_state=0x7f050022;
         /**  special(sp) 
          */
-        public static final int sp_exam_synch=0x7f050028;
-        public static final int sp_name=0x7f050033;
-        public static final int sp_networkalter=0x7f050032;
-        public static final int sp_password=0x7f050034;
-        public static final int sp_pro_all=0x7f05002b;
-        public static final int sp_pro_label=0x7f05002c;
-        public static final int sp_pro_next=0x7f05002a;
-        public static final int sp_pro_previous=0x7f050029;
-        public static final int sp_pro_score=0x7f05002d;
-        public static final int sp_scstate_address=0x7f050030;
-        public static final int sp_scstate_people=0x7f050031;
-        public static final int sp_stu_correctstate=0x7f05002f;
-        public static final int sp_stu_score=0x7f05002e;
+        public static final int sp_exam_synch=0x7f05002a;
+        public static final int sp_name=0x7f050035;
+        public static final int sp_networkalter=0x7f050034;
+        public static final int sp_password=0x7f050036;
+        public static final int sp_pro_all=0x7f05002d;
+        public static final int sp_pro_label=0x7f05002e;
+        public static final int sp_pro_next=0x7f05002c;
+        public static final int sp_pro_previous=0x7f05002b;
+        public static final int sp_pro_score=0x7f05002f;
+        public static final int sp_scstate_address=0x7f050032;
+        public static final int sp_scstate_people=0x7f050033;
+        public static final int sp_stu_correctstate=0x7f050031;
+        public static final int sp_stu_score=0x7f050030;
     }
     public static final class style {
         public static final int headerviewfont=0x7f060000;
