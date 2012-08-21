@@ -11,6 +11,7 @@ import java.util.Observer;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -224,6 +225,7 @@ public class BaseDataAdapter extends BaseAdapter implements Observer {
 			v.setImageResource(Integer.parseInt(value));
 		} catch (NumberFormatException nfe) {
 			v.setImageURI(Uri.parse(value));
+			Log.i("BaseDataAdapter", "setViewImage " + value);
 		}
 	}
 	

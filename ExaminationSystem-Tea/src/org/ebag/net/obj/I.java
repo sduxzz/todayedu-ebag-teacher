@@ -1,6 +1,5 @@
 package org.ebag.net.obj;
 
-import java.net.InetAddress;
 
 /**
  * ÏûÏ¢Àà
