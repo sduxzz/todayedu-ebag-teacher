@@ -53,8 +53,7 @@ public class LoginHandler extends BaseNetworkHandler {
 	@Override
 	public void messageReceived(IoSession session, Object message)
 			throws Exception {
-	
-		super.messageReceived(session, message);
+
 		if (message instanceof LoginResponse) {
 			LoginResponse response = (LoginResponse) message;
 			if (response.result == signal.login_true) {
@@ -64,5 +63,6 @@ public class LoginHandler extends BaseNetworkHandler {
 				        "The return isn't correct type"));
 			}
 		}
+		super.messageReceived(session, message);
 	}
 }

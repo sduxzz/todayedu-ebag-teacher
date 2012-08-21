@@ -117,17 +117,17 @@ public class ExamShowActivity extends BaseActivity {
 			}
 		});
 		ds.load(this);
+		addLifeCycleListener(ds);
 
 		adapter = new BaseDataAdapter(this, ds, R.layout.lv_1,
 		        new int[] { R.id.lv1_tv_1 }, keys);
 		ds.addObserver(adapter);
 
 		lv = (ListView) findViewById(R.id.el_examlistview);
-		View headerView = HeaderViewFactory.createHeaderView2(this,
+		View headerView = HeaderViewFactory.createHeaderView1(this,
 		        allHeadViewTestId[mode]);
 		initListView(lv, headerView, adapter);
 		
-		// addLifeCycleListener(adapter);
 	}
 
 	public void onExamSynch(View view) {

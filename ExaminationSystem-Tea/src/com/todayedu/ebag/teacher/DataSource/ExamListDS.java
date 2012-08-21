@@ -57,21 +57,18 @@ public class ExamListDS extends BaseDataSource {
 		int state = Parameters.get(ParaIndex.EXAMSTATE_INDEX);
 
 		List<Integer> stateList = null;
-		if (state != 0) {// when state is 0(request all exam),so stateList is null;
+		if (state != 0) {// when state is 0(request all exam),so stateList is
+			             // null;
 			stateList = new ArrayList<Integer>();
 			stateList.add(state);
 		}
 		List<String> fieldList = new ArrayList<String>();
-		try {
-			fieldList.add("name");
-			fieldList.add("id");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		fieldList.add("name");
+		fieldList.add("id");// id and name is the field name of ExamObj
 
 		NetworkClient client = new NetworkClient();
-		client.setHandler(new ExamHandler(context, this, cid, stateList,
-		        null, fieldList));
+		client.setHandler(new ExamHandler(context, this, cid, stateList, null,
+		        fieldList));
 		client.connect();
 	}
 	
@@ -89,7 +86,7 @@ public class ExamListDS extends BaseDataSource {
 			exam = (Exam) data;
 			map = new HashMap<String, String>();
 			map.put(keys[0], exam.getEname());
-			map.put(keys[1], String.valueOf(exam.getState()));
+			map.put(keys[1], String.valueOf(exam.getEid()));
 			maps.add(map);
 		}
 	}

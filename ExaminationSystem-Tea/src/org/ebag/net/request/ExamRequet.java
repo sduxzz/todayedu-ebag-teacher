@@ -54,5 +54,15 @@ public class ExamRequet implements Serializable{
 	public void setTeacher(boolean isTeacher) {
 		this.isTeacher = isTeacher;
 	}
-
+	
+	/**
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+	
+		return "ExamRequet [uid=" + uid + ", isTeacher=" + isTeacher
+		        + ", classId=" + classId + ", stateList=" + stateList
+		        + ", idList=" + idList + ", fieldList=" + fieldList + "]";
+	}
 }

@@ -57,11 +57,7 @@ public class PCommentDS extends BaseDataSource implements Serializable, NetworkC
 		List<Integer> idList = new ArrayList<Integer>();
 		idList.add(eid);
 		List<String> fieldList = new ArrayList<String>();
-		try {
-			fieldList.add("pInfoList");// pInfoList is the field name of ExamObj
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		fieldList.add("pInfoList");// pInfoList is the field name of ExamObj
 
 		NetworkClient client = new NetworkClient();
 		client.setHandler(new ExamHandler(context, this, cid, null,
@@ -72,6 +68,7 @@ public class PCommentDS extends BaseDataSource implements Serializable, NetworkC
 	@Override
 	public void createMaps(String[] keys) {
 	
+		Log.i(TAG, "createMaps");
 		List<? extends Data> list = this.getList();
 		List<Map<String, String>> maps = this.getData();
 		Map<String, String> map = null;

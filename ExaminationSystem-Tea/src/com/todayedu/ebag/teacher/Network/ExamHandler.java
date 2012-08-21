@@ -12,6 +12,7 @@ import org.ebag.net.request.ExamRequet;
 import org.ebag.net.response.ExamResponse;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.Parameters.ParaIndex;
@@ -66,6 +67,7 @@ public class ExamHandler extends BaseNetworkHandler {
 		request.fieldList = fieldList;
 		request.stateList = stateList;
 		session.write(request);
+		Log.i(TAG, "sessionOpened" + request.toString());
 	}
 	
 	/**
@@ -76,8 +78,7 @@ public class ExamHandler extends BaseNetworkHandler {
 			throws Exception {
 
 		if (message instanceof ExamResponse) {
-			ExamResponse response = (ExamResponse) message;
-			networkCallBack.success(response);
+			networkCallBack.success(message);
 		} else {
 			networkCallBack
 			        .failed(new Throwable("The return isn't right type."));

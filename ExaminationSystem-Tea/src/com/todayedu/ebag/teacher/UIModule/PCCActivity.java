@@ -102,15 +102,15 @@ public class PCCActivity extends BaseActivity {
 	private void getAndSet() {
 	
 		number = TempData.getCurrent("number");
-		state = TempData.getCurrent("state");
 		point = TempData.getCurrent("point");
+		state = TempData.getCurrent("state");
 		content = TempData.getCurrent("content");
 		answer = TempData.getCurrent("answer");
 		analysis = TempData.getCurrent("analysis");
 
 		pcc_tv2.setText(number);
-		pcc_tv4.setText(state);
-		pcc_tv6.setText(point);
+		pcc_tv4.setText(point);
+		pcc_tv6.setText(state);
 		pcc_wv1.loadUrl(content);
 		pcc_wv2.loadUrl(answer);
 		pcc_wv3.loadUrl(analysis);

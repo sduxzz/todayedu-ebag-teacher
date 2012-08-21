@@ -42,17 +42,13 @@ public class PCommentActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list);
 
-		elView = (ListView) findViewById(R.id.lv);
-		elView.addHeaderView(HeaderViewFactory.createHeaderView2(this,
-		        R.array.pro_id_state));
-		elView.setOnItemClickListener(this);
-
 		final String[] keys = new String[] { "number", "state" };
 		ds = new PCommentDS(new DSCallback() {
 			
 			@Override
 			public void onLoadSuccess(Object object) {
 			
+				Log.i(TAG, "onLoadSuccess");
 				ExamResponse examResponse = (ExamResponse) object;
 				final List<Data> list = ResponeParseUtil
 				        .parseExamResponse2ProblemList(examResponse,
@@ -79,11 +75,17 @@ public class PCommentActivity extends BaseActivity {
 			}
 		});
 		ds.load(this);
-		int[] zTextView_ID = new int[] { R.id.lv2_tv_1, R.id.lv2_tv_2 };
-		int zLayout_ID = R.layout.lv_2;
-		adapter = new BaseDataAdapter(this, ds, zLayout_ID, zTextView_ID, keys);
-		elView.setAdapter(adapter);
-		// addLifeCycleListener(adapter);
+		addLifeCycleListener(ds);
+
+		adapter = new BaseDataAdapter(this, ds, R.layout.lv_2, new int[] {
+		        R.id.lv2_tv_1, R.id.lv2_tv_2 }, keys);
+		ds.addObserver(adapter);
+		
+		elView = (ListView) findViewById(R.id.lv);
+		View headerView = HeaderViewFactory.createHeaderView2(this,
+		        R.array.pro_id_state);
+		initListView(elView, headerView, adapter);
+
 	}
 	
 	/**
