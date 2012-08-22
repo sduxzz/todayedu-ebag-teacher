@@ -10,10 +10,13 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.TempData;
+import com.todayedu.ebag.teacher.Database.BitMapUtils;
 
 /**
  * 学生某道题的批改界面
@@ -30,14 +33,19 @@ public class ECSSActivity extends BaseActivity {
 	private Button next_b3;
 	private WebView content_wv1;
 	private WebView answer_wv2;
-	// private WebView ecss_wv3;
 	private EditText score_et1;
+	private ImageView answer_iv;
+	private LinearLayout paint_ll;
+	private LinearLayout layout;
 	
+	private PaintView mPaintView = null;
+
 	private String number;
 	private String state;
 	private String point;
 	private String content;
-	private String answer;
+	private String answerofSta;
+	private String answerofStu;
 
 	/**
 	 * @see com.todayedu.ebag.teacher.UIModule.MonitoredActivity#onCreate(android.os.Bundle)
@@ -48,6 +56,14 @@ public class ECSSActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ecss);
 		
+		findView();
+		initPaintView();
+		getAndSet();
+		setButton();
+	}
+	
+	private void findView() {
+
 		number_tv2 = (TextView) findViewById(R.id.ecss_tv2);
 		score_tv4 = (TextView) findViewById(R.id.ecss_tv4);
 		state_tv6 = (TextView) findViewById(R.id.ecss_tv6);
@@ -55,18 +71,17 @@ public class ECSSActivity extends BaseActivity {
 		next_b3 = (Button) findViewById(R.id.ecss_b3);
 		content_wv1 = (WebView) findViewById(R.id.ecss_wv1);
 		answer_wv2 = (WebView) findViewById(R.id.ecss_wv2);
-		// ecss_wv3 = (WebView) findViewById(R.id.ecss_wv3);
-
-		getAndSet();
-		setButton();
-
-		// ListView1 elView = (ListView1) findViewById(R.id.el_examlistview);
-		// elView.setHeaderView(R.array.analysis);
-		//
-		// BaseDataAdapter adapter = elView.bindAdapter(new PCommentDS(this));
-		// addLifeCycleListener(adapter);
+		answer_iv = (ImageView) findViewById(R.id.ecss_ll_iv);
+		paint_ll = (LinearLayout) findViewById(R.id.ecss_ll_ll);
+		layout = (LinearLayout) findViewById(R.id.ecss_ll);
 	}
 	
+	private void initPaintView() {
+	
+		mPaintView = new PaintView(this);
+		paint_ll.addView(mPaintView);
+	}
+
 	public void onComfire(View view) {
 	
 		String result = score_et1.getText().toString();
@@ -98,15 +113,22 @@ public class ECSSActivity extends BaseActivity {
 		state = TempData.getCurrent("state");
 		point = TempData.getCurrent("point");
 		content = TempData.getCurrent("content");
-		answer = TempData.getCurrent("answer");
-		
+		answerofSta = TempData.getCurrent("answerofSta");
+		answerofStu = TempData.getCurrent("answerofStu");
+
 		number_tv2.setText(number);
 		score_tv4.setText(state);
 		state_tv6.setText(point);
 		content_wv1.loadUrl(content);
-		answer_wv2.loadUrl(answer);
+		answer_wv2.loadUrl(answerofSta);
+		answer_iv.setImageBitmap(BitMapUtils.loadFromSdCard(answerofStu));
+		setPaintView();
 	}
 	
+	private void setPaintView() {
+	
+	}
+
 	public void setButton() {
 	
 		if (TempData.isFirst())
