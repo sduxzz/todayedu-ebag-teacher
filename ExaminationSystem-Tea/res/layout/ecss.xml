@@ -28,32 +28,32 @@
             android:id="@+id/ecss_tv3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/ecss_tv1"
-            android:layout_below="@+id/ecss_tv1"
+            android:layout_alignTop="@+id/ecss_tv1"
+            android:layout_toRightOf="@+id/ecss_tv2"
             android:text="@string/comm_pro_score_colon" />
 
         <TextView
             android:id="@+id/ecss_tv4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/ecss_tv2"
-            android:layout_alignTop="@+id/ecss_tv3"
+            android:layout_alignTop="@+id/ecss_tv1"
+            android:layout_toRightOf="@+id/ecss_tv3"
             android:text="XXXX" />
         
         <TextView
             android:id="@+id/ecss_tv5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/ecss_tv1"
-            android:layout_below="@+id/ecss_tv3"
+            android:layout_alignTop="@+id/ecss_tv1"
+            android:layout_toRightOf="@+id/ecss_tv4"
             android:text="@string/comm_stu_pro_state_colon" />
 
         <TextView
             android:id="@+id/ecss_tv6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/ecss_tv2"
-            android:layout_alignTop="@+id/ecss_tv5"
+            android:layout_alignTop="@+id/ecss_tv1"
+            android:layout_toRightOf="@+id/ecss_tv5"
             android:text="XXXX" />
         
         <WebView
@@ -77,12 +77,35 @@
             android:layout_below="@+id/ecss_wv2" 
             android:layout_alignLeft="@+id/ecss_wv1"
             />
-          
+          <TextView 
+              android:id="@+id/ecss_tv7"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_below="@+id/ecss_wv3"
+              android:layout_alignParentLeft="true"
+              android:layout_marginTop="10dp"
+              android:text="@string/sp_pro_score"/>
+          <EditText 
+              android:id="@+id/ecss_et1"
+              android:layout_width="100dp"
+              android:layout_height="wrap_content"
+              android:layout_below="@+id/ecss_wv3"
+              android:layout_toRightOf="@+id/ecss_tv7"
+              android:inputType="numberDecimal"
+              />
+           <Button 
+              android:id="@+id/ecss_b3"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_below="@+id/ecss_wv3"
+              android:layout_toRightOf="@+id/ecss_et1"
+              android:onClick="onComfire"
+              android:text="@string/comm_confirm"/>
           <Button 
               android:id="@+id/ecss_b1"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:layout_below="@+id/ecss_wv3"
+              android:layout_below="@+id/ecss_et1"
               android:layout_alignLeft="@+id/ecss_tv1"
               android:onClick="onPrevious"
               android:text="@string/sp_pro_previous"/>

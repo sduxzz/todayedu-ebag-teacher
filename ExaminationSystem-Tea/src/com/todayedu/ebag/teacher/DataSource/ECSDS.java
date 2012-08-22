@@ -5,10 +5,16 @@
  */
 package com.todayedu.ebag.teacher.DataSource;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import android.content.Context;
+import android.util.Log;
 
 import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.Parameters.ParaIndex;
+import com.todayedu.ebag.teacher.DataSource.DataObj.Problem;
 
 
 /**
@@ -42,5 +48,17 @@ public class ECSDS extends BaseDataSource {
 	@Override
 	public void createMaps(String[] keys) {
 	
+		Log.i(TAG, "createMaps");
+		List<? extends Data> list = this.getList();
+		List<Map<String, String>> maps = this.getData();
+		Map<String, String> map = null;
+		Problem problem = null;
+		for (Data data : list) {
+			problem = (Problem) data;
+			map = new HashMap<String, String>();
+			map.put(keys[0], String.valueOf(problem.getNumber()));
+			map.put(keys[1], problem.getState());
+			maps.add(map);
+		}
 	}
 }

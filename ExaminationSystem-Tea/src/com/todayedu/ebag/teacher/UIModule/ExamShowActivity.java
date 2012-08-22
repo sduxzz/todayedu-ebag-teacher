@@ -24,7 +24,7 @@ import com.todayedu.ebag.teacher.DataSource.DSCallback;
 import com.todayedu.ebag.teacher.DataSource.Data;
 import com.todayedu.ebag.teacher.DataSource.ExamListDS;
 import com.todayedu.ebag.teacher.DataSource.DataObj.Exam;
-import com.todayedu.ebag.teacher.Network.ResponeParseUtil;
+import com.todayedu.ebag.teacher.Network.ResponseParseUtil;
 
 /**
  * Show exam list which exam is under special state.This activity has five modes
@@ -94,7 +94,7 @@ public class ExamShowActivity extends BaseActivity {
 			public void onLoadSuccess(Object object) {
 			
 				ExamResponse examResponse = (ExamResponse) object;
-				final List<Data> list = ResponeParseUtil
+				final List<Data> list = ResponseParseUtil
 				        .parseExamResponse(examResponse);
 				ExamShowActivity.this.runOnUiThread(new Runnable() {
 					

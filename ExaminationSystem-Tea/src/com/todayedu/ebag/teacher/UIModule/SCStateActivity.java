@@ -8,7 +8,7 @@ package com.todayedu.ebag.teacher.UIModule;
 import java.util.List;
 
 import org.ebag.net.obj.I.choice;
-import org.ebag.net.response.ExamResponse;
+import org.ebag.net.response.ExamActivityResponse;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -22,10 +22,10 @@ import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
 import com.todayedu.ebag.teacher.DataSource.DSCallback;
 import com.todayedu.ebag.teacher.DataSource.Data;
 import com.todayedu.ebag.teacher.DataSource.SCStateDS;
-import com.todayedu.ebag.teacher.Network.ResponeParseUtil;
+import com.todayedu.ebag.teacher.Network.ResponseParseUtil;
 
 /**
- * 考场状态
+ * 考场状态(考试类型（家庭作业，学校考试），考生列表)
  * 
  * @author zhenzxie
  * 
@@ -62,9 +62,10 @@ public class SCStateActivity extends BaseActivity {
 			@Override
 			public void onLoadSuccess(Object object) {
 			
-				ExamResponse examResponse = (ExamResponse) object;
-				final List<Data> list = ResponeParseUtil
-				        .parseExamResponse(examResponse);
+				Log.i(TAG, "onLoadSuccess");
+				ExamActivityResponse examResponse = (ExamActivityResponse) object;
+				final List<Data> list = ResponseParseUtil
+				        .paraExamActivityResponse(examResponse);
 				SCStateActivity.this.runOnUiThread(new Runnable() {
 					
 					@Override

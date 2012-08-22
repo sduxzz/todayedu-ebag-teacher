@@ -9,28 +9,35 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.ebag.net.obj.I.choice;
 import org.ebag.net.obj.exam.ExamObj;
 import org.ebag.net.response.ClassInfoResponse;
+import org.ebag.net.response.ExamActivityResponse;
 import org.ebag.net.response.ExamResponse;
 import org.ebag.net.response.LoginResponse;
 
 import android.content.Context;
 import android.util.Log;
 
+import com.todayedu.ebag.teacher.Constants.StateStr;
 import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.DataSource.Data;
 import com.todayedu.ebag.teacher.DataSource.DataObj.EClass;
 import com.todayedu.ebag.teacher.DataSource.DataObj.Exam;
 import com.todayedu.ebag.teacher.DataSource.DataObj.Problem;
+import com.todayedu.ebag.teacher.DataSource.DataObj.Student;
 
 import ebag.pojo.Eclass;
+import ebag.pojo.Euser;
+import ebag.pojo.Examactivity;
+import ebag.pojo.ExamactivityId;
 
 /**
  * @author zhenzxie
  *
  */
-public class ResponeParseUtil {
+public class ResponseParseUtil {
 
 	public static final String TAG = "ResponeParseUtil";
 
@@ -95,4 +102,46 @@ public class ResponeParseUtil {
 		}
 		return Problem.parse2ProblemList(obj, context);
     }
+	
+	public static List<Data> paraExamActivityResponse(
+	        ExamActivityResponse response) {
+	
+		List<Examactivity> examactivities = response.res;
+		List<Data> list = new ArrayList<Data>();
+		Student student;
+		ExamactivityId id;
+		Euser euser;
+		String state = null;
+		
+		for (Examactivity obj : examactivities) {
+			id = obj.getId();
+			euser = obj.getEuser();
+			student = new Student();
+			student.setCid(Parameters.get(ParaIndex.CID_INDEX));//set cid of student
+			student.setSid(euser.getId());
+			student.setSname(euser.getName());
+			switch (id.getState().intValue()) {// set state of student's exam
+				case choice.answerState_waitAnser:
+					state = StateStr.HANDIN;
+					break;
+				case choice.answerState_waitMark:
+					state = StateStr.CORRECT;
+					break;
+				case choice.answerState_waitComment:
+					state = StateStr.COMMENT;
+					break;
+				case choice.answerState_finish:
+					state = StateStr.COMMENTED;
+					break;
+				default:
+					state = StateStr.HANDIN;
+			}
+			student.setState(state);
+			list.add(student);
+			Log.i(TAG, "parseExamResponse:" + student.toString());
+		}
+		
+		return list;
+	}
+
 }

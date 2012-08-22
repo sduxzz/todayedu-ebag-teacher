@@ -22,7 +22,7 @@ import com.todayedu.ebag.teacher.DataSource.DSCallback;
 import com.todayedu.ebag.teacher.DataSource.Data;
 import com.todayedu.ebag.teacher.DataSource.SCExamDS;
 import com.todayedu.ebag.teacher.DataSource.DataObj.Exam;
-import com.todayedu.ebag.teacher.Network.ResponeParseUtil;
+import com.todayedu.ebag.teacher.Network.ResponseParseUtil;
 
 /**
  * @author zhenzxie
@@ -60,7 +60,7 @@ public class SCExamActivity extends BaseActivity {
 			public void onLoadSuccess(Object object) {
 			
 				ExamResponse examResponse = (ExamResponse) object;
-				final List<Data> list = ResponeParseUtil
+				final List<Data> list = ResponseParseUtil
 				        .parseExamResponse(examResponse);
 				SCExamActivity.this.runOnUiThread(new Runnable() {
 					

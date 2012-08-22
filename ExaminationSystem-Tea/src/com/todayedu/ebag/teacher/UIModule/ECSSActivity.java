@@ -7,27 +7,37 @@ package com.todayedu.ebag.teacher.UIModule;
 
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.TempData;
 
 /**
+ * 学生某道题的批改界面
+ * 
  * @author zhenzxie
- *
+ * 
  */
 public class ECSSActivity extends BaseActivity {
 	
-	private TextView ecss_tv2;
-	private TextView ecss_tv4;
-	private TextView ecss_tv6;
-	private Button ecss_b1;
-	private Button ecss_b3;
+	private TextView number_tv2;
+	private TextView score_tv4;
+	private TextView state_tv6;
+	private Button previous_b1;
+	private Button next_b3;
+	private WebView content_wv1;
+	private WebView answer_wv2;
+	// private WebView ecss_wv3;
+	private EditText score_et1;
 	
 	private String number;
 	private String state;
 	private String point;
+	private String content;
+	private String answer;
 
 	/**
 	 * @see com.todayedu.ebag.teacher.UIModule.MonitoredActivity#onCreate(android.os.Bundle)
@@ -38,11 +48,14 @@ public class ECSSActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ecss);
 		
-		ecss_tv2 = (TextView) findViewById(R.id.ecss_tv2);
-		ecss_tv4 = (TextView) findViewById(R.id.ecss_tv4);
-		ecss_tv6 = (TextView) findViewById(R.id.ecss_tv6);
-		ecss_b1 = (Button) findViewById(R.id.ecss_b1);
-		ecss_b3 = (Button) findViewById(R.id.ecss_b3);
+		number_tv2 = (TextView) findViewById(R.id.ecss_tv2);
+		score_tv4 = (TextView) findViewById(R.id.ecss_tv4);
+		state_tv6 = (TextView) findViewById(R.id.ecss_tv6);
+		previous_b1 = (Button) findViewById(R.id.ecss_b1);
+		next_b3 = (Button) findViewById(R.id.ecss_b3);
+		content_wv1 = (WebView) findViewById(R.id.ecss_wv1);
+		answer_wv2 = (WebView) findViewById(R.id.ecss_wv2);
+		// ecss_wv3 = (WebView) findViewById(R.id.ecss_wv3);
 
 		getAndSet();
 		setButton();
@@ -54,6 +67,12 @@ public class ECSSActivity extends BaseActivity {
 		// addLifeCycleListener(adapter);
 	}
 	
+	public void onComfire(View view) {
+	
+		String result = score_et1.getText().toString();
+		double score = Double.parseDouble(result);
+	}
+
 	public void onPrevious(View view) {
 	
 		TempData.moveToPrevious();
@@ -63,6 +82,7 @@ public class ECSSActivity extends BaseActivity {
 	
 	public void onAll(View view) {
 	
+		this.finish();
 	}
 	
 	public void onNext(View view) {
@@ -77,21 +97,25 @@ public class ECSSActivity extends BaseActivity {
 		number = TempData.getCurrent("number");
 		state = TempData.getCurrent("state");
 		point = TempData.getCurrent("point");
+		content = TempData.getCurrent("content");
+		answer = TempData.getCurrent("answer");
 		
-		ecss_tv2.setText(number);
-		ecss_tv4.setText(state);
-		ecss_tv6.setText(point);
+		number_tv2.setText(number);
+		score_tv4.setText(state);
+		state_tv6.setText(point);
+		content_wv1.loadUrl(content);
+		answer_wv2.loadUrl(answer);
 	}
 	
 	public void setButton() {
 	
 		if (TempData.isFirst())
-			ecss_b1.setEnabled(false);
+			previous_b1.setEnabled(false);
 		else
-			ecss_b1.setEnabled(true);
+			previous_b1.setEnabled(true);
 		if (TempData.isLast())
-			ecss_b3.setEnabled(false);
+			next_b3.setEnabled(false);
 		else
-			ecss_b3.setEnabled(true);
+			next_b3.setEnabled(true);
 	}
 }

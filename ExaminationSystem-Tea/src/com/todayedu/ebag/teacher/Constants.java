@@ -21,7 +21,7 @@ public interface Constants {
 
 	public static class StateStr {
 		
-		public static final String COMMENT = "未讲评";
+		public static final String COMMENT = "等待讲评";
 		public static final String COMMENTED = "已讲评";
 		public static final String CORRECT = "未批改";
 		public static final String CORRECTED = "已批改";

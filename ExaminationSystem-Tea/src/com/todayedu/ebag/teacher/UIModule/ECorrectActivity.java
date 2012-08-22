@@ -7,7 +7,7 @@ package com.todayedu.ebag.teacher.UIModule;
 
 import java.util.List;
 
-import org.ebag.net.response.ExamResponse;
+import org.ebag.net.response.ExamActivityResponse;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -15,12 +15,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.todayedu.ebag.teacher.Parameters;
+import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
 import com.todayedu.ebag.teacher.DataSource.DSCallback;
 import com.todayedu.ebag.teacher.DataSource.Data;
 import com.todayedu.ebag.teacher.DataSource.ECorrectDS;
-import com.todayedu.ebag.teacher.Network.ResponeParseUtil;
+import com.todayedu.ebag.teacher.DataSource.DataObj.Student;
+import com.todayedu.ebag.teacher.Network.ResponseParseUtil;
 
 /**
  * 批改试卷的学生列表
@@ -52,10 +55,9 @@ public class ECorrectActivity extends BaseActivity {
 			public void onLoadSuccess(Object object) {
 			
 				Log.i(TAG, "onLoadSuccess");
-				ExamResponse examResponse = (ExamResponse) object;
-				final List<Data> list = ResponeParseUtil
-				        .parseExamResponse2ProblemList(examResponse,
-				                ECorrectActivity.this);
+				ExamActivityResponse examResponse = (ExamActivityResponse) object;
+				final List<Data> list = ResponseParseUtil
+				        .paraExamActivityResponse(examResponse);
 				ECorrectActivity.this.runOnUiThread(new Runnable() {
 					
 					@Override
@@ -99,10 +101,9 @@ public class ECorrectActivity extends BaseActivity {
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 	        long id) {
 	
-		// String sid = adapter.getzDataSource().getList().get(position - 1)
-		// .valueOfKey("sid");
-		// Parameters.add(sid, ParaIndex.SID_INDEX);
-		// start(ECSActivity.class);
+		Student student = (Student) ds.getData().get(position - 1);
+		Parameters.add(student.getSid(), ParaIndex.SID_INDEX);
+		start(ECSActivity.class);
 	}
 
 }

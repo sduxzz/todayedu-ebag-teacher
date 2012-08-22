@@ -21,7 +21,7 @@ import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
 import com.todayedu.ebag.teacher.DataSource.DSCallback;
 import com.todayedu.ebag.teacher.DataSource.Data;
 import com.todayedu.ebag.teacher.DataSource.PCommentDS;
-import com.todayedu.ebag.teacher.Network.ResponeParseUtil;
+import com.todayedu.ebag.teacher.Network.ResponseParseUtil;
 
 /**
  * 讲评试卷的题目列表
@@ -53,7 +53,7 @@ public class PCommentActivity extends BaseActivity {
 			
 				Log.i(TAG, "onLoadSuccess");
 				ExamResponse examResponse = (ExamResponse) object;
-				final List<Data> list = ResponeParseUtil
+				final List<Data> list = ResponseParseUtil
 				        .parseExamResponse2ProblemList(examResponse,
 				                PCommentActivity.this);
 				PCommentActivity.this.runOnUiThread(new Runnable() {

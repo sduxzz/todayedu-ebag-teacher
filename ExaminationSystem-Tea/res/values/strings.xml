@@ -57,7 +57,7 @@
     <string name="sp_pro_next">下一题</string>
     <string name="sp_pro_all">全部</string>
     <string name="sp_pro_label">标注</string>
-    <string name="sp_pro_score">输出分数：</string>
+    <string name="sp_pro_score">输入分数：</string>
     <string name="sp_stu_score">得分:</string>
     <string name="sp_stu_correctstate">批改情况</string>
     <string name="sp_scstate_address">考试地点:</string>

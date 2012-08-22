@@ -19,7 +19,7 @@ import com.todayedu.ebag.teacher.Network.LoginHandler;
 import com.todayedu.ebag.teacher.Network.NetWorkUtil;
 import com.todayedu.ebag.teacher.Network.NetworkCallBack;
 import com.todayedu.ebag.teacher.Network.NetworkClient;
-import com.todayedu.ebag.teacher.Network.ResponeParseUtil;
+import com.todayedu.ebag.teacher.Network.ResponseParseUtil;
 
 import ebag.pojo.Euser;
 
@@ -65,7 +65,7 @@ public class WelcomeActivity extends BaseActivity {
 					        Euser user = loginResponse.user;
 					        Parameters.add(user.getId(), ParaIndex.UID_INDEX);//add uid to globle parameter
 
-					        ArrayList<EClass> list = ResponeParseUtil
+					        ArrayList<EClass> list = ResponseParseUtil
 					                .parseLoginResponse(loginResponse);
 					        start(list);
 				        }
