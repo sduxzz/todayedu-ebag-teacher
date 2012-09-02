@@ -143,7 +143,7 @@ public class ExamShowActivity extends BaseActivity {
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 	        long id) {
 	
-		Exam exam = (Exam) ds.getData().get(position - 1);
+		Exam exam = (Exam) ds.getList().get(position - 1);
 		int eid = exam.getEid();
 		Parameters.add(eid, ParaIndex.EID_INDEX);
 		Parameters.setExam(exam);

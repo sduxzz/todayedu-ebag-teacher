@@ -14,7 +14,7 @@ import android.content.Context;
 import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.DataSource.DataObj.Student;
-import com.todayedu.ebag.teacher.Network.ExamActivityHandler;
+import com.todayedu.ebag.teacher.Network.ClassExamActivityHandler;
 import com.todayedu.ebag.teacher.Network.NetworkClient;
 
 /**
@@ -43,7 +43,7 @@ public class SCStateDS extends BaseDataSource {
 		int eid = Parameters.get(ParaIndex.EID_INDEX);
 
 		NetworkClient client = new NetworkClient();
-		client.setHandler(new ExamActivityHandler(context, this, cid, eid));
+		client.setHandler(new ClassExamActivityHandler(context, this, cid, eid));
 		client.connect();
 	}
 
@@ -57,8 +57,8 @@ public class SCStateDS extends BaseDataSource {
 		for (Data data : list) {
 			student = (Student) data;
 			map = new HashMap<String, String>();
-			map.put(keys[0], student.getSname());
-			map.put(keys[1], String.valueOf(student.getSid()));
+			map.put(keys[0], String.valueOf(student.getSid()));
+			map.put(keys[1], student.getSname());
 			map.put(keys[2], student.getState());
 			maps.add(map);
 		}

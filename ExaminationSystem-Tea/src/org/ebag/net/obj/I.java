@@ -1,5 +1,6 @@
 package org.ebag.net.obj;
 
+import java.net.InetAddress;
 
 /**
  * ÏûÏ¢Àà
@@ -56,11 +57,14 @@ public final class I {
 		public static final String request="7";
 	}
 	public static final class tupload{
-		public static final String mina_server_site="127.0.01";
+
+		public static final String mina_server_site="211.87.227.10";
 		public static final int mina_server_port=731;
-		public static final String ftp_site="127.0.0.1";
-		public static int ftp_port=21;
+		public static final String ftp_site="211.87.227.10";
+		public static int ftp_port=2121;
 		public static String ftp_pwd="@!!*&@@&%^";
+		
+		
 		
 	}
 }

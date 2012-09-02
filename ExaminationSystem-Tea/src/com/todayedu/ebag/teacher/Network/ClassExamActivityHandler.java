@@ -6,21 +6,23 @@
 package com.todayedu.ebag.teacher.Network;
 
 import org.apache.mina.core.session.IoSession;
-import org.ebag.net.response.ExamActivityResponse;
+import org.ebag.net.request.ClassExamactivityRequest;
+import org.ebag.net.response.ClassExamactivityResponse;
 
 import android.content.Context;
+import android.util.Log;
 
 /**
  * @author <a href="zhenzxie.iteye.cn">zhenzxie</a>
  * @version 1.0
  * @since 1.0
  */
-public class ExamActivityHandler extends BaseNetworkHandler {
+public class ClassExamActivityHandler extends BaseNetworkHandler {
 	
 	private int cid;
 	private int eid;
 	
-	public ExamActivityHandler(Context context, NetworkCallBack callBack,
+	public ClassExamActivityHandler(Context context, NetworkCallBack callBack,
 	        int cid, int eid) {
 	
 		super(context, callBack);
@@ -35,6 +37,11 @@ public class ExamActivityHandler extends BaseNetworkHandler {
 	public void sessionOpened(IoSession arg0) throws Exception {
 	
 		super.sessionOpened(arg0);
+		ClassExamactivityRequest request = new ClassExamactivityRequest();
+		request.setClassId(cid);
+		request.setExamId(eid);
+		arg0.write(request);
+		Log.i(TAG, "sessionOpened " + request.toString());
 	}
 	
 	/**
@@ -45,7 +52,7 @@ public class ExamActivityHandler extends BaseNetworkHandler {
 	public void messageReceived(IoSession session, Object message)
 	        throws Exception {
 	
-		if (message instanceof ExamActivityResponse) {
+		if (message instanceof ClassExamactivityResponse) {
 			networkCallBack.success(message);
 		} else {
 			networkCallBack

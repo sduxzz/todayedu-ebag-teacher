@@ -95,7 +95,7 @@ public class FunctionActivity extends BaseActivity implements OnItemSelectedList
 			        + position);
 			// add cid to Parameters
 			Parameters.add(cid, ParaIndex.CID_INDEX);
-			Parameters.setClassName(names[position - 1]);
+			Parameters.setClassName(names[position]);
 		}
 
 	}

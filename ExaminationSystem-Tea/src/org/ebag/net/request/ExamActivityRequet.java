@@ -1,6 +1,7 @@
 package org.ebag.net.request;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.List;
 
 public class ExamActivityRequet implements Serializable{

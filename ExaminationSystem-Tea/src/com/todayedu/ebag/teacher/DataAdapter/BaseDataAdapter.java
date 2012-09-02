@@ -20,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.todayedu.ebag.teacher.DataSource.BaseDataSource;
-import com.todayedu.ebag.teacher.DataSource.Data;
 
 /**
  * @author zhenzxie
@@ -41,10 +40,8 @@ public class BaseDataAdapter extends BaseAdapter implements Observer {
 	 * @param context
 	 * @param dataSource
 	 * @param resource
-	 * @param keys
-	 *            the values of keys must be the field of {@link Data} used in
-	 *            dataSource
 	 * @param ids
+	 * @param keys
 	 */
 	public BaseDataAdapter(Context context, BaseDataSource dataSource,
 	        int resource, int[] ids, String[] keys) {

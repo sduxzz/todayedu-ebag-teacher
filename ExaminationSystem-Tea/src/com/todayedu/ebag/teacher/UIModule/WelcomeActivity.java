@@ -49,6 +49,7 @@ public class WelcomeActivity extends BaseActivity {
 	
 	public void onConfirm(View view) {
 	
+		Log.i(TAG, "onConfirm");
 		if (NetWorkUtil.isConnected(this)) {
 			
 			String name = et1.getText().toString();

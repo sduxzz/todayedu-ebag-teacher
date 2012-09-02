@@ -8,7 +8,7 @@ package com.todayedu.ebag.teacher.UIModule;
 import java.util.List;
 
 import org.ebag.net.obj.I.choice;
-import org.ebag.net.response.ExamActivityResponse;
+import org.ebag.net.response.ClassExamactivityResponse;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -56,23 +56,23 @@ public class SCStateActivity extends BaseActivity {
 		}
 		tv_4.setText(Parameters.getClassName());
 		
-		final String[] keys = new String[] { "sname", "sid", "state" };
+		final String[] keys = new String[] { "sid", "sname", "state" };
 		ds = new SCStateDS(new DSCallback() {
 			
 			@Override
 			public void onLoadSuccess(Object object) {
 			
 				Log.i(TAG, "onLoadSuccess");
-				ExamActivityResponse examResponse = (ExamActivityResponse) object;
+				ClassExamactivityResponse examResponse = (ClassExamactivityResponse) object;
 				final List<Data> list = ResponseParseUtil
-				        .paraExamActivityResponse(examResponse);
+				        .paraClassExamActivityResponse(examResponse);
+				ds.setList(list);
+				ds.createMaps(keys);
 				SCStateActivity.this.runOnUiThread(new Runnable() {
 					
 					@Override
 					public void run() {
 					
-						ds.setList(list);
-						ds.createMaps(keys);
 						ds.notifyDataChange();
 					}
 				});

@@ -11,8 +11,8 @@ import java.util.Set;
 
 import org.ebag.net.obj.I.choice;
 import org.ebag.net.obj.exam.ExamObj;
+import org.ebag.net.response.ClassExamactivityResponse;
 import org.ebag.net.response.ClassInfoResponse;
-import org.ebag.net.response.ExamActivityResponse;
 import org.ebag.net.response.ExamResponse;
 import org.ebag.net.response.LoginResponse;
 
@@ -103,10 +103,13 @@ public class ResponseParseUtil {
 		return Problem.parse2ProblemList(obj, context);
     }
 	
-	public static List<Data> paraExamActivityResponse(
-	        ExamActivityResponse response) {
+	public static List<Data> paraClassExamActivityResponse(
+	        ClassExamactivityResponse response) {
 	
-		List<Examactivity> examactivities = response.res;
+		List<Examactivity> examactivities = response.lst;
+		Log.i(TAG,
+		        "paraClassExamActivityResponse ClassExamactivityResponse list's length is "
+		                + examactivities.size());
 		List<Data> list = new ArrayList<Data>();
 		Student student;
 		ExamactivityId id;

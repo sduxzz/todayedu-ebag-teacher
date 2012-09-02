@@ -5,7 +5,12 @@
  */
 package com.todayedu.ebag.teacher.UIModule;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.Button;
@@ -62,6 +67,34 @@ public class ECSSActivity extends BaseActivity {
 		setButton();
 	}
 	
+	/**
+     * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    
+	    return super.onCreateOptionsMenu(menu);
+    }
+
+	/**
+     * @see android.app.Activity#onMenuItemSelected(int, android.view.MenuItem)
+     */
+    @Override
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+    
+	    return super.onMenuItemSelected(featureId, item);
+    }
+
+	/**
+     * @see android.app.Activity#onCreateContextMenu(android.view.ContextMenu, android.view.View, android.view.ContextMenu.ContextMenuInfo)
+     */
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+            ContextMenuInfo menuInfo) {
+    
+	    super.onCreateContextMenu(menu, v, menuInfo);
+    }
+
 	private void findView() {
 
 		number_tv2 = (TextView) findViewById(R.id.ecss_tv2);
@@ -74,6 +107,7 @@ public class ECSSActivity extends BaseActivity {
 		answer_iv = (ImageView) findViewById(R.id.ecss_ll_iv);
 		paint_ll = (LinearLayout) findViewById(R.id.ecss_ll_ll);
 		layout = (LinearLayout) findViewById(R.id.ecss_ll);
+		layout.setDrawingCacheQuality(LinearLayout.DRAWING_CACHE_QUALITY_HIGH);
 	}
 	
 	private void initPaintView() {
@@ -86,6 +120,7 @@ public class ECSSActivity extends BaseActivity {
 	
 		String result = score_et1.getText().toString();
 		double score = Double.parseDouble(result);
+		Bitmap bitmap = layout.getDrawingCache();
 	}
 
 	public void onPrevious(View view) {

@@ -7,7 +7,7 @@ package com.todayedu.ebag.teacher.UIModule;
 
 import java.util.List;
 
-import org.ebag.net.response.ExamActivityResponse;
+import org.ebag.net.response.ClassExamactivityResponse;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -47,7 +47,7 @@ public class ECorrectActivity extends BaseActivity {
 		setContentView(R.layout.list);
 		Log.i(TAG, "onCreate");
 
-		final String[] keys = new String[] { "sname", "sid", "state" };
+		final String[] keys = new String[] { "sid", "sname", "state" };
 		
 		ds = new ECorrectDS(new DSCallback() {
 			
@@ -55,16 +55,16 @@ public class ECorrectActivity extends BaseActivity {
 			public void onLoadSuccess(Object object) {
 			
 				Log.i(TAG, "onLoadSuccess");
-				ExamActivityResponse examResponse = (ExamActivityResponse) object;
+				ClassExamactivityResponse examResponse = (ClassExamactivityResponse) object;
 				final List<Data> list = ResponseParseUtil
-				        .paraExamActivityResponse(examResponse);
+				        .paraClassExamActivityResponse(examResponse);
+				ds.setList(list);
+				ds.createMaps(keys);
 				ECorrectActivity.this.runOnUiThread(new Runnable() {
 					
 					@Override
 					public void run() {
 					
-						ds.setList(list);
-						ds.createMaps(keys);
 						ds.notifyDataChange();
 					}
 				});
@@ -101,7 +101,7 @@ public class ECorrectActivity extends BaseActivity {
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 	        long id) {
 	
-		Student student = (Student) ds.getData().get(position - 1);
+		Student student = (Student) ds.getList().get(position - 1);
 		Parameters.add(student.getSid(), ParaIndex.SID_INDEX);
 		start(ECSActivity.class);
 	}

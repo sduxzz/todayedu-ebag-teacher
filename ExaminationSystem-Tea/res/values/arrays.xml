@@ -23,8 +23,8 @@
     </string-array>
     
     <string-array name="exam_lookup_during">
-        <item>@string/comm_stu_name</item>
         <item>@string/comm_stu_id</item>
+        <item>@string/comm_stu_name</item>
         <item>@string/comm_stu_pro_state</item>
     </string-array>
     

@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.todayedu.ebag.teacher.R;
+import com.todayedu.ebag.teacher.TempData;
 import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
 import com.todayedu.ebag.teacher.DataSource.DSCallback;
 import com.todayedu.ebag.teacher.DataSource.Data;
@@ -88,10 +89,6 @@ public class ECSActivity extends BaseActivity {
 
 	}
 	
-	public void onExamSynch(View view) {
-	
-	}
-	
 	/**
 	 * @see com.todayedu.ebag.teacher.UIModule.BaseActivity#onItemClick(android.widget.AdapterView,
 	 *      android.view.View, int, long)
@@ -100,7 +97,7 @@ public class ECSActivity extends BaseActivity {
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 	
-		// TempData.storeData(adapter.getzDataSource(), position - 1);
-		// start(ECSSActivity.class);
+		TempData.storeData(ds, position - 1);
+		start(ECSSActivity.class);
 	}
 }
