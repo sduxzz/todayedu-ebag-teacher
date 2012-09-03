@@ -10,23 +10,33 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.ebag.net.response.AnswerAnalysisResponse;
+
 import android.app.ExpandableListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.SimpleExpandableListAdapter;
+import android.widget.Toast;
 
 import com.todayedu.ebag.teacher.R;
+import com.todayedu.ebag.teacher.DataSource.AnswerAnalysisDS;
+import com.todayedu.ebag.teacher.DataSource.DSCallback;
+import com.todayedu.ebag.teacher.DataSource.Data;
+import com.todayedu.ebag.teacher.DataSource.DataObj.Analysis;
+import com.todayedu.ebag.teacher.Network.ResponseParseUtil;
 
 /**
+ * 试卷分析的各种入口（总分排行，最少得分题目，最多得分题目，题目详细列表）
+ * 
  * @author zhenzxie
  * 
  */
-public class AExpandableActivity extends ExpandableListActivity {
+public class AExpandableActivity extends ExpandableListActivity implements DSCallback {
+	
+	private static final String TAG = "AExpandableActivity";
 	
 	private String[] groupFrom = new String[] { "group" };
 
@@ -36,6 +46,9 @@ public class AExpandableActivity extends ExpandableListActivity {
 
 	private int[] childTo = new int[] { R.id.aexpandable_child_sid,
 	        R.id.aexpandable_child_score };
+	
+	private AnswerAnalysisDS ds;
+	private SimpleExpandableListAdapter adapter;
 
 	/**
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
@@ -45,7 +58,7 @@ public class AExpandableActivity extends ExpandableListActivity {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.expandable);
-		SimpleExpandableListAdapter adapter = createAdapter();
+		adapter = createAdapter();
 		setListAdapter(adapter);
 	}
 
@@ -63,35 +76,14 @@ public class AExpandableActivity extends ExpandableListActivity {
 
 		// childrenList
 		List<List<Map<String, String>>> childrenList = new ArrayList<List<Map<String, String>>>();
-		List<Map<String, String>> list;
-		Map<String, String> childrenMap;
-		for (int j = 0; j < group.length; j++) {
-			list = new ArrayList<Map<String, String>>();
-			for (int i = 0; i < 2; i++) {
-				childrenMap = new HashMap<String, String>();
-				childrenMap.put(childFrom[0], String.valueOf(i));
-				childrenMap.put(childFrom[1], String.valueOf(i));
-				list.add(childrenMap);
-			}
-			childrenList.add(list);
-		}
+		ds = new AnswerAnalysisDS(this, childrenList);
+		ds.load(this);
 
 		SimpleExpandableListAdapter adapter = new SimpleExpandableListAdapter(
 				this, groupList, R.layout.expandable_group,
 				R.layout.expandable_group, groupFrom, groupTo, childrenList,
 				R.layout.expandable_children, childFrom, childTo);
 		return adapter;
-	}
-
-	/**
-	 * @see android.app.ExpandableListActivity#onCreateContextMenu(android.view.ContextMenu,
-	 *      android.view.View, android.view.ContextMenu.ContextMenuInfo)
-	 */
-	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v,
-	        ContextMenuInfo menuInfo) {
-
-		super.onCreateContextMenu(menu, v, menuInfo);
 	}
 
 	/**
@@ -102,38 +94,47 @@ public class AExpandableActivity extends ExpandableListActivity {
 	public boolean onChildClick(ExpandableListView parent, View v,
 	        int groupPosition, int childPosition, long id) {
 
-		Log.i("jfakj;", String.valueOf(groupPosition));
+		Log.i(TAG, String.valueOf(groupPosition));
 		if (groupPosition == 3) {
 			startActivity(new Intent(this, AEPActivity.class));
 			return true;
 		}
 		return false;
 	}
-
+	
 	/**
-	 * @see android.app.ExpandableListActivity#onGroupCollapse(int)
+	 * @see com.todayedu.ebag.teacher.DataSource.DSCallback#onLoadSuccess(java.lang.Object)
 	 */
 	@Override
-	public void onGroupCollapse(int groupPosition) {
+	public void onLoadSuccess(Object object) {
+	
+		Log.i(TAG, "onLoadSuccess");
+		AnswerAnalysisResponse response = (AnswerAnalysisResponse) object;
+		List<Data> data = ResponseParseUtil
+		        .paraAnswerAnalysisResponse(response);
+		Analysis max = ResponseParseUtil
+		        .paraAnswerAnalysisResponseGetMax(response);
+		Analysis min = ResponseParseUtil
+		        .paraAnswerAnalysisResponseGetMin(response);
+		
+		ds.setList(data);
+		ds.setMax(max);
+		ds.setMin(min);
 
-		super.onGroupCollapse(groupPosition);
+		ds.createMaps(childFrom);
+		adapter.notifyDataSetChanged();
 	}
-
+	
 	/**
-	 * @see android.app.ExpandableListActivity#onGroupExpand(int)
+	 * @see com.todayedu.ebag.teacher.DataSource.DSCallback#onLoadFailed(java.lang.Throwable)
 	 */
 	@Override
-	public void onGroupExpand(int groupPosition) {
-
-		super.onGroupExpand(groupPosition);
-	}
-
-	/**
-	 * @see android.app.ExpandableListActivity#onContentChanged()
-	 */
-	@Override
-	public void onContentChanged() {
-
-		super.onContentChanged();
+	public void onLoadFailed(Throwable throwable) {
+	
+		Log.i(TAG, "onLoadFailed");
+		if (throwable != null) {
+			Log.i(TAG, throwable.getMessage());
+		}
+		Toast.makeText(AExpandableActivity.this, "加载数据失败", 0).show();
 	}
 }

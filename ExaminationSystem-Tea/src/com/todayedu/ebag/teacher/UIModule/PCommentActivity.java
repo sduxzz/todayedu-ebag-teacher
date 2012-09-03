@@ -18,7 +18,6 @@ import android.widget.ListView;
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.TempData;
 import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
-import com.todayedu.ebag.teacher.DataSource.DSCallback;
 import com.todayedu.ebag.teacher.DataSource.Data;
 import com.todayedu.ebag.teacher.DataSource.PCommentDS;
 import com.todayedu.ebag.teacher.Network.ResponseParseUtil;
@@ -34,6 +33,7 @@ public class PCommentActivity extends BaseActivity {
 	private BaseDataAdapter adapter;
 	private PCommentDS ds;
 	private ListView lv;
+	private final String[] keys = new String[] { "number", "state" };
 
 	/**
 	 * @see com.todayedu.ebag.teacher.UIModule.MonitoredActivity#onCreate(android.os.Bundle)
@@ -45,38 +45,8 @@ public class PCommentActivity extends BaseActivity {
 		setContentView(R.layout.list);
 		Log.i(TAG, "onCreate");
 
-		final String[] keys = new String[] { "number", "state" };
-		ds = new PCommentDS(new DSCallback() {
-			
-			@Override
-			public void onLoadSuccess(Object object) {
-			
-				Log.i(TAG, "onLoadSuccess");
-				ExamResponse examResponse = (ExamResponse) object;
-				final List<Data> list = ResponseParseUtil
-				        .parseExamResponse2ProblemList(examResponse,
-				                PCommentActivity.this);
-				PCommentActivity.this.runOnUiThread(new Runnable() {
-					
-					@Override
-					public void run() {
-					
-						ds.setList(list);
-						ds.createMaps(keys);
-						ds.notifyDataChange();
-					}
-				});
-			}
-			
-			@Override
-			public void onLoadFailed(Throwable throwable) {
-			
-				if (throwable != null) {
-					Log.i(TAG, throwable.getMessage());
-				}
-				showToast("º”‘ÿ ˝æ› ß∞‹");
-			}
-		});
+
+		ds = new PCommentDS(this);
 		ds.load(this);
 		addLifeCycleListener(ds);
 
@@ -115,5 +85,24 @@ public class PCommentActivity extends BaseActivity {
 	
 		TempData.storeData(ds, position - 1);
 		start(PCCActivity.class);
+	}
+	
+	@Override
+	public void onLoadSuccess(Object object) {
+	
+		super.onLoadSuccess(object);
+		ExamResponse examResponse = (ExamResponse) object;
+		final List<Data> list = ResponseParseUtil
+		        .parseExamResponse2ProblemList(examResponse,
+		                PCommentActivity.this);
+		ds.setList(list);
+		ds.createMaps(keys);
+		PCommentActivity.this.runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				ds.notifyDataChange();
+			}
+		});
 	}
 }

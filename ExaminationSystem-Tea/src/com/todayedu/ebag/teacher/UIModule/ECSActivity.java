@@ -10,7 +10,6 @@ import java.util.List;
 import org.ebag.net.response.ExamResponse;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -18,7 +17,6 @@ import android.widget.ListView;
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.TempData;
 import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
-import com.todayedu.ebag.teacher.DataSource.DSCallback;
 import com.todayedu.ebag.teacher.DataSource.Data;
 import com.todayedu.ebag.teacher.DataSource.ECSDS;
 import com.todayedu.ebag.teacher.Network.ResponseParseUtil;
@@ -34,6 +32,7 @@ public class ECSActivity extends BaseActivity {
 	private BaseDataAdapter adapter;
 	private ECSDS ds;
 	private ListView lv;
+	private final String[] keys = new String[] { "number", "state" };
 	/**
 	 * @see com.todayedu.ebag.teacher.UIModule.MonitoredActivity#onCreate(android.os.Bundle)
 	 */
@@ -43,38 +42,7 @@ public class ECSActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list);
 
-		final String[] keys = new String[] { "number", "state" };
-		ds = new ECSDS(new DSCallback() {
-			
-			@Override
-			public void onLoadSuccess(Object object) {
-			
-				Log.i(TAG, "onLoadSuccess");
-				ExamResponse examResponse = (ExamResponse) object;
-				final List<Data> list = ResponseParseUtil
-				        .parseExamResponse2ProblemList(examResponse,
-				                ECSActivity.this);
-				ECSActivity.this.runOnUiThread(new Runnable() {
-					
-					@Override
-					public void run() {
-					
-						ds.setList(list);
-						ds.createMaps(keys);
-						ds.notifyDataChange();
-					}
-				});
-			}
-			
-			@Override
-			public void onLoadFailed(Throwable throwable) {
-			
-				if (throwable != null) {
-					Log.i(TAG, throwable.getMessage());
-				}
-				showToast("º”‘ÿ ˝æ› ß∞‹");
-			}
-		});
+		ds = new ECSDS(this);
 		ds.load(this);
 		addLifeCycleListener(ds);
 		
@@ -99,5 +67,24 @@ public class ECSActivity extends BaseActivity {
 	
 		TempData.storeData(ds, position - 1);
 		start(ECSSActivity.class);
+	}
+	
+	@Override
+	public void onLoadSuccess(Object object) {
+	
+		super.onLoadSuccess(object);
+		ExamResponse examResponse = (ExamResponse) object;
+		final List<Data> list = ResponseParseUtil
+		        .parseExamResponse2ProblemList(examResponse, ECSActivity.this);
+		ECSActivity.this.runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+			
+				ds.setList(list);
+				ds.createMaps(keys);
+				ds.notifyDataChange();
+			}
+		});
 	}
 }

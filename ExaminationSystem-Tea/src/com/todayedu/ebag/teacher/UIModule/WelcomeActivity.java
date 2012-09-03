@@ -49,19 +49,19 @@ public class WelcomeActivity extends BaseActivity {
 	
 	public void onConfirm(View view) {
 	
-		Log.i(TAG, "onConfirm");
 		if (NetWorkUtil.isConnected(this)) {
-			
+			Log.i(TAG, "onConfirm connected");
 			String name = et1.getText().toString();
 			String password = et2.getText().toString();
 
-			final NetworkClient client = new NetworkClient();
+			NetworkClient client = new NetworkClient();
 			client.setHandler(new LoginHandler(this, name, password,
 			        new NetworkCallBack() {
 				        
 				        @Override
 				        public void success(Object response) {
 				        
+					        Log.i(TAG, "onConfirm success");
 					        LoginResponse loginResponse = (LoginResponse) response;
 					        Euser user = loginResponse.user;
 					        Parameters.add(user.getId(), ParaIndex.UID_INDEX);//add uid to globle parameter

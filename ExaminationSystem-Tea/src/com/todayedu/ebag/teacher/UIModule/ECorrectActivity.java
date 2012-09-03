@@ -19,7 +19,6 @@ import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
-import com.todayedu.ebag.teacher.DataSource.DSCallback;
 import com.todayedu.ebag.teacher.DataSource.Data;
 import com.todayedu.ebag.teacher.DataSource.ECorrectDS;
 import com.todayedu.ebag.teacher.DataSource.DataObj.Student;
@@ -36,6 +35,7 @@ public class ECorrectActivity extends BaseActivity {
 	private BaseDataAdapter adapter;
 	private ECorrectDS ds;
 	private ListView lv;
+	private final String[] keys = new String[] { "sid", "sname", "state" };
 
 	/**
 	 * @see com.todayedu.ebag.teacher.UIModule.MonitoredActivity#onCreate(android.os.Bundle)
@@ -47,38 +47,7 @@ public class ECorrectActivity extends BaseActivity {
 		setContentView(R.layout.list);
 		Log.i(TAG, "onCreate");
 
-		final String[] keys = new String[] { "sid", "sname", "state" };
-		
-		ds = new ECorrectDS(new DSCallback() {
-			
-			@Override
-			public void onLoadSuccess(Object object) {
-			
-				Log.i(TAG, "onLoadSuccess");
-				ClassExamactivityResponse examResponse = (ClassExamactivityResponse) object;
-				final List<Data> list = ResponseParseUtil
-				        .paraClassExamActivityResponse(examResponse);
-				ds.setList(list);
-				ds.createMaps(keys);
-				ECorrectActivity.this.runOnUiThread(new Runnable() {
-					
-					@Override
-					public void run() {
-					
-						ds.notifyDataChange();
-					}
-				});
-			}
-			
-			@Override
-			public void onLoadFailed(Throwable throwable) {
-			
-				if (throwable != null) {
-					Log.i(TAG, throwable.getMessage());
-				}
-				showToast("º”‘ÿ ˝æ› ß∞‹");
-			}
-		});
+		ds = new ECorrectDS(this);
 		ds.load(this);
 		addLifeCycleListener(ds);
 		
@@ -105,5 +74,23 @@ public class ECorrectActivity extends BaseActivity {
 		Parameters.add(student.getSid(), ParaIndex.SID_INDEX);
 		start(ECSActivity.class);
 	}
-
+	
+	@Override
+	public void onLoadSuccess(Object object) {
+	
+		super.onLoadSuccess(object);
+		ClassExamactivityResponse examResponse = (ClassExamactivityResponse) object;
+		final List<Data> list = ResponseParseUtil
+		        .paraClassExamActivityResponse(examResponse);
+		ds.setList(list);
+		ds.createMaps(keys);
+		ECorrectActivity.this.runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+			
+				ds.notifyDataChange();
+			}
+		});
+	}
 }

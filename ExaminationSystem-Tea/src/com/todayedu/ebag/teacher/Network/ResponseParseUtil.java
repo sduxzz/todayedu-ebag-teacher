@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.Set;
 
 import org.ebag.net.obj.I.choice;
+import org.ebag.net.obj.answer.AnswerAnalysis;
 import org.ebag.net.obj.exam.ExamObj;
+import org.ebag.net.response.AnswerAnalysisResponse;
 import org.ebag.net.response.ClassExamactivityResponse;
 import org.ebag.net.response.ClassInfoResponse;
 import org.ebag.net.response.ExamResponse;
@@ -23,6 +25,7 @@ import com.todayedu.ebag.teacher.Constants.StateStr;
 import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.DataSource.Data;
+import com.todayedu.ebag.teacher.DataSource.DataObj.Analysis;
 import com.todayedu.ebag.teacher.DataSource.DataObj.EClass;
 import com.todayedu.ebag.teacher.DataSource.DataObj.Exam;
 import com.todayedu.ebag.teacher.DataSource.DataObj.Problem;
@@ -146,5 +149,26 @@ public class ResponseParseUtil {
 		
 		return list;
 	}
-
+	
+	public static List<Data> paraAnswerAnalysisResponse(
+	        AnswerAnalysisResponse response) {
+	
+		AnswerAnalysis analysis = response.res;
+		List<Data> list = new ArrayList<Data>();
+		Analysis a;
+		// TODO:获取数据,加到list中
+		return list;
+	}
+	
+	public static Analysis paraAnswerAnalysisResponseGetMax(
+	        AnswerAnalysisResponse response) {
+	
+		return Analysis.para2Analysis();
+	}
+	
+	public static Analysis paraAnswerAnalysisResponseGetMin(
+	        AnswerAnalysisResponse response) {
+	
+		return Analysis.para2Analysis();
+	}
 }

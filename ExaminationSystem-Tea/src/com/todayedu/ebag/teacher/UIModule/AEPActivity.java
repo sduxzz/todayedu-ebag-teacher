@@ -12,8 +12,6 @@ import java.util.Map;
 
 import android.app.ExpandableListActivity;
 import android.os.Bundle;
-import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.SimpleExpandableListAdapter;
@@ -80,53 +78,16 @@ public class AEPActivity extends ExpandableListActivity {
 				R.layout.expandable_children, childFrom, childTo);
 		return adapter;
 	}
-
-	/**
-	 * @see android.app.ExpandableListActivity#onCreateContextMenu(android.view.ContextMenu,
-	 *      android.view.View, android.view.ContextMenu.ContextMenuInfo)
-	 */
-	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v,
-			ContextMenuInfo menuInfo) {
-
-		super.onCreateContextMenu(menu, v, menuInfo);
-	}
-
+	
 	/**
 	 * @see android.app.ExpandableListActivity#onChildClick(android.widget.ExpandableListView,
 	 *      android.view.View, int, int, long)
 	 */
 	@Override
 	public boolean onChildClick(ExpandableListView parent, View v,
-			int groupPosition, int childPosition, long id) {
-
+	        int groupPosition, int childPosition, long id) {
+	
 		return true;
 	}
 
-	/**
-	 * @see android.app.ExpandableListActivity#onGroupCollapse(int)
-	 */
-	@Override
-	public void onGroupCollapse(int groupPosition) {
-
-		super.onGroupCollapse(groupPosition);
-	}
-
-	/**
-	 * @see android.app.ExpandableListActivity#onGroupExpand(int)
-	 */
-	@Override
-	public void onGroupExpand(int groupPosition) {
-
-		super.onGroupExpand(groupPosition);
-	}
-
-	/**
-	 * @see android.app.ExpandableListActivity#onContentChanged()
-	 */
-	@Override
-	public void onContentChanged() {
-
-		super.onContentChanged();
-	}
 }

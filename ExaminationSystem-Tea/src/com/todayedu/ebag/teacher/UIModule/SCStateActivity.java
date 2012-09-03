@@ -11,7 +11,6 @@ import org.ebag.net.obj.I.choice;
 import org.ebag.net.response.ClassExamactivityResponse;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -19,13 +18,12 @@ import android.widget.TextView;
 import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
-import com.todayedu.ebag.teacher.DataSource.DSCallback;
 import com.todayedu.ebag.teacher.DataSource.Data;
 import com.todayedu.ebag.teacher.DataSource.SCStateDS;
 import com.todayedu.ebag.teacher.Network.ResponseParseUtil;
 
 /**
- * 考场状态(考试类型（家庭作业，学校考试），考生列表)
+ * 考场情况(考试类型（家庭作业，学校考试），考生列表)
  * 
  * @author zhenzxie
  * 
@@ -37,6 +35,7 @@ public class SCStateActivity extends BaseActivity {
 	private TextView tv_2;
 	private TextView tv_4;
 	private ListView lv;
+	private final String[] keys = new String[] { "sid", "sname", "state" };
 
 	/**
 	 * @see com.todayedu.ebag.teacher.UIModule.MonitoredActivity#onCreate(android.os.Bundle)
@@ -56,37 +55,7 @@ public class SCStateActivity extends BaseActivity {
 		}
 		tv_4.setText(Parameters.getClassName());
 		
-		final String[] keys = new String[] { "sid", "sname", "state" };
-		ds = new SCStateDS(new DSCallback() {
-			
-			@Override
-			public void onLoadSuccess(Object object) {
-			
-				Log.i(TAG, "onLoadSuccess");
-				ClassExamactivityResponse examResponse = (ClassExamactivityResponse) object;
-				final List<Data> list = ResponseParseUtil
-				        .paraClassExamActivityResponse(examResponse);
-				ds.setList(list);
-				ds.createMaps(keys);
-				SCStateActivity.this.runOnUiThread(new Runnable() {
-					
-					@Override
-					public void run() {
-					
-						ds.notifyDataChange();
-					}
-				});
-			}
-			
-			@Override
-			public void onLoadFailed(Throwable throwable) {
-			
-				if (throwable != null) {
-					Log.i(TAG, throwable.getMessage());
-				}
-				showToast("加载数据失败");
-			}
-		});
+		ds = new SCStateDS(this);
 		ds.load(this);
 		addLifeCycleListener(ds);
 		
@@ -98,5 +67,24 @@ public class SCStateActivity extends BaseActivity {
 		View headerView = HeaderViewFactory.createHeaderView3(this,
 		        R.array.exam_lookup_during);
 		initListView(lv, headerView, adapter);
+	}
+	
+	@Override
+	public void onLoadSuccess(Object object) {
+	
+		super.onLoadSuccess(object);
+		ClassExamactivityResponse examResponse = (ClassExamactivityResponse) object;
+		final List<Data> list = ResponseParseUtil
+		        .paraClassExamActivityResponse(examResponse);
+		ds.setList(list);
+		ds.createMaps(keys);
+		SCStateActivity.this.runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+			
+				ds.notifyDataChange();
+			}
+		});
 	}
 }

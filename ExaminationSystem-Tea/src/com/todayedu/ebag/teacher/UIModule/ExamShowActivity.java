@@ -20,7 +20,6 @@ import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
 import com.todayedu.ebag.teacher.DataSource.BaseDataSource;
-import com.todayedu.ebag.teacher.DataSource.DSCallback;
 import com.todayedu.ebag.teacher.DataSource.Data;
 import com.todayedu.ebag.teacher.DataSource.ExamListDS;
 import com.todayedu.ebag.teacher.DataSource.DataObj.Exam;
@@ -48,6 +47,7 @@ public class ExamShowActivity extends BaseActivity {
 	private ListView lv;
 	private BaseDataAdapter adapter;
 	private BaseDataSource ds;
+	private final String[] keys = new String[] { "ename", "eid" };
 
 	/*
 	 * the mode of this ExamShowActivity;
@@ -87,36 +87,7 @@ public class ExamShowActivity extends BaseActivity {
 	 */
 	protected void init() {
 
-		final String[] keys = new String[] { "ename", "eid" };
-		ds = new ExamListDS(new DSCallback() {
-			
-			@Override
-			public void onLoadSuccess(Object object) {
-			
-				ExamResponse examResponse = (ExamResponse) object;
-				final List<Data> list = ResponseParseUtil
-				        .parseExamResponse(examResponse);
-				ExamShowActivity.this.runOnUiThread(new Runnable() {
-					
-					@Override
-					public void run() {
-					
-						ds.setList(list);
-						ds.createMaps(keys);
-						ds.notifyDataChange();
-					}
-				});
-			}
-			
-			@Override
-			public void onLoadFailed(Throwable throwable) {
-			
-				if (throwable != null) {
-					Log.i(TAG, throwable.getMessage());
-				}
-				showToast("º”‘ÿ ˝æ› ß∞‹");
-			}
-		});
+		ds = new ExamListDS(this);
 		ds.load(this);
 		addLifeCycleListener(ds);
 
@@ -148,5 +119,24 @@ public class ExamShowActivity extends BaseActivity {
 		Parameters.add(eid, ParaIndex.EID_INDEX);
 		Parameters.setExam(exam);
 		start(allTargetActivity[mode]);
+	}
+	
+	@Override
+	public void onLoadSuccess(Object object) {
+	
+		super.onLoadSuccess(object);
+		ExamResponse examResponse = (ExamResponse) object;
+		final List<Data> list = ResponseParseUtil
+		        .parseExamResponse(examResponse);
+		ds.setList(list);
+		ds.createMaps(keys);
+		ExamShowActivity.this.runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+			
+				ds.notifyDataChange();
+			}
+		});
 	}
 }

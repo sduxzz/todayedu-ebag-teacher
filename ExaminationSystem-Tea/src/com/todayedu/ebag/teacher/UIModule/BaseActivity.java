@@ -11,12 +11,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.todayedu.ebag.teacher.DataSource.DSCallback;
 
 /**
  * the base activity i used on my application it supplies some useful method
@@ -26,7 +29,7 @@ import android.widget.Toast;
  * @author zhenzxie
  * 
  */
-public class BaseActivity extends Activity implements OnItemClickListener {
+public class BaseActivity extends Activity implements OnItemClickListener, DSCallback {
 	
 	protected String TAG = this.getClass().getSimpleName();
 	private ArrayList<LifeCycleListener> zListeners = new ArrayList<LifeCycleListener>();
@@ -267,5 +270,27 @@ public class BaseActivity extends Activity implements OnItemClickListener {
     	lv.setCacheColorHint(Color.WHITE);
 		lv.setAdapter(adapter);
     }
+
+	/**
+	 * @see com.todayedu.ebag.teacher.DataSource.DSCallback#onLoadSuccess(java.lang.Object)
+	 */
+	@Override
+	public void onLoadSuccess(Object object) {
+	
+		Log.i(TAG, "onLoadSuccess");
+	}
+	
+	/**
+	 * @see com.todayedu.ebag.teacher.DataSource.DSCallback#onLoadFailed(java.lang.Throwable)
+	 */
+	@Override
+	public void onLoadFailed(Throwable throwable) {
+	
+		Log.i(TAG, "onLoadFailed");
+		if (throwable != null) {
+			Log.i(TAG, throwable.getMessage());
+		}
+		showToast("º”‘ÿ ˝æ› ß∞‹");
+	}
 
 }
