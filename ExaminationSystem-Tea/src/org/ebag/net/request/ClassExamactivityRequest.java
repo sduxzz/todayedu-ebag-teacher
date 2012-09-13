@@ -19,15 +19,5 @@ public class ClassExamactivityRequest implements Serializable{
 	public void setExamId(int examId) {
 		this.examId = examId;
 	}
-	
-	/**
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-	
-		return "ClassExamactivityRequest [classId=" + classId + ", examId="
-		        + examId + "]";
-	}
 
 }

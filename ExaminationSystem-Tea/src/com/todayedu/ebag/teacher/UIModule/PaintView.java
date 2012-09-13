@@ -28,6 +28,13 @@ import com.todayedu.ebag.teacher.UIModule.pen.PlainPen;
 import com.todayedu.ebag.teacher.UIModule.shapes.Curv;
 import com.todayedu.ebag.teacher.UIModule.shapes.Line;
 
+/**
+ * 老师批改题目的view
+ * 
+ * @author <a href="zhenzxie.iteye.cn">zhenzxie</a>
+ * @version 1.0
+ * @since 1.0
+ */
 public class PaintView extends View implements UndoCommand {
 
 	boolean canvasIsCreated = false;

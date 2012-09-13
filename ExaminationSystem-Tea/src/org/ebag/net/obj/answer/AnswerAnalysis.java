@@ -1,6 +1,8 @@
 package org.ebag.net.obj.answer;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class AnswerAnalysis implements Serializable{
@@ -11,6 +13,14 @@ public class AnswerAnalysis implements Serializable{
 	
 	public List<Double> rightPercent;
 
+	//考试学生总分链表
+	public List<GradeObj> allGradeList;
+	//最低、最高成绩
+	public GradeObj minGrade;
+	public GradeObj maxGrade;
+	//key为题目id,value为本题目所有学生得分情况
+	public HashMap<Integer, ArrayList<GradeObj>> detailMap;
+	
 	public int getExamId() {
 		return examId;
 	}

@@ -20,14 +20,4 @@ public class AnswerAnalysisRequest implements Serializable{
 	public void setClassId(int classId) {
 		this.classId = classId;
 	}
-	
-	/**
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-	
-		return "AnswerAnalysisRequest [examId=" + examId + ", classId="
-		        + classId + "]";
-	}
 }

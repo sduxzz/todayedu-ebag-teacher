@@ -1,6 +1,5 @@
 package ebag.pojo;
 
-
 /**
  * Examactivity entity. @author MyEclipse Persistence Tools
  */

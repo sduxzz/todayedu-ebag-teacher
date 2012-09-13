@@ -1,6 +1,5 @@
 package ebag.pojo;
 
-
 /**
  * Eanswer entity. @author MyEclipse Persistence Tools
  */
