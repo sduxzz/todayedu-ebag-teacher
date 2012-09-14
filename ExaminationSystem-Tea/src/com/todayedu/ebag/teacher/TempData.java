@@ -62,6 +62,7 @@ public class TempData {
 		return zIndex == zDataSource.getList().size() - 1;
 	}
 	
+	// 发现这个方法真心是吃饱着撑着。。
 	private static String get(int index, String key) {
 	
 		Data data = zDataSource.getList().get(index);

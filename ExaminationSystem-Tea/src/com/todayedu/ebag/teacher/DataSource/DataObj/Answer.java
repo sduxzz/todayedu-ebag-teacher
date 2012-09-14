@@ -5,7 +5,15 @@
  */
 package com.todayedu.ebag.teacher.DataSource.DataObj;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.ebag.net.obj.I.choice;
+import org.ebag.net.obj.answer.AnswerObj;
+
+import com.todayedu.ebag.teacher.Constants.StateStr;
 import com.todayedu.ebag.teacher.DataSource.Data;
+import com.todayedu.ebag.teacher.Network.UrlBuilder;
 
 
 /**
@@ -15,9 +23,9 @@ import com.todayedu.ebag.teacher.DataSource.Data;
  */
 public class Answer extends Data {
 	
-	private int sid;
-	private int eid;
-	private int pid;
+	private int sid;// 学生id
+	private int id;// 回答id
+	private int pid;// 问题id
 	private int number;
 	private double score;
 	private String state;
@@ -35,7 +43,7 @@ public class Answer extends Data {
 	        String answerofStu, String answerofTea) {
 	
 		this.sid = sid;
-		this.eid = eid;
+		this.id = eid;
 		this.pid = pid;
 		this.number = number;
 		this.score = score;
@@ -46,6 +54,41 @@ public class Answer extends Data {
 		this.answerofTea = answerofTea;
 	}
 	
+	public static List<Answer> parse(List<AnswerObj> list) {
+	
+		List<Answer> aList = new ArrayList<Answer>();
+		int i = 0;
+		for (AnswerObj obj : list) {
+			aList.add(parse(obj, i++));
+		}
+		return aList;
+	}
+
+	public static Answer parse(AnswerObj obj, int number) {
+	
+		Answer answer = new Answer();
+		answer.id = obj.id;
+		answer.pid = obj.problemId;
+		answer.sid = obj.uid;
+		answer.number = number;
+		answer.answerofStu = obj.picAnswerUrl;
+		answer.answerofTea = obj.picOfTeacherUrl;
+		answer.answerofSta = UrlBuilder.problemAnswerUrl(answer.id);
+		answer.content = UrlBuilder.problemContentUrl(answer.id);
+		answer.score = obj.point;
+		switch (obj.state) {
+			case choice.answerState_waitMark:
+				answer.state = StateStr.CORRECT;
+				break;
+			case choice.answerState_finish:
+			case choice.answerState_waitAnser:
+			case choice.answerState_waitComment:
+			default:
+				answer.state = StateStr.CORRECT;
+		}
+		return answer;
+	}
+
 	/**
 	 * @return the sid
 	 */
@@ -68,7 +111,7 @@ public class Answer extends Data {
 	 */
 	public int getEid() {
 	
-		return eid;
+		return id;
 	}
 	
 	/**
@@ -77,7 +120,7 @@ public class Answer extends Data {
 	 */
 	public void setEid(int eid) {
 	
-		this.eid = eid;
+		this.id = eid;
 	}
 	
 	/**
@@ -222,7 +265,7 @@ public class Answer extends Data {
 	@Override
 	public String toString() {
 	
-		return "Answer [sid=" + sid + ", eid=" + eid + ", pid=" + pid
+		return "Answer [sid=" + sid + ", eid=" + id + ", pid=" + pid
 		        + ", number=" + number + ", score=" + score + ", state="
 		        + state + ", content=" + content + ", answerofSta="
 		        + answerofSta + ", answerofStu=" + answerofStu

@@ -85,7 +85,6 @@ public class ECorrectActivity extends BaseActivity {
 		ds.setList(list);
 		ds.createMaps(keys);
 		ECorrectActivity.this.runOnUiThread(new Runnable() {
-			
 			@Override
 			public void run() {
 			

@@ -33,8 +33,11 @@ public class ExamHandler extends BaseNetworkHandler {
 	private List<String> fieldList;
 
 	protected NetworkCallBack networkCallBack;
+
 	/**
+	 * 
 	 * @param context
+	 * @param networkCallBack
 	 * @param classId
 	 * @param stateList
 	 * @param idList

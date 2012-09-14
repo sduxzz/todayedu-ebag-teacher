@@ -31,6 +31,7 @@ public class PCommentDS extends BaseDataSource implements Serializable, NetworkC
      * 
      */
 	private static final long serialVersionUID = -8223593166299776033L;
+	private NetworkClient client;
 
 	public PCommentDS(DSCallback callback) {
 	
@@ -59,7 +60,7 @@ public class PCommentDS extends BaseDataSource implements Serializable, NetworkC
 		List<String> fieldList = new ArrayList<String>();
 		fieldList.add("pInfoList");// pInfoList is the field name of ExamObj
 
-		NetworkClient client = new NetworkClient();
+		client = new NetworkClient();
 		client.setHandler(new ExamHandler(context, this, cid, null,
 		        idList, fieldList));
 		client.connect();
@@ -80,5 +81,13 @@ public class PCommentDS extends BaseDataSource implements Serializable, NetworkC
 			map.put(keys[1], problem.getState());
 			maps.add(map);
 		}
+	}
+	
+	/**
+	 * @see com.todayedu.ebag.teacher.DataSource.BaseDataSource#disconnect()
+	 */
+	@Override
+	protected void disconnect() {
+	
 	}
 }

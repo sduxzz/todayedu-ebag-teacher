@@ -25,6 +25,8 @@ import com.todayedu.ebag.teacher.Network.NetworkClient;
  * 
  */
 public class SCExamDS extends BaseDataSource {
+	
+	private NetworkClient client;
 
 	public SCExamDS(DSCallback callback) {
 	
@@ -66,6 +68,15 @@ public class SCExamDS extends BaseDataSource {
 			map.put(keys[1], String.valueOf(problem.getPoint()));
 			maps.add(map);
 		}
+	}
+	
+	/**
+	 * @see com.todayedu.ebag.teacher.DataSource.BaseDataSource#disconnect()
+	 */
+	@Override
+	protected void disconnect() {
+	
+		disconnect(client);
 	}
 	
 }

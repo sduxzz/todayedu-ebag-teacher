@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.Network.NetWorkUtil;
 import com.todayedu.ebag.teacher.Network.NetworkCallBack;
+import com.todayedu.ebag.teacher.Network.NetworkClient;
 import com.todayedu.ebag.teacher.UIModule.BaseActivity;
 import com.todayedu.ebag.teacher.UIModule.BaseActivity.LifeCycleListener;
 
@@ -57,6 +58,11 @@ public abstract class BaseDataSource extends Observable implements LifeCycleList
 	protected abstract void download(Context context);
 	
 	/**
+	 * 无论是否成功从数据库或者从网络加载完数据，都应该释放链接。
+	 */
+	protected abstract void disconnect();
+	
+	/**
 	 * load the data from server if network is available or local database if
 	 * there isn't network connection.
 	 * 
@@ -89,6 +95,11 @@ public abstract class BaseDataSource extends Observable implements LifeCycleList
 		loader.execute(context);
 	}
 	
+	public void disconnect(NetworkClient client) {
+	
+		client.disconnect();
+	}
+
 	/**
 	 * 
 	 * @see com.todayedu.ebag.teacher.DataSource.DataSource#save(android.content.Context)
@@ -189,6 +200,7 @@ public abstract class BaseDataSource extends Observable implements LifeCycleList
 	@Override
 	public void success(Object response) {
 	
+		disconnect();
 		callback.onLoadSuccess(response);
 	}
 
@@ -199,6 +211,7 @@ public abstract class BaseDataSource extends Observable implements LifeCycleList
 	@Override
 	public void failed(Throwable throwable) {
 	
+		disconnect();
 		callback.onLoadFailed(throwable);
 	}
 

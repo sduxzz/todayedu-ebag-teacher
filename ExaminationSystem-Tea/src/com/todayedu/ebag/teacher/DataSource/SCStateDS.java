@@ -25,6 +25,8 @@ import com.todayedu.ebag.teacher.Network.NetworkClient;
  */
 public class SCStateDS extends BaseDataSource {
 	
+	private NetworkClient client;
+	
 	public SCStateDS(DSCallback callback) {
 	
 		super(callback);
@@ -62,6 +64,15 @@ public class SCStateDS extends BaseDataSource {
 			map.put(keys[2], student.getState());
 			maps.add(map);
 		}
+	}
+
+	/**
+	 * @see com.todayedu.ebag.teacher.DataSource.BaseDataSource#disconnect()
+	 */
+	@Override
+	protected void disconnect() {
+	
+		disconnect(client);
 	}
 
 }

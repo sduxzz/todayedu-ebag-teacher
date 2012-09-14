@@ -7,7 +7,7 @@ package com.todayedu.ebag.teacher.UIModule;
 
 import java.util.List;
 
-import org.ebag.net.response.ExamResponse;
+import org.ebag.net.response.AnswerResponse;
 
 import android.os.Bundle;
 import android.view.View;
@@ -17,8 +17,8 @@ import android.widget.ListView;
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.TempData;
 import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
-import com.todayedu.ebag.teacher.DataSource.Data;
 import com.todayedu.ebag.teacher.DataSource.ECSDS;
+import com.todayedu.ebag.teacher.DataSource.DataObj.Answer;
 import com.todayedu.ebag.teacher.Network.ResponseParseUtil;
 
 /**
@@ -73,16 +73,16 @@ public class ECSActivity extends BaseActivity {
 	public void onLoadSuccess(Object object) {
 	
 		super.onLoadSuccess(object);
-		ExamResponse examResponse = (ExamResponse) object;
-		final List<Data> list = ResponseParseUtil
-		        .parseExamResponse2ProblemList(examResponse, ECSActivity.this);
+		AnswerResponse response = (AnswerResponse) object;
+		final List<Answer> list = ResponseParseUtil
+		        .parseAnswerResponse(response);
+		ds.setList(list);
+		ds.createMaps(keys);
 		ECSActivity.this.runOnUiThread(new Runnable() {
 			
 			@Override
 			public void run() {
 			
-				ds.setList(list);
-				ds.createMaps(keys);
 				ds.notifyDataChange();
 			}
 		});

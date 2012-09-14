@@ -54,7 +54,7 @@ public class WelcomeActivity extends BaseActivity {
 			String name = et1.getText().toString();
 			String password = et2.getText().toString();
 
-			NetworkClient client = new NetworkClient();
+			final NetworkClient client = new NetworkClient();
 			client.setHandler(new LoginHandler(this, name, password,
 			        new NetworkCallBack() {
 				        
@@ -62,6 +62,7 @@ public class WelcomeActivity extends BaseActivity {
 				        public void success(Object response) {
 				        
 					        Log.i(TAG, "onConfirm success");
+					        client.disconnect();
 					        LoginResponse loginResponse = (LoginResponse) response;
 					        Euser user = loginResponse.user;
 					        Parameters.add(user.getId(), ParaIndex.UID_INDEX);//add uid to globle parameter

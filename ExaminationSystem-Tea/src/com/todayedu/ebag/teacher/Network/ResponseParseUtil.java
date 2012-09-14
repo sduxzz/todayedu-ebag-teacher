@@ -13,6 +13,7 @@ import org.ebag.net.obj.I.choice;
 import org.ebag.net.obj.answer.AnswerAnalysis;
 import org.ebag.net.obj.exam.ExamObj;
 import org.ebag.net.response.AnswerAnalysisResponse;
+import org.ebag.net.response.AnswerResponse;
 import org.ebag.net.response.ClassExamactivityResponse;
 import org.ebag.net.response.ClassInfoResponse;
 import org.ebag.net.response.ExamResponse;
@@ -26,6 +27,7 @@ import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.DataSource.Data;
 import com.todayedu.ebag.teacher.DataSource.DataObj.Analysis;
+import com.todayedu.ebag.teacher.DataSource.DataObj.Answer;
 import com.todayedu.ebag.teacher.DataSource.DataObj.EClass;
 import com.todayedu.ebag.teacher.DataSource.DataObj.Exam;
 import com.todayedu.ebag.teacher.DataSource.DataObj.Problem;
@@ -110,9 +112,6 @@ public class ResponseParseUtil {
 	        ClassExamactivityResponse response) {
 	
 		List<Examactivity> examactivities = response.lst;
-		Log.i(TAG,
-		        "paraClassExamActivityResponse ClassExamactivityResponse list's length is "
-		                + examactivities.size());
 		List<Data> list = new ArrayList<Data>();
 		Student student;
 		ExamactivityId id;
@@ -144,7 +143,7 @@ public class ResponseParseUtil {
 			}
 			student.setState(state);
 			list.add(student);
-			Log.i(TAG, "parseExamResponse:" + student.toString());
+			Log.i(TAG, "paraClassExamActivityResponse:" + student.toString());
 		}
 		
 		return list;
@@ -171,4 +170,10 @@ public class ResponseParseUtil {
 	
 		return Analysis.para2Analysis();
 	}
+	
+	public static List<Answer> parseAnswerResponse(AnswerResponse response) {
+	
+		return Answer.parse(response.examList);
+	}
+
 }

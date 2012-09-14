@@ -28,6 +28,7 @@ public class AnswerAnalysisDS extends BaseDataSource {
 	private List<List<Map<String, String>>> childrenList;
 	private Analysis max;
 	private Analysis min;
+	private NetworkClient client;
 
 	/**
 	 * @param callback
@@ -78,7 +79,7 @@ public class AnswerAnalysisDS extends BaseDataSource {
 		int cid = Parameters.get(ParaIndex.CID_INDEX);
 		int eid = Parameters.get(ParaIndex.CID_INDEX);
 		
-		NetworkClient client = new NetworkClient();
+		client = new NetworkClient();
 		client.setHandler(new AnswerAnalysisHandler(context, this, cid, eid));
 		client.connect();
 	}
@@ -167,5 +168,15 @@ public class AnswerAnalysisDS extends BaseDataSource {
 		map.put(keys[0], analysis.getName());
 		map.put(keys[1], String.valueOf(analysis.getScore()));
 		return map;
+	}
+	
+	/**
+	 * @see com.todayedu.ebag.teacher.DataSource.BaseDataSource#disconnect()
+	 */
+	@Override
+	protected void disconnect() {
+	
+		disconnect(client);
+		
 	}
 }

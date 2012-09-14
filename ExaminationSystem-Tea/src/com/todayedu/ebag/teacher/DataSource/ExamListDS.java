@@ -26,6 +26,8 @@ import com.todayedu.ebag.teacher.Network.NetworkClient;
  * 
  */
 public class ExamListDS extends BaseDataSource {
+	
+	private NetworkClient client;
 
 	public ExamListDS(DSCallback callback) {
 	
@@ -66,7 +68,7 @@ public class ExamListDS extends BaseDataSource {
 		fieldList.add("name");
 		fieldList.add("id");// id,name and type is the field name of ExamObj
 		fieldList.add("type");
-		NetworkClient client = new NetworkClient();
+		client = new NetworkClient();
 		client.setHandler(new ExamHandler(context, this, cid, stateList, null,
 		        fieldList));
 		client.connect();
@@ -89,5 +91,14 @@ public class ExamListDS extends BaseDataSource {
 			map.put(keys[1], String.valueOf(exam.getEid()));
 			maps.add(map);
 		}
+	}
+	
+	/**
+	 * @see com.todayedu.ebag.teacher.DataSource.BaseDataSource#disconnect()
+	 */
+	@Override
+	protected void disconnect() {
+	
+		disconnect(client);
 	}
 }

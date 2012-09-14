@@ -22,6 +22,8 @@ import com.todayedu.ebag.teacher.Network.NetworkClient;
  * 
  */
 public class ECorrectDS extends BaseDataSource {
+	
+	private NetworkClient client;
 
 	public ECorrectDS(DSCallback callback) {
 	
@@ -45,7 +47,7 @@ public class ECorrectDS extends BaseDataSource {
 		int cid = Parameters.get(ParaIndex.CID_INDEX);
 		int eid = Parameters.get(ParaIndex.EID_INDEX);
 
-		NetworkClient client = new NetworkClient();
+		client = new NetworkClient();
 		client.setHandler(new ClassExamActivityHandler(context, this, cid, eid));
 		client.connect();
 	}
@@ -65,5 +67,15 @@ public class ECorrectDS extends BaseDataSource {
 			map.put(keys[2], student.getState());
 			maps.add(map);
 		}
+	}
+	
+	/**
+	 * @see com.todayedu.ebag.teacher.DataSource.BaseDataSource#disconnect()
+	 */
+	@Override
+	protected void disconnect() {
+	
+		disconnect(client);
+		
 	}
 }

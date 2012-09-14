@@ -37,10 +37,12 @@ public class NetworkClient {
 	}
 	
 	public void connect() {
+
 		new Thread() {
 			
 			@Override
 			public void run() {
+
 				zConnector.connect(new InetSocketAddress("211.87.227.10",
 				        I.tupload.mina_server_port));
 				
@@ -50,6 +52,7 @@ public class NetworkClient {
 	
 	public void disconnect() {
 	
-		zConnector.dispose();
+		if (zConnector != null && zConnector.isDisposed())
+			zConnector.dispose();
 	}
 }
