@@ -11,9 +11,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="30dp"
         android:layout_marginTop="100dp"
-        android:text="@string/sp_name" />
+        android:text="@string/sp_name"
+        style="@style/listviewfont" />
 
     <TextView
         android:id="@+id/main_tv2"
@@ -22,38 +23,42 @@
         android:layout_alignLeft="@+id/main_tv1"
         android:layout_below="@+id/main_tv1"
         android:layout_marginTop="60dp"
-        android:text="@string/sp_password" />
+        android:text="@string/sp_password"
+        style="@style/listviewfont" />
 
     <EditText
         android:id="@+id/main_et1"
-        android:text="teacher"
+        android:text="@string/comm_teacher"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/main_tv1"
+        android:layout_alignBaseline="@+id/main_tv1"
         android:layout_toRightOf="@+id/main_tv1"
         android:layout_marginRight="30dp"
         android:layout_marginLeft="30dp"
+        android:inputType="text"
         android:ems="10" >
     </EditText>
 
     <EditText
         android:id="@+id/main_et2"
-        android:text="teacher"
+        android:text="@string/comm_teacher"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/main_tv2"
         android:layout_alignLeft="@+id/main_et1"
-        android:layout_alignTop="@+id/main_tv2"
-        android:layout_alignRight="@+id/main_et1"
-        android:inputType="textPassword" />
+        android:inputType="textPassword" 
+        android:ems="10"/>
 
-    <Button
+    <ImageButton
         android:id="@+id/main_btn"
+        android:src="@drawable/login_selector"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/comm_app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/main_et2"
         android:layout_alignRight="@+id/main_et2"
-        android:layout_marginTop="27dp"
-        android:onClick="onConfirm"
-        android:text="@string/comm_confirm" />
+        android:layout_below="@+id/main_tv2"
+        android:layout_marginTop="20dp"
+        android:onClick="onConfirm"/>
 
 </RelativeLayout>

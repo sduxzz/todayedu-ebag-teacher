@@ -26,6 +26,9 @@ public final class R {
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
+        public static final int login_selected=0x7f020001;
+        public static final int login_selector=0x7f020002;
+        public static final int login_unselected=0x7f020003;
     }
     public static final class id {
         public static final int aeps_tv1=0x7f070003;
@@ -131,12 +134,12 @@ public final class R {
         public static final int sp=0x7f030013;
     }
     public static final class string {
-        public static final int an_detail=0x7f050029;
-        public static final int an_max=0x7f050028;
-        public static final int an_min=0x7f050027;
+        public static final int an_detail=0x7f05002a;
+        public static final int an_max=0x7f050029;
+        public static final int an_min=0x7f050028;
         /**  analysis(an) 
          */
-        public static final int an_total=0x7f050026;
+        public static final int an_total=0x7f050027;
         /**  common(comm) 
          */
         public static final int comm_app_name=0x7f050000;
@@ -168,34 +171,35 @@ public final class R {
         public static final int comm_stu_pro_state=0x7f050004;
         public static final int comm_stu_pro_state_colon=0x7f050005;
         public static final int comm_stu_score=0x7f050003;
-        public static final int fl_exam_analysis=0x7f050021;
+        public static final int comm_teacher=0x7f05001d;
+        public static final int fl_exam_analysis=0x7f050022;
         /**  functionlist(fl) 
          */
-        public static final int fl_exam_choose=0x7f05001d;
-        public static final int fl_exam_comment=0x7f05001e;
-        public static final int fl_exam_correct=0x7f050020;
-        public static final int fl_exam_start=0x7f05001f;
-        public static final int sc_end=0x7f050025;
-        public static final int sc_exam=0x7f050023;
-        public static final int sc_start=0x7f050024;
+        public static final int fl_exam_choose=0x7f05001e;
+        public static final int fl_exam_comment=0x7f05001f;
+        public static final int fl_exam_correct=0x7f050021;
+        public static final int fl_exam_start=0x7f050020;
+        public static final int sc_end=0x7f050026;
+        public static final int sc_exam=0x7f050024;
+        public static final int sc_start=0x7f050025;
         /**  schoose(sc) 
          */
-        public static final int sc_state=0x7f050022;
+        public static final int sc_state=0x7f050023;
         /**  special(sp) 
          */
-        public static final int sp_exam_synch=0x7f05002a;
-        public static final int sp_name=0x7f050035;
-        public static final int sp_networkalter=0x7f050034;
-        public static final int sp_password=0x7f050036;
-        public static final int sp_pro_all=0x7f05002d;
-        public static final int sp_pro_label=0x7f05002e;
-        public static final int sp_pro_next=0x7f05002c;
-        public static final int sp_pro_previous=0x7f05002b;
-        public static final int sp_pro_score=0x7f05002f;
-        public static final int sp_scstate_address=0x7f050032;
-        public static final int sp_scstate_people=0x7f050033;
-        public static final int sp_stu_correctstate=0x7f050031;
-        public static final int sp_stu_score=0x7f050030;
+        public static final int sp_exam_synch=0x7f05002b;
+        public static final int sp_name=0x7f050036;
+        public static final int sp_networkalter=0x7f050035;
+        public static final int sp_password=0x7f050037;
+        public static final int sp_pro_all=0x7f05002e;
+        public static final int sp_pro_label=0x7f05002f;
+        public static final int sp_pro_next=0x7f05002d;
+        public static final int sp_pro_previous=0x7f05002c;
+        public static final int sp_pro_score=0x7f050030;
+        public static final int sp_scstate_address=0x7f050033;
+        public static final int sp_scstate_people=0x7f050034;
+        public static final int sp_stu_correctstate=0x7f050032;
+        public static final int sp_stu_score=0x7f050031;
     }
     public static final class style {
         public static final int headerviewfont=0x7f060000;
