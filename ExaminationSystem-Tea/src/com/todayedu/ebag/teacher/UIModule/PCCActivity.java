@@ -17,7 +17,9 @@ import com.todayedu.ebag.teacher.TempData;
 
 /**
  * @author zhenzxie
- *
+ * @deprecated
+ * @see PCCFragment
+ * 
  */
 public class PCCActivity extends BaseActivity {
 	

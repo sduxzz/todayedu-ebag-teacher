@@ -32,10 +32,21 @@ public final class R {
         public static final int droplist_down=0x7f020003;
         public static final int droplist_focus=0x7f020004;
         public static final int ic_launcher=0x7f020005;
-        public static final int listframe_selected=0x7f020006;
-        public static final int login_selected=0x7f020007;
-        public static final int login_selector=0x7f020008;
-        public static final int login_unselected=0x7f020009;
+        public static final int label_selected=0x7f020006;
+        public static final int label_selector=0x7f020007;
+        public static final int label_unselected=0x7f020008;
+        public static final int listframe_selected=0x7f020009;
+        public static final int login_selected=0x7f02000a;
+        public static final int login_selector=0x7f02000b;
+        public static final int login_unselected=0x7f02000c;
+        public static final int next_enabled=0x7f02000d;
+        public static final int next_selected=0x7f02000e;
+        public static final int next_selector=0x7f02000f;
+        public static final int next_unselected=0x7f020010;
+        public static final int prev_selector=0x7f020011;
+        public static final int previous_enabled=0x7f020012;
+        public static final int previous_selected=0x7f020013;
+        public static final int previous_unselected=0x7f020014;
     }
     public static final class id {
         public static final int aeps_tv1=0x7f070003;
@@ -63,7 +74,7 @@ public final class R {
         public static final int ecss_tv7=0x7f070014;
         public static final int ecss_wv1=0x7f07000f;
         public static final int ecss_wv2=0x7f070010;
-        public static final int el_examlistview=0x7f07004f;
+        public static final int el_examlistview=0x7f070050;
         public static final int fl_exam_analysis=0x7f070006;
         public static final int fl_exam_comment=0x7f070008;
         public static final int fl_exam_correct=0x7f070007;
@@ -89,10 +100,11 @@ public final class R {
         public static final int main_et2=0x7f070030;
         public static final int main_tv1=0x7f07002d;
         public static final int main_tv2=0x7f07002e;
+        public static final int pc_pccf=0x7f07003f;
+        public static final int pc_pcf=0x7f07003e;
         public static final int pcc_b1=0x7f07003b;
         public static final int pcc_b2=0x7f07003c;
-        public static final int pcc_b3=0x7f07003d;
-        public static final int pcc_b4=0x7f07003e;
+        public static final int pcc_b4=0x7f07003d;
         public static final int pcc_tv1=0x7f070032;
         public static final int pcc_tv2=0x7f070033;
         public static final int pcc_tv3=0x7f070034;
@@ -102,22 +114,22 @@ public final class R {
         public static final int pcc_wv1=0x7f070038;
         public static final int pcc_wv2=0x7f070039;
         public static final int pcc_wv3=0x7f07003a;
-        public static final int scexam=0x7f070045;
-        public static final int scexam_tv1=0x7f07003f;
-        public static final int scexam_tv2=0x7f070040;
-        public static final int scexam_tv3=0x7f070041;
-        public static final int scexam_tv4=0x7f070042;
-        public static final int scexam_tv5=0x7f070043;
-        public static final int scexam_tv6=0x7f070044;
-        public static final int schoose_end=0x7f070049;
-        public static final int schoose_exam=0x7f070047;
-        public static final int schoose_start=0x7f070048;
-        public static final int schoose_state=0x7f070046;
-        public static final int scstate=0x7f07004e;
-        public static final int scstate_tv1=0x7f07004a;
-        public static final int scstate_tv2=0x7f07004b;
-        public static final int scstate_tv3=0x7f07004c;
-        public static final int scstate_tv4=0x7f07004d;
+        public static final int scexam=0x7f070046;
+        public static final int scexam_tv1=0x7f070040;
+        public static final int scexam_tv2=0x7f070041;
+        public static final int scexam_tv3=0x7f070042;
+        public static final int scexam_tv4=0x7f070043;
+        public static final int scexam_tv5=0x7f070044;
+        public static final int scexam_tv6=0x7f070045;
+        public static final int schoose_end=0x7f07004a;
+        public static final int schoose_exam=0x7f070048;
+        public static final int schoose_start=0x7f070049;
+        public static final int schoose_state=0x7f070047;
+        public static final int scstate=0x7f07004f;
+        public static final int scstate_tv1=0x7f07004b;
+        public static final int scstate_tv2=0x7f07004c;
+        public static final int scstate_tv3=0x7f07004d;
+        public static final int scstate_tv4=0x7f07004e;
     }
     public static final class layout {
         public static final int aeps=0x7f030000;
@@ -137,10 +149,11 @@ public final class R {
         public static final int lv_3=0x7f03000e;
         public static final int main=0x7f03000f;
         public static final int pcc=0x7f030010;
-        public static final int scexam=0x7f030011;
-        public static final int schoose=0x7f030012;
-        public static final int scstate=0x7f030013;
-        public static final int sp=0x7f030014;
+        public static final int pcomment=0x7f030011;
+        public static final int scexam=0x7f030012;
+        public static final int schoose=0x7f030013;
+        public static final int scstate=0x7f030014;
+        public static final int sp=0x7f030015;
     }
     public static final class string {
         public static final int an_detail=0x7f05002a;

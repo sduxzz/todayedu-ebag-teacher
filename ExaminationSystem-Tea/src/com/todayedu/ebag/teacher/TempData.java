@@ -27,6 +27,13 @@ public class TempData {
 		zDataSource = dataSource;
 		zIndex = index;
 	}
+	
+	public static void setIndex(int index) {
+	
+		if (index >= zDataSource.getList().size())
+			return;
+		zIndex = index;
+	}
 
 	public static String getCurrent(String key) {
 	
@@ -62,7 +69,7 @@ public class TempData {
 		return zIndex == zDataSource.getList().size() - 1;
 	}
 	
-	// 发现这个方法真心是吃饱着撑着。。
+	// 发现这个方法真心是吃饱着撑着。。历史问题了。。
 	private static String get(int index, String key) {
 	
 		Data data = zDataSource.getList().get(index);

@@ -18,25 +18,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.todayedu.ebag.teacher.Parameters;
-import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.R;
+import com.todayedu.ebag.teacher.TempData;
 import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
-import com.todayedu.ebag.teacher.DataSource.BaseDataSource;
 import com.todayedu.ebag.teacher.DataSource.DSCallback;
 import com.todayedu.ebag.teacher.DataSource.Data;
-import com.todayedu.ebag.teacher.DataSource.ExamListDS;
-import com.todayedu.ebag.teacher.DataSource.DataObj.Exam;
+import com.todayedu.ebag.teacher.DataSource.PCommentDS;
 import com.todayedu.ebag.teacher.Network.ResponseParseUtil;
 
 /**
- * 五种不同模式的试卷列表，对应有着不同的headerview内容文本，跳转到不同的Activity
+ * 讲评试卷界面中的题目列表
  * 
  * @author <a href="zhenzxie.iteye.cn">zhenzxie</a>
  * @version 1.0
  * @since 1.0
  */
-public class ExamShowFragment extends ListFragment implements DSCallback {
+public class PCommentFragment extends ListFragment implements DSCallback {
 	
 	/**
 	 * @see android.app.ListFragment#onCreateView(android.view.LayoutInflater,
@@ -54,59 +51,47 @@ public class ExamShowFragment extends ListFragment implements DSCallback {
 	public void onActivityCreated(Bundle savedInstanceState) {
 	
 		super.onActivityCreated(savedInstanceState);
-		
-		FunctionActivity activity = (FunctionActivity) getActivity();
-		
-		ds = new ExamListDS(this);
-		activity.addLifeCycleListener(ds);
 
-		adapter = new BaseDataAdapter(activity, ds, R.layout.lv_1,
-		        new int[] { R.id.lv1_tv_1 }, keys);
+		PCommentActivity activity = (PCommentActivity) getActivity();
+
+		ds = new PCommentDS(this);
+		ds.load(activity);
+		activity.addLifeCycleListener(ds);
+		
+		adapter = new BaseDataAdapter(activity, ds, R.layout.lv_2, new int[] {
+		        R.id.lv2_tv_1, R.id.lv2_tv_2 }, keys);
 		ds.addObserver(adapter);
 
-		addHeaderView(activity, R.array.appname);
+		addHeaderView(activity, R.array.pro_id_state);
 		setListAdapter(adapter);
+	}
+	
+	@Override
+	public void onResume() {
+	
+		super.onResume();
+		String TAG = "PCommentFragment";
+		Log.i(TAG, "onResume");
+		if (ds != null && adapter != null) {
+			ds.notifyDataChange();
+			Log.i(TAG, "onResume notifyDataChange");
+		}
 	}
 	
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 	
 		Log.i("FunctionFragment", "onListItemClick: Item clicked " + id);
-		if (position <= 0)
-			return;
-		Exam exam = (Exam) ds.getList().get(position - 1);
-		int eid = exam.getEid();
-		Parameters.add(eid, ParaIndex.EID_INDEX);
-		Parameters.setExam(exam);
-		((FunctionActivity) getActivity()).start();
+		TempData.setIndex(position - 1);
+		changePCC();
 	}
 	
-	public void load(FunctionActivity activity) {
-
-		if (ds != null) {
-			ds.load(activity);
-		}
-	}
-	
-	private View headerView;
-	public void addHeaderView(Context context, int res) {
-	
-		headerView = HeaderViewFactory.createHeaderView1(context, res);
-		getListView().addHeaderView(headerView, null, false);
-	}
-	
-	public void changeHeaderView(Context context, int res) {
-	
-		getListView().removeHeaderView(headerView);
-		addHeaderView(context, res);
-	}
-
 	@Override
 	public void onLoadSuccess(Object object) {
 	
 		ExamResponse examResponse = (ExamResponse) object;
 		final List<Data> list = ResponseParseUtil
-		        .parseExamResponse(examResponse);
+		        .parseExamResponse2ProblemList(examResponse, getActivity());// TODO:出来list长度为的0的时候
 		ds.setList(list);
 		ds.createMaps(keys);
 		getActivity().runOnUiThread(new Runnable() {
@@ -115,14 +100,19 @@ public class ExamShowFragment extends ListFragment implements DSCallback {
 			public void run() {
 			
 				ds.notifyDataChange();
+				TempData.storeData(ds, 0);
+				changePCC();
 			}
 		});
 	}
-	
+
+	/**
+	 * @see com.todayedu.ebag.teacher.DataSource.DSCallback#onLoadFailed(java.lang.Throwable)
+	 */
 	@Override
 	public void onLoadFailed(Throwable throwable) {
 	
-		FunctionActivity activity = (FunctionActivity) getActivity();
+		PCommentActivity activity = (PCommentActivity) getActivity();
 		String TAG = "ExamShowFragment";
 		Log.i(TAG, "onLoadFailed");
 		if (throwable != null) {
@@ -130,8 +120,22 @@ public class ExamShowFragment extends ListFragment implements DSCallback {
 		}
 		activity.showToast("加载数据失败");
 	}
-
+	
 	private BaseDataAdapter adapter;
-	private BaseDataSource ds;
-	private final String[] keys = new String[] { "ename", "eid" };
+	private PCommentDS ds;
+	private final String[] keys = new String[] { "number", "state" };
+	
+	private void addHeaderView(Context context, int res) {
+	
+		View headerView = HeaderViewFactory.createHeaderView2(context, res);
+		getListView().addHeaderView(headerView, null, false);
+	}
+	
+	/**
+	 * @see PCommentActivity#changePCC()
+	 */
+	private void changePCC() {
+	
+		((PCommentActivity) getActivity()).changePCC();
+	}
 }

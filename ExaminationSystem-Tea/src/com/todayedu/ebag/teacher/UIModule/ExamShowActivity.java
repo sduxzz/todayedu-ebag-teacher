@@ -30,6 +30,7 @@ import com.todayedu.ebag.teacher.Network.ResponseParseUtil;
  * 
  * @author zhenzxie
  * @deprecated
+ * @see ExamShowFragment
  */
 public class ExamShowActivity extends BaseActivity {
 	
