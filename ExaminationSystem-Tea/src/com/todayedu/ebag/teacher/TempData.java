@@ -6,6 +6,7 @@
 package com.todayedu.ebag.teacher;
 
 import java.lang.reflect.Field;
+import java.util.Map;
 
 import com.todayedu.ebag.teacher.DataSource.BaseDataSource;
 import com.todayedu.ebag.teacher.DataSource.Data;
@@ -47,6 +48,7 @@ public class TempData {
 	public static void setState(String value) {
 	
 		set(zIndex, value);
+		zDataSource.notifyDataChange();
 	}
 
 	public static void moveToNext() {
@@ -90,5 +92,8 @@ public class TempData {
 	
 		Data data = zDataSource.getList().get(index);
 		data.setState(value);
+		
+		Map<String, String> map = zDataSource.getData().get(index);
+		map.put("state", value);
 	}
 }

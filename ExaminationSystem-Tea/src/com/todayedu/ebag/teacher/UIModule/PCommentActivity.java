@@ -30,7 +30,6 @@ public class PCommentActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pcomment);
 		Log.i(TAG, "onCreate");
-
 	}
 	
 	/**
@@ -54,6 +53,8 @@ public class PCommentActivity extends BaseActivity {
 		TempData.setState(StateStr.COMMENTED);
 		if (!TempData.isLast()) {
 			onNext(null);
+		} else {
+			changePCC();
 		}
 	}
 	
