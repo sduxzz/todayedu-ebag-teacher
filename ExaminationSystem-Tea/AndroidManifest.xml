@@ -34,32 +34,7 @@
             android:label="@string/comm_app_name"
             android:theme="@android:style/Theme.Black.NoTitleBar" >
         </activity>
-   <!-- <activity
-            android:name=".UIModule.ChooseActivity"
-            android:label="@string/comm_app_name"
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
-        </activity>
-        <activity
-            android:name=".UIModule.CommentActivity"
-            android:label="@string/comm_app_name"
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
-        </activity>
-        <activity
-            android:name=".UIModule.StartActivity"
-            android:label="@string/comm_app_name"
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
-        </activity>
-        <activity
-            android:name=".UIModule.CorrectActivity"
-            android:label="@string/comm_app_name"
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
-        </activity>
-        <activity
-            android:name=".UIModule.AnalysisActivity"
-            android:label="@string/comm_app_name"
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
-        </activity>
- -->
+
         <!-- 二级Activity -->
         <activity
             android:name=".UIModule.CFunctionActivity"

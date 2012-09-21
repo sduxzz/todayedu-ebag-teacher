@@ -16,6 +16,9 @@
      <string-array name="analysis">
         <item>@string/fl_exam_analysis</item>
     </string-array>
+    <string-array name="appname">
+        <item>@string/comm_app_name</item>
+    </string-array>
     
     <string-array name="exam_preview">
         <item>@string/comm_pro_id</item>

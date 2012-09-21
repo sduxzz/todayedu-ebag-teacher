@@ -26,6 +26,7 @@ public class Parameters {
 		public static final int EXAMSTATE_INDEX = 5;
 		public static final int PROBLEMSTATE_INDEX = 6;
 		public static final int PROBLEMNUMBER_INDEX = 7;
+		@Deprecated
 		public static final int EXAMSHOWACTIVITYMODE_INDEX = 8;
 	}
 
@@ -115,8 +116,6 @@ public class Parameters {
 		        + parameters[ParaIndex.EXAMSTATE_INDEX] + "problem state:"
 		        + parameters[ParaIndex.PROBLEMSTATE_INDEX] + "problem number:"
 		        + parameters[ParaIndex.PROBLEMNUMBER_INDEX]
-		        + "exam show acitivity mode:"
-		        + parameters[ParaIndex.EXAMSHOWACTIVITYMODE_INDEX]
 		        + "class name:" + className + "exam:" + exam;
 	}
 }

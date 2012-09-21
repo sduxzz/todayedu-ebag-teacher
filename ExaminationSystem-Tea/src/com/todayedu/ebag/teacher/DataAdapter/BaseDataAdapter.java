@@ -28,7 +28,6 @@ import com.todayedu.ebag.teacher.DataSource.BaseDataSource;
 public class BaseDataAdapter extends BaseAdapter implements Observer {
 	
 	protected BaseDataSource zDataSource;
-	
 	protected int[] zIds;
 	protected String[] zKeys;
 	protected int mResource;
@@ -245,5 +244,22 @@ public class BaseDataAdapter extends BaseAdapter implements Observer {
 	public void update(Observable observable, Object data) {
 	
 		notifyDataSetChanged();
+	}
+	
+	/**
+	 * @return the zDataSource
+	 */
+	public BaseDataSource getzDataSource() {
+	
+		return zDataSource;
+	}
+	
+	/**
+	 * @param zDataSource
+	 *            the zDataSource to set
+	 */
+	public void setzDataSource(BaseDataSource zDataSource) {
+	
+		this.zDataSource = zDataSource;
 	}
 }

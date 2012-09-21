@@ -8,8 +8,6 @@ package com.todayedu.ebag.teacher.UIModule;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.ebag.net.obj.I.choice;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,18 +22,39 @@ import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.DataSource.DataObj.EClass;
 
 /**
- * the activity suply a spinner and five buttons for teacher to select the name
- * of class and the function she will be use later. NOTO:this activity must
- * store the parameters(cid,examstate,mode) to {@link Parameters} using the
- * specified index on {@link ParaIndex},and these Parameters will be used in
- * {@link ExamShowActivity}
+ * <p>
+ * 功能选择界面。这个界面提供班级的选择功能和我的试卷，开始考试等等五个不同功能的入口
+ * </p>
+ * <p>
+ * 在这个Activity里必须使用{@link ParaIndex}来将(cid,examstate)这两个参数设置到 {@link Parameters}
+ * 中去，这些参数后面被大量使用到，为了方便，所以将他们放到全局变量中。
+ * </p>
  * 
  * @author zhenzxie
  * 
  */
-public class FunctionActivity extends BaseActivity implements OnItemSelectedListener {
+public class FunctionActivity extends BaseActivity {
+	
+	/* target header view's text id */
+	private static final int[] allHeadViewTestId = new int[] { R.array.choose,
+	        R.array.start, R.array.correct, R.array.comment, R.array.analysis };
+	/* next target activity's Class */
+	private static final Class<?>[] allTargetActivity = new Class[] {
+	        CFunctionActivity.class, SChooseActivity.class,
+	        ECorrectActivity.class, PCommentActivity.class,
+	        AExpandableActivity.class };
+	
+	/**
+	 * ExamShowActivity的模式： 0-->我的试卷;1-->开始考试;2-->批改试卷;3-->讲评试卷;4-->统计分析试卷;
+	 * <p>
+	 * 使用mode来决定使用allHeadViewTestId和allTargetActivity两个数组中的值
+	 * </p>
+	 * Note: mode的值大小必须在0到allHeadViewTestId.length(allTargetAcivity.length),
+	 * 程序并未检查mode的值是否合法！
+	 * 
+	 */
+	private int mode = -100;
 
-	private String[] names = null;
 	/**
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
 	 */
@@ -45,11 +64,12 @@ public class FunctionActivity extends BaseActivity implements OnItemSelectedList
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.function);
 
-		if (savedInstanceState != null) {
+		if (savedInstanceState != null) {// 班级不多，所以放到主线程中来做班级名字解析工作
 			names = getNames(savedInstanceState);
 		} else {
 			names = getNames(getIntent().getExtras());
 		}
+		classid = -1000;
 		initSpinner(names);
 		Log.i(TAG, "onCreate:" + Arrays.toString(names));
 	}
@@ -66,91 +86,77 @@ public class FunctionActivity extends BaseActivity implements OnItemSelectedList
 	}
 	
 	/**
-	 * @see android.app.Activity#onRestoreInstanceState(android.os.Bundle)
+	 * @param examState
+	 * @param mode
+	 *            的值注意要参考allHeadViewTestId和allTargetActivity两个成员数组，
+	 *            就不在FunctionActivity中定义静态的int来标识每种mode了。
+	 * 
 	 */
-	@Override
-	public void onRestoreInstanceState(Bundle savedInstanceState) {
+	public void examShow(int examState, int mode) {
 	
-		if (savedInstanceState == null) {
-			Log.i(TAG, "onRestoreInstanceState savedInstanceState is null");
+		if (classid == -100) {
+			showToast("请先选择班级");
 			return;
-		} else {
-			// TODO:restore the classes' name
-			Log.i(TAG, "onRestoreInstanceState restore the classes' name");
 		}
-		classid = -1000;
-		super.onRestoreInstanceState(savedInstanceState);
+		Parameters.add(examState, ParaIndex.EXAMSTATE_INDEX);
+		this.mode = mode;
+		ExamShowFragment fragment = (ExamShowFragment) getFragmentManager()
+		        .findFragmentById(R.id.fl_examshow);
+		fragment.changeHeaderView(this, allHeadViewTestId[mode]);
+		fragment.load(this);
 	}
-
-	@Override
-	public void onItemSelected(AdapterView<?> parent, View view, int position,
-	        long id) {
 	
-		Object object = spinner.getItemAtPosition(position);
-		
-		if (object != null) {
-			final int cid = list.get(position).getCid();
-			classid = cid;
-			Log.i(TAG, "onItemSelected: cid is " + cid + " position is "
-			        + position);
-			// add cid to Parameters
-			Parameters.add(cid, ParaIndex.CID_INDEX);
-			Parameters.setClassName(names[position]);
-		}
-
-	}
-
-	@Override
-	public void onNothingSelected(AdapterView<?> parent) {
+	/**
+	 * 开启目标的Activity
+	 */
+	public void start() {
 	
+		start(allTargetActivity[mode]);
 	}
 
-	public void onChoose(View view) {
-	
-		/* 0 stand for that all exam will be selected,not matter the state of exam */
-		jumpTo(0, 0);
-	}
-
-	public void onStart(View view) {
-    
-		jumpTo(choice.answerState_waitAnser, 1);
-    }
-
-	public void onCorrect(View view) {
-    
-		jumpTo(choice.answerState_waitMark, 2);
-    }
-
-	public void onComment(View view) {
-    
-		jumpTo(choice.answerState_waitComment, 3);
-    }
-
-	public void onAnalysis(View view) {
-    
-		jumpTo(choice.answerState_finish, 4);
-    }
-
+	private String[] names = null;
 	private int classid = -100;
 	private ArrayList<EClass> list;
 	private ArrayAdapter<String> adapter;
 	private Spinner spinner;
-	
+
 	/**
 	 * @param names
 	 */
-	private void initSpinner(String[] names) {
+	private void initSpinner(final String[] names) {
 	
-		spinner = (Spinner) findViewById(R.id.fl_sp);
-		if (names.length != 0) {
-			spinner.setSelection(0);// defalut select
-		}
 		adapter = new ArrayAdapter<String>(this,
 		        android.R.layout.simple_spinner_item, names);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner = (Spinner) findViewById(R.id.fl_sp);
 		spinner.setAdapter(adapter);
-		spinner.setOnItemSelectedListener(this);
+		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+			
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+			        int position, long id) {
+			
+				Object object = spinner.getItemAtPosition(position);
+				
+				if (object != null) {
+					final int cid = list.get(position).getCid();
+					classid = cid;
+					Log.i(TAG, "onItemSelected: cid is " + cid
+					        + " position is " + position);
+					Parameters.add(cid, ParaIndex.CID_INDEX);
+					Parameters.setClassName(names[position]);
+				}
+			}
+			
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+			
+			}
+		});
 		spinner.setVisibility(View.VISIBLE);
+		if (names.length != 0) {
+			spinner.setSelection(0);// defalut select
+		}
 	}
 	
 	/**
@@ -180,25 +186,21 @@ public class FunctionActivity extends BaseActivity implements OnItemSelectedList
 		return names;
 	}
 	
-	/**
-	 * @param examState
-	 * @param mode
-	 * 
-	 */
-	private void jumpTo(int examState, int mode) {
+	// /**
+	// * @see android.app.Activity#onRestoreInstanceState(android.os.Bundle)
+	// */
+	// @Override
+	// public void onRestoreInstanceState(Bundle savedInstanceState) {
+	//
+	// if (savedInstanceState == null) {
+	// Log.i(TAG, "onRestoreInstanceState savedInstanceState is null");
+	// return;
+	// } else {
+	// // TODO:restore the classes' name
+	// Log.i(TAG, "onRestoreInstanceState restore the classes' name");
+	// }
+	// classid = -1000;
+	// super.onRestoreInstanceState(savedInstanceState);
+	// }
 	
-		if (classid == -100) {
-			showToast("请先选择班级");
-			return;
-		}
-		Parameters.add(examState, ParaIndex.EXAMSTATE_INDEX);
-		Parameters.add(mode, ParaIndex.EXAMSHOWACTIVITYMODE_INDEX);
-		start(ExamShowActivity.class);
-		Log.i(TAG,
-		        "jumpTo the class id is:" + Parameters.get(ParaIndex.CID_INDEX)
-		                + " exam's state is:"
-		                + Parameters.get(ParaIndex.EXAMSTATE_INDEX)
-		                + " mode's values is:"
-		                + Parameters.get(ParaIndex.EXAMSHOWACTIVITYMODE_INDEX));
-	}
 }

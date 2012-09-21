@@ -26,17 +26,15 @@ import com.todayedu.ebag.teacher.DataSource.DataObj.Exam;
 import com.todayedu.ebag.teacher.Network.ResponseParseUtil;
 
 /**
- * Show exam list which exam is under special state.This activity has five modes
- * that stand for five state of exam.Each mode has its headViewTextId and next
- * target activity Class.
+ * 五种不同模式的试卷列表，对应有着不同的headerview内容文本，跳转到不同的Activity
  * 
  * @author zhenzxie
- * 
+ * @deprecated
  */
 public class ExamShowActivity extends BaseActivity {
 	
 	/* target header view's text id */
-	static final int[] allHeadViewTestId = new int[] { R.array.choose,
+	private static final int[] allHeadViewTestId = new int[] { R.array.choose,
 	        R.array.start, R.array.correct, R.array.comment, R.array.analysis };
 	/* next target activity's Class */
 	private static final Class<?>[] allTargetActivity = new Class[] {
@@ -49,17 +47,17 @@ public class ExamShowActivity extends BaseActivity {
 	private BaseDataSource ds;
 	private final String[] keys = new String[] { "ename", "eid" };
 
-	/*
-	 * the mode of this ExamShowActivity;
-	 * 0-->ChooseActivity:选择试卷;1-->StartActivity：开始考试的选择;2-->CorrectActivity:批改试卷的选择;
-	 * 3-->CommentActivity:讲评试卷的选择;4-->AnalysisActivity：统计分析试卷的选择;
+	/**
+	 * ExamShowActivity的模式： 0-->我的试卷;1-->开始考试;2-->批改试卷;3-->讲评试卷;4-->统计分析试卷;
+	 * <p>
+	 * 使用mode来决定使用allHeadViewTestId和allTargetActivity两个数组中的值
+	 * </p>
+	 * Note: mode的值使用Parameters[ParaIndex.EXAMSHOWACTIVITYMODE]里的值来设置,
+	 * 并且大小必须在0到allHeadViewTestId
+	 * .length(allTargetAcivity.length),程序并未检查mode的值是否合法！
 	 * 
-	 * use the value of mode to select a headviewId from allHeadViewId 
-	 * and target activity's Class from allTargetActivity.
-	 * 
-	 * Note:mode's value will be set using the value in the
-	 * Parameters[ParaIndex.EXAMSHOWACTIVITYMODE],so the value in it must range
-	 * from 0 to allHeadViewId.leng,and I didn't check mode's value.
+	 * @see Parameters
+	 * @see ParaIndex
 	 */
 	int mode = -100;
 	
@@ -72,13 +70,7 @@ public class ExamShowActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.sp);
 		mode = Parameters.get(ParaIndex.EXAMSHOWACTIVITYMODE_INDEX);
-		/*
-		 * TODO:check mode's value whether as the same as the previously when
-		 * this activity is re-initialized after previously being shut down. if
-		 * not,I must change this method which pass and save the value of mode
-		 * from FunctionnActivity
-		 */
-		Log.i(TAG, "onCreate： mode is " + mode);
+		Log.i(TAG, "onCreate： mode is " + mode);// TODO：检查mode的值在Activity重启的时候是否有一致性
 		init();
 	}
 	
