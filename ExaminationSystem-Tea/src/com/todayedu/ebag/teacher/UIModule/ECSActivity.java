@@ -53,7 +53,7 @@ public class ECSActivity extends BaseActivity {
 		lv = (ListView) findViewById(R.id.lv);
 		View headerView = HeaderViewFactory.createHeaderView2(this,
 		        R.array.pro_id_state);
-		initListView(lv, headerView, adapter);
+		resetListView(lv, headerView, adapter);
 
 	}
 	

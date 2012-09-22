@@ -261,7 +261,7 @@ public class BaseActivity extends Activity implements OnItemClickListener, DSCal
      * @param lv
      * @param headerView
      */
-	protected void initListView(ListView lv, View headerView,
+	protected void resetListView(ListView lv, View headerView,
 	        BaseAdapter adapter) {
     
         lv.addHeaderView(headerView);

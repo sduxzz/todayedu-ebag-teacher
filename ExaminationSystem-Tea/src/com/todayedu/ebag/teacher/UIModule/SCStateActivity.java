@@ -26,7 +26,8 @@ import com.todayedu.ebag.teacher.Network.ResponseParseUtil;
  * 考场情况(考试类型（家庭作业，学校考试），考生列表)
  * 
  * @author zhenzxie
- * 
+ * @deprecated
+ * @see SChooseActivity
  */
 public class SCStateActivity extends BaseActivity {
 	
@@ -66,7 +67,7 @@ public class SCStateActivity extends BaseActivity {
 		lv = (ListView) findViewById(R.id.scstate);
 		View headerView = HeaderViewFactory.createHeaderView3(this,
 		        R.array.exam_lookup_during);
-		initListView(lv, headerView, adapter);
+		resetListView(lv, headerView, adapter);
 	}
 	
 	@Override

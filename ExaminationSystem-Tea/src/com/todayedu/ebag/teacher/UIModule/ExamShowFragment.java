@@ -46,7 +46,7 @@ public class ExamShowFragment extends ListFragment implements DSCallback {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	        Bundle savedInstanceState) {
 	
-		return inflater.inflate(R.layout.fuctionchoosefragment, container,
+		return inflater.inflate(R.layout.listfragment, container,
 		        false);
 	}
 

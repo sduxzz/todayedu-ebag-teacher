@@ -44,7 +44,7 @@ public class SCStateDS extends BaseDataSource {
 		int cid = Parameters.get(ParaIndex.CID_INDEX);
 		int eid = Parameters.get(ParaIndex.EID_INDEX);
 
-		NetworkClient client = new NetworkClient();
+		client = new NetworkClient();
 		client.setHandler(new ClassExamActivityHandler(context, this, cid, eid));
 		client.connect();
 	}

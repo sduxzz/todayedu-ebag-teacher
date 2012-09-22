@@ -89,5 +89,6 @@ public class PCommentDS extends BaseDataSource implements Serializable, NetworkC
 	@Override
 	protected void disconnect() {
 	
+		client.disconnect();
 	}
 }

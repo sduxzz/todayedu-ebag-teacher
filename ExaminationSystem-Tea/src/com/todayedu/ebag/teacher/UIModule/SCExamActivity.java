@@ -26,7 +26,8 @@ import com.todayedu.ebag.teacher.Network.ResponseParseUtil;
  * 考试情况（试卷名，试卷总分，试卷时间，题目列表）
  * 
  * @author zhenzxie
- * 
+ * @deprecated
+ * @see SChooseActivity
  */
 public class SCExamActivity extends BaseActivity {
 	
@@ -66,7 +67,7 @@ public class SCExamActivity extends BaseActivity {
 		lv = (ListView) findViewById(R.id.scexam);
 		View headerView = HeaderViewFactory.createHeaderView2(this,
 				 R.array.exam_preview);
-		initListView(lv, headerView, adapter);
+		resetListView(lv, headerView, adapter);
 	}
 	
 	@Override

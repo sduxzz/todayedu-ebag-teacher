@@ -15,7 +15,7 @@
         <activity
             android:name=".UIModule.WelcomeActivity"
             android:label="@string/comm_app_name"
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
+            android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,79 +25,79 @@
         <activity
             android:name=".UIModule.FunctionActivity"
             android:label="@string/comm_app_name"
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
 
         <!-- 一级Activity -->
          <activity
             android:name=".UIModule.ExamShowActivity"
             android:label="@string/comm_app_name"
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
 
         <!-- 二级Activity -->
         <activity
             android:name=".UIModule.CFunctionActivity"
             android:label="@string/comm_app_name"
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name=".UIModule.PCommentActivity"
             android:label="@string/comm_app_name"
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name=".UIModule.ECorrectActivity"
             android:label="@string/comm_app_name"
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name=".UIModule.SChooseActivity"
-            android:theme="@android:style/Theme.Dialog" >
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name=".UIModule.AExpandableActivity"
             android:label="@string/comm_app_name"
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
 
         <!-- 三级Activity -->
         <activity
             android:name=".UIModule.SCStateActivity"
             android:label="@string/comm_app_name"
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name=".UIModule.SCExamActivity"
             android:label="@string/comm_app_name"
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name=".UIModule.ECSActivity"
             android:label="@string/comm_app_name"
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name=".UIModule.AEPActivity"
             android:label="@string/comm_app_name"
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name=".UIModule.PCCActivity"
             android:label="@string/comm_app_name"
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
 
         <!-- 四级Activity -->
         <activity
             android:name=".UIModule.ECSSActivity"
             android:label="@string/comm_app_name"
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         <activity
             android:name=".UIModule.AEPSActivity"
             android:label="@string/comm_app_name"
-            android:theme="@android:style/Theme.Black.NoTitleBar" >
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
     </application>
 

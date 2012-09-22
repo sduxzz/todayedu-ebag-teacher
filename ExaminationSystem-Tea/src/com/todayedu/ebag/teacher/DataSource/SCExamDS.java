@@ -48,7 +48,7 @@ public class SCExamDS extends BaseDataSource {
 		List<String> fieldList = new ArrayList<String>();
 		fieldList.add("pInfoList");// pInfoList is the field name of ExamObj
 
-		NetworkClient client = new NetworkClient();
+		client = new NetworkClient();
 		client.setHandler(new ExamHandler(context, this, cid, null, idList,
 		        fieldList));
 		client.connect();

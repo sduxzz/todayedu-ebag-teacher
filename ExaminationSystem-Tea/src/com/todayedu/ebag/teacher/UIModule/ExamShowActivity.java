@@ -91,7 +91,7 @@ public class ExamShowActivity extends BaseActivity {
 		lv = (ListView) findViewById(R.id.el_examlistview);
 		View headerView = HeaderViewFactory.createHeaderView1(this,
 		        allHeadViewTestId[mode]);
-		initListView(lv, headerView, adapter);
+		resetListView(lv, headerView, adapter);
 		
 	}
 

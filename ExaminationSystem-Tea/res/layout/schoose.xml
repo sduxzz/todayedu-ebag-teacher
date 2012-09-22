@@ -1,43 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@android:color/white" >
 
-    <Button
+    <ImageButton
         android:id="@+id/schoose_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="52dp"
-        android:onClick="onState"
-        android:text="@string/sc_state" />
+        android:background="@drawable/state_selector"
+        android:contentDescription="@string/comm_app_name"
+        android:layout_marginLeft="20dp"
+        android:onClick="onState" />
 
-    <Button
+    <ImageButton
         android:id="@+id/schoose_exam"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/schoose_state"
-        android:layout_below="@+id/schoose_state"
-        android:onClick="onExam"
-        android:text="@string/sc_exam" />
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/schoose_state"
+        android:background="@drawable/exam_selector"
+        android:contentDescription="@string/comm_app_name"
+        android:layout_marginLeft="20dp"
+        android:onClick="onExam" />
 
-    <Button
+    <ImageButton
         android:id="@+id/schoose_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/schoose_exam"
-        android:layout_below="@+id/schoose_exam"
-        android:onClick="onStart"
-        android:text="@string/sc_start" />
+        android:layout_toRightOf="@+id/schoose_exam"
+        android:background="@drawable/start_selector"
+        android:contentDescription="@string/comm_app_name"
+        android:layout_marginLeft="20dp"
+        android:onClick="onStart" />
 
-    <Button
+    <ImageButton
         android:id="@+id/schoose_end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/schoose_start"
-        android:layout_below="@+id/schoose_start"
-        android:onClick="onEnd"
-        android:text="@string/sc_end" />
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/schoose_start"
+        android:background="@drawable/end_selector"
+        android:contentDescription="@string/comm_app_name"
+        android:layout_marginLeft="20dp"
+        android:onClick="onEnd" />
+
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/schoose_state"
+        layout="@layout/scexam"/>
 
 </RelativeLayout>

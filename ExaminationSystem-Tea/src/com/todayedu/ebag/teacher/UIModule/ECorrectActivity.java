@@ -58,7 +58,7 @@ public class ECorrectActivity extends BaseActivity {
 		lv = (ListView) findViewById(R.id.lv);
 		View headerView = HeaderViewFactory.createHeaderView3(this,
 		        R.array.exam_corrent);
-		initListView(lv, headerView, adapter);
+		resetListView(lv, headerView, adapter);
 
 	}
 	
