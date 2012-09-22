@@ -104,11 +104,12 @@ public class SChooseActivity extends BaseActivity {
 	public void onExam(View view) {
 
 		Exam exam = Parameters.getExam();
-		setTv13Text(R.string.comm_exam_name, R.string.comm_exam_totalscore);
+		setTv13Text(R.string.comm_exam_name_colon,
+		        R.string.comm_exam_totalscore_colon);
 		tv_2.setText(exam.getEname());
 		tv_4.setText(String.valueOf(exam.getTotal()) + "·Ö");
 		setTv56Visibility(View.VISIBLE);
-		tv_5.setText(R.string.comm_exam_totaltime);
+		tv_5.setText(R.string.comm_exam_totaltime_colon);
 		tv_6.setText(String.valueOf(exam.getEtime()));
 		
 		if (scExamDs == null) {
