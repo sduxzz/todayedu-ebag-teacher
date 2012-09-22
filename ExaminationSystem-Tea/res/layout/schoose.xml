@@ -13,13 +13,14 @@
         android:background="@drawable/state_selector"
         android:contentDescription="@string/comm_app_name"
         android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
         android:onClick="onState" />
 
     <ImageButton
         android:id="@+id/schoose_exam"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_alignTop="@+id/schoose_state"
         android:layout_toRightOf="@+id/schoose_state"
         android:background="@drawable/exam_selector"
         android:contentDescription="@string/comm_app_name"
@@ -30,6 +31,7 @@
         android:id="@+id/schoose_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/schoose_state"
         android:layout_toRightOf="@+id/schoose_exam"
         android:background="@drawable/start_selector"
         android:contentDescription="@string/comm_app_name"
@@ -40,7 +42,7 @@
         android:id="@+id/schoose_end"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_alignTop="@+id/schoose_state"
         android:layout_toRightOf="@+id/schoose_start"
         android:background="@drawable/end_selector"
         android:contentDescription="@string/comm_app_name"
