@@ -166,7 +166,6 @@ public class Problem extends Data {
 	 * @param state
 	 *            the state to set
 	 */
-	@Override
 	public void setState(String state) {
 	
 		this.state = state;

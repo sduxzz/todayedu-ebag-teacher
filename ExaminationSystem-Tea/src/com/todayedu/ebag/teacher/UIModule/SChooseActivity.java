@@ -10,6 +10,7 @@ import java.util.List;
 import org.ebag.net.obj.I.choice;
 import org.ebag.net.response.ClassExamactivityResponse;
 import org.ebag.net.response.ExamResponse;
+import org.ebag.net.response.StartExamResponse;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -159,7 +160,13 @@ public class SChooseActivity extends BaseActivity {
 					                @Override
 					                public void success(Object response) {
 					                
-						                showToast("开始考试成功");
+						                StartExamResponse response2 = (StartExamResponse) response;
+						                if (response2.isStarted) {
+							                showToast("开始考试成功");
+						                } else {
+							                showToast(response2.message);
+						                }
+
 					                }
 					                
 					                @Override

@@ -29,6 +29,8 @@ public class AnswerObj implements Serializable{
 	public int state;
 	/**得分，选择题上传时应填写此字段*/
 	public double point;
+	/** score */
+	public double score;
 	
 	public int getReuqestType() {
 		return reuqestType;
@@ -101,5 +103,22 @@ public class AnswerObj implements Serializable{
 	}
 	public void setTextOfTeacher(String textOfTeacher) {
 		this.textOfTeacher = textOfTeacher;
+	}
+	
+	/**
+	 * @return the score
+	 */
+	public double getScore() {
+	
+		return score;
+	}
+	
+	/**
+	 * @param score
+	 *            the score to set
+	 */
+	public void setScore(double score) {
+	
+		this.score = score;
 	}
 }

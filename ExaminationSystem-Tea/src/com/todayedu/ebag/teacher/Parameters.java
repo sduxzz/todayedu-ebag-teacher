@@ -5,6 +5,11 @@
  */
 package com.todayedu.ebag.teacher;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.ebag.net.obj.answer.GradeObj;
+
 import com.todayedu.ebag.teacher.DataSource.DataObj.Exam;
 
 /**
@@ -33,6 +38,8 @@ public class Parameters {
 	private static int[] parameters = new int[10];
 	private static String className;
 	private static Exam exam;
+	// key为题目id,value为本题目所有学生得分情况
+	public static HashMap<Integer, ArrayList<GradeObj>> detailMap;
 	
 	public static synchronized void add(int parameter, int index) {
 	
@@ -87,20 +94,21 @@ public class Parameters {
 	}
 
 	/**
-     * @return the exam
-     */
-    public static Exam getExam() {
-    
-	    return exam;
-    }
+	 * @return the exam
+	 */
+	public static Exam getExam() {
+	
+		return exam;
+	}
 
 	/**
-     * @param exam the exam to set
-     */
-    public static void setExam(Exam exam) {
-    
-	    Parameters.exam = exam;
-    }
+	 * @param exam
+	 *            the exam to set
+	 */
+	public static void setExam(Exam exam) {
+	
+		Parameters.exam = exam;
+	}
 
 	/**
 	 * @see java.lang.Object#toString()
@@ -115,7 +123,7 @@ public class Parameters {
 		        + parameters[ParaIndex.PID_INDEX] + " exam state:"
 		        + parameters[ParaIndex.EXAMSTATE_INDEX] + "problem state:"
 		        + parameters[ParaIndex.PROBLEMSTATE_INDEX] + "problem number:"
-		        + parameters[ParaIndex.PROBLEMNUMBER_INDEX]
-		        + "class name:" + className + "exam:" + exam;
+		        + parameters[ParaIndex.PROBLEMNUMBER_INDEX] + "class name:"
+		        + className + "exam:" + exam;
 	}
 }

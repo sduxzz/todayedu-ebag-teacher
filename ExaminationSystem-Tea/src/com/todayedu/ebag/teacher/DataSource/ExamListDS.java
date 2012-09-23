@@ -69,8 +69,9 @@ public class ExamListDS extends BaseDataSource {
 		fieldList.add("id");// id,name and type is the field name of ExamObj
 		fieldList.add("type");
 		client = new NetworkClient();
-		client.setHandler(new ExamHandler(context, this, cid, stateList, null,
-		        fieldList));
+		ExamHandler handler = new ExamHandler(context, this, cid, stateList,
+		        null, fieldList);
+		client.setHandler(handler);
 		client.connect();
 	}
 	

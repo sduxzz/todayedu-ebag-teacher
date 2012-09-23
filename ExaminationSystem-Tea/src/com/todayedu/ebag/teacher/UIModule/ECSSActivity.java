@@ -21,37 +21,16 @@ import android.widget.TextView;
 
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.TempData;
-import com.todayedu.ebag.teacher.Database.BitMapUtils;
 
 /**
  * 学生某道题的批改界面
  * 
  * @author zhenzxie
- * 
+ * @deprecated
+ * @see ECSSFragment
  */
 public class ECSSActivity extends BaseActivity {
 	
-	private TextView number_tv2;
-	private TextView score_tv4;
-	private TextView state_tv6;
-	private Button previous_b1;
-	private Button next_b3;
-	private WebView content_wv1;
-	private WebView answer_wv2;
-	private EditText score_et1;
-	private ImageView answer_iv;
-	private LinearLayout paint_ll;
-	private LinearLayout layout;
-	
-	private PaintView mPaintView = null;
-
-	private String number;
-	private String state;
-	private String point;
-	private String content;
-	private String answerofSta;
-	private String answerofStu;
-
 	/**
 	 * @see com.todayedu.ebag.teacher.UIModule.MonitoredActivity#onCreate(android.os.Bundle)
 	 */
@@ -146,7 +125,7 @@ public class ECSSActivity extends BaseActivity {
 	
 		number = TempData.getCurrent("number");
 		state = TempData.getCurrent("state");
-		point = TempData.getCurrent("point");
+		point = TempData.getCurrent("score");
 		content = TempData.getCurrent("content");
 		answerofSta = TempData.getCurrent("answerofSta");
 		answerofStu = TempData.getCurrent("answerofStu");
@@ -156,7 +135,7 @@ public class ECSSActivity extends BaseActivity {
 		state_tv6.setText(point);
 		content_wv1.loadUrl(content);
 		answer_wv2.loadUrl(answerofSta);
-		answer_iv.setImageBitmap(BitMapUtils.loadFromSdCard(answerofStu));
+		// answer_iv.setImageBitmap(BitMapUtils.loadFromSdCard(answerofStu));
 		setPaintView();
 	}
 	
@@ -175,4 +154,25 @@ public class ECSSActivity extends BaseActivity {
 		else
 			next_b3.setEnabled(true);
 	}
+	
+	private TextView number_tv2;
+	private TextView score_tv4;
+	private TextView state_tv6;
+	private Button previous_b1;
+	private Button next_b3;
+	private WebView content_wv1;
+	private WebView answer_wv2;
+	private EditText score_et1;
+	private ImageView answer_iv;
+	private LinearLayout paint_ll;
+	private LinearLayout layout;
+	
+	private PaintView mPaintView = null;
+	
+	private String number;
+	private String state;
+	private String point;
+	private String content;
+	private String answerofSta;
+	private String answerofStu;
 }

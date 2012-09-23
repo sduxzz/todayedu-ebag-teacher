@@ -6,7 +6,6 @@
 package com.todayedu.ebag.teacher;
 
 import java.lang.reflect.Field;
-import java.util.Map;
 
 import com.todayedu.ebag.teacher.DataSource.BaseDataSource;
 import com.todayedu.ebag.teacher.DataSource.Data;
@@ -29,11 +28,23 @@ public class TempData {
 		zIndex = index;
 	}
 	
-	public static void setIndex(int index) {
+	public static void setCurrentIndex(int index) {
 	
 		if (index >= zDataSource.getList().size())
 			return;
 		zIndex = index;
+	}
+	
+	public static Data getCurrentData() {
+	
+		if (zDataSource == null)
+			return null;
+		return zDataSource.getList().get(zIndex);
+	}
+
+	public static int getCurrentIndex() {
+	
+		return zIndex;
 	}
 
 	public static String getCurrent(String key) {
@@ -41,16 +52,6 @@ public class TempData {
 		return get(zIndex, key);
 	}
 	
-	/*
-	 * because this method was only called when app want to reset the state of
-	 * problem,so here the type of value is String.
-	 */
-	public static void setState(String value) {
-	
-		set(zIndex, value);
-		zDataSource.notifyDataChange();
-	}
-
 	public static void moveToNext() {
 	
 		zIndex++;
@@ -63,17 +64,24 @@ public class TempData {
 
 	public static boolean isFirst() {
 	
+		if (zDataSource == null)
+			return false;
 		return zIndex == 0;
 	}
 
 	public static boolean isLast() {
 	
+		if (zDataSource == null)
+			return false;
 		return zIndex == zDataSource.getList().size() - 1;
 	}
 	
 	// 发现这个方法真心是吃饱着撑着。。历史问题了。。
 	private static String get(int index, String key) {
 	
+		if (zDataSource == null)
+			return "";
+
 		Data data = zDataSource.getList().get(index);
 		Class<? extends Data> cl = data.getClass();
 		Field field = null;
@@ -84,16 +92,25 @@ public class TempData {
 			value = field.get(data).toString();
 		} catch (Exception e) {
 			e.printStackTrace();
+			return null;
 		}
 		return value;
 	}
-	
-	private static void set(int index, String value) {
-	
-		Data data = zDataSource.getList().get(index);
-		data.setState(value);
-		
-		Map<String, String> map = zDataSource.getData().get(index);
-		map.put("state", value);
-	}
+	// /*
+	// * because this method was only called when app want to reset the state of
+	// * problem,so here the type of value is String.
+	// */
+	// public static void setState(String value) {
+	//
+	// set(zIndex, value);
+	// zDataSource.notifyDataChange();
+	// }
+	// private static void set(Class cl, int index, String value) {
+	//
+	// Data data = zDataSource.getList().get(index);
+	// data.setState(value);
+	//
+	// Map<String, String> map = zDataSource.getData().get(index);
+	// map.put("state", value);
+	// }
 }

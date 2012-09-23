@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.todayedu.ebag.teacher.Constants.StateStr;
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.TempData;
 
@@ -32,16 +31,6 @@ public class PCommentActivity extends BaseActivity {
 		Log.i(TAG, "onCreate");
 	}
 	
-	/**
-	 * @see com.todayedu.ebag.teacher.UIModule.BaseActivity#onResume()
-	 */
-	@Override
-	protected void onResume() {
-	
-		super.onResume();
-		Log.i(TAG, "onResume");
-	}
-	
 	public void onPrevious(View view) {
 	
 		TempData.moveToPrevious();
@@ -50,7 +39,9 @@ public class PCommentActivity extends BaseActivity {
 	
 	public void onLabel(View view) {
 	
-		TempData.setState(StateStr.COMMENTED);
+		PCommentFragment fragment = (PCommentFragment) this
+		        .getFragmentManager().findFragmentById(R.id.pc_pcf);
+		fragment.onLabel();
 		if (!TempData.isLast()) {
 			onNext(null);
 		} else {
@@ -68,6 +59,8 @@ public class PCommentActivity extends BaseActivity {
 	
 		PCCFragment fragment = (PCCFragment) this.getFragmentManager()
 		        .findFragmentById(R.id.pc_pccf);
+		if (fragment == null)
+			return;
 		fragment.getAndSet();
 		fragment.setButton();
 	}

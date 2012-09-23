@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.apache.mina.core.session.IoSession;
 import org.ebag.net.request.AnswerRequest;
+import org.ebag.net.response.AnswerResponse;
 
 import android.content.Context;
 import android.util.Log;
@@ -61,8 +62,6 @@ public class AnswerHandler extends BaseNetworkHandler {
 		Log.i(TAG, "sessionOpened " + request.toString());
 	}
 	
-
-	
 	/**
 	 * @see org.apache.mina.core.service.IoHandler#messageReceived(org.apache.mina.core.session.IoSession,
 	 *      java.lang.Object)
@@ -71,6 +70,13 @@ public class AnswerHandler extends BaseNetworkHandler {
 	public void messageReceived(IoSession session, Object message)
 	        throws Exception {
 	
+		if (message instanceof AnswerResponse) {
+			networkCallBack.success(message);
+		} else {
+			networkCallBack
+			        .failed(new Throwable("The return isn't right type."));
+		}
+		super.messageReceived(session, message);
 	}
 	
 }

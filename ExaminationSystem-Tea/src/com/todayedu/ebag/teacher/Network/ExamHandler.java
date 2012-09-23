@@ -62,13 +62,7 @@ public class ExamHandler extends BaseNetworkHandler {
 	public void sessionOpened(IoSession session) throws Exception {
 	
 		super.sessionOpened(session);
-		ExamRequet request = new ExamRequet();
-		request.uid = Parameters.get(ParaIndex.UID_INDEX);
-		request.classId = classId;
-		request.isTeacher = true;
-		request.idList = idList;
-		request.fieldList = fieldList;
-		request.stateList = stateList;
+		ExamRequet request = getExamRequest();
 		session.write(request);
 		Log.i(TAG, "sessionOpened" + request.toString());
 	}
@@ -87,5 +81,17 @@ public class ExamHandler extends BaseNetworkHandler {
 			        .failed(new Throwable("The return isn't right type."));
 		}
 		super.messageReceived(session, message);
+	}
+	
+	public ExamRequet getExamRequest() {
+	
+		ExamRequet request = new ExamRequet();
+		request.uid = Parameters.get(ParaIndex.UID_INDEX);
+		request.classId = classId;
+		request.isTeacher = true;
+		request.idList = idList;
+		request.fieldList = fieldList;
+		request.stateList = stateList;
+		return request;
 	}
 }

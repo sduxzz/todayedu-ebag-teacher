@@ -55,32 +55,33 @@ public class WelcomeActivity extends BaseActivity {
 			String password = et2.getText().toString();
 
 			final NetworkClient client = new NetworkClient();
-			client.setHandler(new LoginHandler(this, name, password,
+			LoginHandler handler = new LoginHandler(this, name, password,
 			        new NetworkCallBack() {
-				        
-				        @Override
-				        public void success(Object response) {
-				        
-					        Log.i(TAG, "onConfirm success");
-					        client.disconnect();
-					        LoginResponse loginResponse = (LoginResponse) response;
-					        Euser user = loginResponse.user;
-					        Parameters.add(user.getId(), ParaIndex.UID_INDEX);//add uid to globle parameter
-
-					        ArrayList<EClass> list = ResponseParseUtil
-					                .parseLoginResponse(loginResponse);
-					        start(list);
-				        }
-				        
-				        @Override
-				        public void failed(Throwable cause) {
-				        
-					        if (cause != null) {
-						        Log.i("WelcomeActivity", cause.getMessage());
-					        }
-					        showToast("µÇÂ¼Ê§°Ü£¬ÇëÖØÐÂµÇÈë", Toast.LENGTH_SHORT);
-				        }
-			        }));
+		        
+		        @Override
+		        public void success(Object response) {
+		        
+			        Log.i(TAG, "onConfirm success");
+			        client.disconnect();
+			        LoginResponse loginResponse = (LoginResponse) response;
+			        Euser user = loginResponse.user;
+			        Parameters.add(user.getId(), ParaIndex.UID_INDEX);//add uid to globle parameter
+			        ArrayList<EClass> list = ResponseParseUtil
+			                .parseLoginResponse(loginResponse);
+			        start(list);
+		        }
+		        
+		        @Override
+		        public void failed(Throwable cause) {
+		        
+			        client.disconnect();
+			        if (cause != null) {
+				        Log.i("WelcomeActivity", cause.getMessage());
+			        }
+			        showToast("µÇÂ¼Ê§°Ü£¬ÇëÖØÐÂµÇÈë", Toast.LENGTH_SHORT);
+		        }
+	        });
+			client.setHandler(handler);
 			client.connect();
 		} else {
 			Toast.makeText(WelcomeActivity.this, "Î´Á¬½ÓÍøÂç", Toast.LENGTH_SHORT)

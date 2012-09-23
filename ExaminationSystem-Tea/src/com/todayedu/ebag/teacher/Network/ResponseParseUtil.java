@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.ebag.net.obj.I.choice;
-import org.ebag.net.obj.answer.AnswerAnalysis;
+import org.ebag.net.obj.answer.GradeObj;
 import org.ebag.net.obj.exam.ExamObj;
 import org.ebag.net.response.AnswerAnalysisResponse;
 import org.ebag.net.response.AnswerResponse;
@@ -127,19 +127,13 @@ public class ResponseParseUtil {
 			student.setSname(euser.getName());
 			switch (id.getState().intValue()) {// set state of student's exam
 				case choice.answerState_waitAnser:
-					state = StateStr.HANDIN;
-					break;
 				case choice.answerState_waitMark:
 					state = StateStr.CORRECT;
 					break;
 				case choice.answerState_waitComment:
-					state = StateStr.COMMENT;
-					break;
 				case choice.answerState_finish:
-					state = StateStr.COMMENTED;
-					break;
 				default:
-					state = StateStr.HANDIN;
+					state = StateStr.CORRECTED;
 			}
 			student.setState(state);
 			list.add(student);
@@ -149,26 +143,30 @@ public class ResponseParseUtil {
 		return list;
 	}
 	
+	// 返回总分分排行榜的列表
 	public static List<Data> paraAnswerAnalysisResponse(
 	        AnswerAnalysisResponse response) {
 	
-		AnswerAnalysis analysis = response.res;
+		List<GradeObj> allGradeList = response.res.allGradeList;
 		List<Data> list = new ArrayList<Data>();
 		Analysis a;
-		// TODO:获取数据,加到list中
+		for (GradeObj gradeObj : allGradeList) {
+			a = Analysis.para2Analysis(gradeObj);
+			list.add(a);
+		}
 		return list;
 	}
 	
 	public static Analysis paraAnswerAnalysisResponseGetMax(
 	        AnswerAnalysisResponse response) {
 	
-		return Analysis.para2Analysis();
+		return Analysis.para2Analysis(response.res.maxGrade);
 	}
 	
 	public static Analysis paraAnswerAnalysisResponseGetMin(
 	        AnswerAnalysisResponse response) {
 	
-		return Analysis.para2Analysis();
+		return Analysis.para2Analysis(response.res.minGrade);
 	}
 	
 	public static List<Answer> parseAnswerResponse(AnswerResponse response) {

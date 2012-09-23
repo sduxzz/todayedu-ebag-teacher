@@ -9,13 +9,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import org.ebag.net.obj.answer.GradeObj;
 
 import android.app.ExpandableListActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.SimpleExpandableListAdapter;
 
+import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.R;
 
 /**
@@ -24,6 +29,8 @@ import com.todayedu.ebag.teacher.R;
  */
 public class AEPActivity extends ExpandableListActivity {
 	
+	private HashMap<Integer, ArrayList<GradeObj>> detailMap = Parameters.detailMap;
+
 	private String[] groupFrom = new String[] { "group" };
 
 	private int[] groupTo = new int[] { R.id.aexpandable_group };
@@ -49,24 +56,28 @@ public class AEPActivity extends ExpandableListActivity {
 
 		// groupList
 		List<Map<String, String>> groupList = new ArrayList<Map<String, String>>();
-		String[] group = getResources().getStringArray(R.array.exam_analysis);
+		int size = detailMap.size();
 		Map<String, String> groupMap;
-		for (String name : group) {
+		for (int i = 0; i < size; i++) {
 			groupMap = new HashMap<String, String>();
-			groupMap.put(groupFrom[0], name);
+			groupMap.put(groupFrom[0], "第" + i + "题");
 			groupList.add(groupMap);
 		}
 
-		// childrenList
+		// childrenList,如果数据很大，可以延迟绑定数据到list中
 		List<List<Map<String, String>>> childrenList = new ArrayList<List<Map<String, String>>>();
+		final HashMap<Integer, ArrayList<GradeObj>> detailMap = this.detailMap;
+		final Set<Integer> ids = detailMap.keySet();
+		ArrayList<GradeObj> gradeObjs;
 		List<Map<String, String>> list;
 		Map<String, String> childrenMap;
-		for (int j = 0; j < group.length; j++) {
+		for (Integer integer : ids) {
+			gradeObjs = detailMap.get(integer);
 			list = new ArrayList<Map<String, String>>();
-			for (int i = 0; i < 2; i++) {
+			for (GradeObj gradeObj : gradeObjs) {
 				childrenMap = new HashMap<String, String>();
-				childrenMap.put(childFrom[0], String.valueOf(i));
-				childrenMap.put(childFrom[1], String.valueOf(i));
+				childrenMap.put(childFrom[0], gradeObj.u_name);
+				childrenMap.put(childFrom[1], String.valueOf(gradeObj.p_grade));
 				list.add(childrenMap);
 			}
 			childrenList.add(list);
@@ -87,7 +98,8 @@ public class AEPActivity extends ExpandableListActivity {
 	public boolean onChildClick(ExpandableListView parent, View v,
 	        int groupPosition, int childPosition, long id) {
 	
+		Log.i("AERACtivity", "onChildClick: groupPosition " + groupPosition
+		        + "childPosition " + childPosition);
 		return true;
 	}
-
 }

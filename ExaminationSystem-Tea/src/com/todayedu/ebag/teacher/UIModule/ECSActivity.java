@@ -5,34 +5,20 @@
  */
 package com.todayedu.ebag.teacher.UIModule;
 
-import java.util.List;
-
-import org.ebag.net.response.AnswerResponse;
-
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.TempData;
-import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
-import com.todayedu.ebag.teacher.DataSource.ECSDS;
-import com.todayedu.ebag.teacher.DataSource.DataObj.Answer;
-import com.todayedu.ebag.teacher.Network.ResponseParseUtil;
 
 /**
- * 某个学生的要批改试卷的题目列表
+ * 某个学生的要批改试卷的界面
  * 
  * @author zhenzxie
  * 
  */
 public class ECSActivity extends BaseActivity {
 	
-	private BaseDataAdapter adapter;
-	private ECSDS ds;
-	private ListView lv;
-	private final String[] keys = new String[] { "number", "state" };
 	/**
 	 * @see com.todayedu.ebag.teacher.UIModule.MonitoredActivity#onCreate(android.os.Bundle)
 	 */
@@ -40,51 +26,43 @@ public class ECSActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 	
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.list);
-
-		ds = new ECSDS(this);
-		ds.load(this);
-		addLifeCycleListener(ds);
-		
-		adapter = new BaseDataAdapter(this, ds, R.layout.lv_2, new int[] {
-		        R.id.lv2_tv_1, R.id.lv2_tv_2 }, keys);
-		ds.addObserver(adapter);
-		
-		lv = (ListView) findViewById(R.id.lv);
-		View headerView = HeaderViewFactory.createHeaderView2(this,
-		        R.array.pro_id_state);
-		resetListView(lv, headerView, adapter);
-
+		setContentView(R.layout.ecs);
 	}
 	
-	/**
-	 * @see com.todayedu.ebag.teacher.UIModule.BaseActivity#onItemClick(android.widget.AdapterView,
-	 *      android.view.View, int, long)
-	 */
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position,
-			long id) {
+
+	public void onComfirm(View view) {
 	
-		TempData.storeData(ds, position - 1);
-		start(ECSSActivity.class);
+		ECSFragment fragment = (ECSFragment) this.getFragmentManager()
+		        .findFragmentById(R.id.ecs_ecsf);
+		if (fragment == null)
+			return;
+		fragment.onConfirm();
+		if (!TempData.isLast()) {
+			onNext(null);
+		} else {
+			changeECSS();
+		}
 	}
 	
-	@Override
-	public void onLoadSuccess(Object object) {
+	public void onPrevious(View view) {
 	
-		super.onLoadSuccess(object);
-		AnswerResponse response = (AnswerResponse) object;
-		final List<Answer> list = ResponseParseUtil
-		        .parseAnswerResponse(response);
-		ds.setList(list);
-		ds.createMaps(keys);
-		ECSActivity.this.runOnUiThread(new Runnable() {
-			
-			@Override
-			public void run() {
-			
-				ds.notifyDataChange();
-			}
-		});
+		TempData.moveToPrevious();
+		changeECSS();
+	}
+	
+	public void onNext(View view) {
+	
+		TempData.moveToNext();
+		changeECSS();
+	}
+	
+	public void changeECSS() {
+	
+		ECSSFragment fragment = (ECSSFragment) this.getFragmentManager()
+		        .findFragmentById(R.id.ecs_eccsf);
+		if (fragment == null)
+			return;
+		fragment.getAndSet();
+		fragment.setButton();
 	}
 }

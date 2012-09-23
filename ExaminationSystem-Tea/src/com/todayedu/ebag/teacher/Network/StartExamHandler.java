@@ -7,6 +7,7 @@ package com.todayedu.ebag.teacher.Network;
 
 import org.apache.mina.core.session.IoSession;
 import org.ebag.net.request.StartExamRequest;
+import org.ebag.net.response.StartExamResponse;
 
 import android.content.Context;
 
@@ -41,4 +42,17 @@ public class StartExamHandler extends BaseNetworkHandler {
 		arg0.write(request);
 	}
 	
+	@Override
+	public void messageReceived(IoSession session, Object message)
+	        throws Exception {
+	
+		if (message instanceof StartExamResponse) {
+			networkCallBack.success(message);
+		} else {
+			networkCallBack
+			        .failed(new Throwable("The return isn't right type."));
+		}
+		super.messageReceived(session, message);
+	}
+
 }

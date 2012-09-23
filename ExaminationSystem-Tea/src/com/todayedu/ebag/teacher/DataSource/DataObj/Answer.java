@@ -11,6 +11,8 @@ import java.util.List;
 import org.ebag.net.obj.I.choice;
 import org.ebag.net.obj.answer.AnswerObj;
 
+import android.util.Log;
+
 import com.todayedu.ebag.teacher.Constants.StateStr;
 import com.todayedu.ebag.teacher.DataSource.Data;
 import com.todayedu.ebag.teacher.Network.UrlBuilder;
@@ -27,13 +29,15 @@ public class Answer extends Data {
 	private int id;// 回答id
 	private int pid;// 问题id
 	private int number;
-	private double score;
+	private double score;// 题目的总分
+	private double point;// 学生的成绩
 	private String state;
 	private String content;
 	private String answerofSta;// 标准答案的url
 	private String answerofStu;// 考生答案的路径
 	private String answerofTea;// 老师批改后答案的路径
 	
+
 	public Answer() {
 	
 	}
@@ -57,7 +61,7 @@ public class Answer extends Data {
 	public static List<Answer> parse(List<AnswerObj> list) {
 	
 		List<Answer> aList = new ArrayList<Answer>();
-		int i = 0;
+		int i = 1;
 		for (AnswerObj obj : list) {
 			aList.add(parse(obj, i++));
 		}
@@ -73,19 +77,21 @@ public class Answer extends Data {
 		answer.number = number;
 		answer.answerofStu = obj.picAnswerUrl;
 		answer.answerofTea = obj.picOfTeacherUrl;
-		answer.answerofSta = UrlBuilder.problemAnswerUrl(answer.id);
-		answer.content = UrlBuilder.problemContentUrl(answer.id);
-		answer.score = obj.point;
+		answer.answerofSta = UrlBuilder.problemAnswerUrl(answer.pid);
+		answer.content = UrlBuilder.problemContentUrl(answer.pid);
+		answer.score = obj.score;
+		answer.point = obj.point;
 		switch (obj.state) {
+			case choice.answerState_waitAnser:
 			case choice.answerState_waitMark:
 				answer.state = StateStr.CORRECT;
 				break;
 			case choice.answerState_finish:
-			case choice.answerState_waitAnser:
 			case choice.answerState_waitComment:
 			default:
-				answer.state = StateStr.CORRECT;
+				answer.state = StateStr.CORRECTED;
 		}
+		Log.i(answer.TAG, "parse:" + answer.toString());
 		return answer;
 	}
 
@@ -174,6 +180,22 @@ public class Answer extends Data {
 		this.score = score;
 	}
 	
+	/**
+     * @return the point
+     */
+    public double getPoint() {
+    
+	    return point;
+    }
+
+	/**
+     * @param point the point to set
+     */
+    public void setPoint(double point) {
+    
+	    this.point = point;
+    }
+
 	/**
 	 * @return the state
 	 */
@@ -265,10 +287,10 @@ public class Answer extends Data {
 	@Override
 	public String toString() {
 	
-		return "Answer [sid=" + sid + ", eid=" + id + ", pid=" + pid
-		        + ", number=" + number + ", score=" + score + ", state="
-		        + state + ", content=" + content + ", answerofSta="
-		        + answerofSta + ", answerofStu=" + answerofStu
-		        + ", answerofTea=" + answerofTea + "]";
+		return "Answer [sid=" + sid + ", id=" + id + ", pid=" + pid
+		        + ", number=" + number + ", score=" + score + ", point="
+		        + point + ", state=" + state + ", content=" + content
+		        + ", answerofSta=" + answerofSta + ", answerofStu="
+		        + answerofStu + ", answerofTea=" + answerofTea + "]";
 	}
 }

@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white" >
+    android:background="@drawable/bg" >
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -14,6 +14,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
+            style="@style/listviewfont"
             android:text="@string/comm_pro_id_colon" />
 
         <TextView
@@ -22,6 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/ecss_tv1"
             android:layout_toRightOf="@+id/ecss_tv1"
+            style="@style/listviewfont"
             android:text="XXXX" />
 
         <TextView
@@ -30,6 +32,8 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/ecss_tv1"
             android:layout_toRightOf="@+id/ecss_tv2"
+            android:layout_marginLeft="20dp"
+            style="@style/listviewfont"
             android:text="@string/comm_pro_score_colon" />
 
         <TextView
@@ -38,6 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/ecss_tv1"
             android:layout_toRightOf="@+id/ecss_tv3"
+            style="@style/listviewfont"
             android:text="XXXX" />
 
         <TextView
@@ -46,6 +51,8 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/ecss_tv1"
             android:layout_toRightOf="@+id/ecss_tv4"
+            android:layout_marginLeft="20dp"
+            style="@style/listviewfont"
             android:text="@string/comm_stu_pro_state_colon" />
 
         <TextView
@@ -54,6 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/ecss_tv1"
             android:layout_toRightOf="@+id/ecss_tv5"
+            style="@style/listviewfont"
             android:text="XXXX" />
 
         <WebView
@@ -94,8 +102,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/ecss_ll"
+            android:layout_alignBaseline="@+id/ecss_et1"
             android:layout_marginTop="10dp"
+            style="@style/listviewfont"
             android:text="@string/sp_pro_score" />
 
         <EditText
@@ -106,41 +115,36 @@
             android:layout_toRightOf="@+id/ecss_tv7"
             android:inputType="numberDecimal" />
 
-        <Button
+        <ImageButton
             android:id="@+id/ecss_b4"
+            android:contentDescription="@string/comm_app_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ecss_ll"
+            android:layout_alignTop="@+id/ecss_et1"
+            android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/ecss_et1"
-            android:onClick="onComfire"
-            android:text="@string/comm_confirm" />
+            android:onClick="onComfirm"
+            android:background="@drawable/login_selector"/>
 
-        <Button
+        <ImageButton
             android:id="@+id/ecss_b1"
+            android:contentDescription="@string/comm_app_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/ecss_tv1"
             android:layout_below="@+id/ecss_et1"
             android:onClick="onPrevious"
-            android:text="@string/sp_pro_previous" />
+            android:background="@drawable/prev_selector" />
 
-        <Button
-            android:id="@+id/ecss_b2"
+        <ImageButton
+            android:id="@+id/ecss_b3"
+            android:contentDescription="@string/comm_app_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/ecss_b1"
             android:layout_toRightOf="@+id/ecss_b1"
-            android:onClick="onAll"
-            android:text="@string/sp_pro_all" />
-
-        <Button
-            android:id="@+id/ecss_b3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/ecss_b1"
-            android:layout_toRightOf="@+id/ecss_b2"
             android:onClick="onNext"
-            android:text="@string/sp_pro_next" />
+            android:background="@drawable/next_selector" />
     </RelativeLayout>
 
 </ScrollView>

@@ -21,6 +21,7 @@ import android.widget.ExpandableListView;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.Toast;
 
+import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.DataSource.AnswerAnalysisDS;
 import com.todayedu.ebag.teacher.DataSource.DSCallback;
@@ -117,6 +118,8 @@ public class AExpandableActivity extends ExpandableListActivity implements DSCal
 		Analysis min = ResponseParseUtil
 		        .paraAnswerAnalysisResponseGetMin(response);
 		
+		Parameters.detailMap = response.res.detailMap;// 保存整个详细列表
+
 		ds.setList(data);
 		ds.setMax(max);
 		ds.setMin(min);
@@ -133,8 +136,15 @@ public class AExpandableActivity extends ExpandableListActivity implements DSCal
 	
 		Log.i(TAG, "onLoadFailed");
 		if (throwable != null) {
-			Log.i(TAG, throwable.getMessage());
+			Log.i(TAG, throwable.getMessage() + "");
 		}
-		Toast.makeText(AExpandableActivity.this, "加载数据失败", 0).show();
+		AExpandableActivity.this.runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+			
+				Toast.makeText(AExpandableActivity.this, "加载数据失败", 0).show();
+			}
+		});
 	}
 }

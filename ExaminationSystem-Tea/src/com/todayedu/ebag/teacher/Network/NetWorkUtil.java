@@ -40,6 +40,8 @@ public class NetWorkUtil {
 	
 		ConnectivityManager manager = getConManager(context);
 		NetworkInfo info = manager.getActiveNetworkInfo();
+		if (info == null)
+			return false;
 		return info.isConnected();
 	}
 	

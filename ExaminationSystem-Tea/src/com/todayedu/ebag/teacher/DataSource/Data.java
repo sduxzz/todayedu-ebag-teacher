@@ -13,9 +13,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
-import com.todayedu.ebag.teacher.TempData;
-import com.todayedu.ebag.teacher.DataSource.DataObj.Problem;
-
 /**
  * @author zhenzxie
  * 
@@ -104,8 +101,9 @@ public abstract class Data {
 		return value;
 	}
 	
-	/** for {@link Problem} to inherite,it would be called at {@link TempData} */
-	public void setState(String state) {
-	
-	}
+	// /** for {@link Problem} to inherite,it would be called at {@link
+	// TempData} */
+	// public void setState(String state) {
+	//
+	// }
 }

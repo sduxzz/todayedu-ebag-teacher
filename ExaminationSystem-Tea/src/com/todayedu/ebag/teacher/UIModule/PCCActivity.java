@@ -11,7 +11,6 @@ import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.todayedu.ebag.teacher.Constants.StateStr;
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.TempData;
 
@@ -76,10 +75,10 @@ public class PCCActivity extends BaseActivity {
 	
 	public void onLabel(View view) {
 	
-		TempData.setState(StateStr.COMMENTED);
-		if (!TempData.isLast()) {
-			onNext(pcc_b4);
-		}
+		// TempData.setState(StateStr.COMMENTED);
+		// if (!TempData.isLast()) {
+		// onNext(pcc_b4);
+		// }
 	}
 	
 	public void onNext(View view) {

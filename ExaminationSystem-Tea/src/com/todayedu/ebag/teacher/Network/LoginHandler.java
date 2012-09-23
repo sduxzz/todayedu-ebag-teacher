@@ -39,10 +39,7 @@ public class LoginHandler extends BaseNetworkHandler {
 	public void sessionOpened(IoSession session) throws Exception {
 	
 		super.sessionOpened(session);
-		LoginRequest request = new LoginRequest();
-		request.setUid(1);
-		request.setUname(uname);
-		request.setUpwd(upwd);
+		LoginRequest request = getRequest();
 		session.write(request);
 	}
 	
@@ -64,5 +61,14 @@ public class LoginHandler extends BaseNetworkHandler {
 			}
 		}
 		super.messageReceived(session, message);
+	}
+	
+	public LoginRequest getRequest() {
+	
+		LoginRequest request = new LoginRequest();
+		request.setUid(1);
+		request.setUname(uname);
+		request.setUpwd(upwd);
+		return request;
 	}
 }
