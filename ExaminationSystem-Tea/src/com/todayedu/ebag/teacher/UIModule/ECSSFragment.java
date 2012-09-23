@@ -74,6 +74,22 @@ public class ECSSFragment extends Fragment {
 		// answer_iv.setImageBitmap(BitMapUtils.loadFromSdCard(answerofStu));
 		setPaintView();
 	}
+	
+	public String getPoint() {
+	
+		return score_et1.getText().toString();// may be nullpointerexception
+	}
+	
+	public String getPicOfTeacherUrl() {
+	
+		return null;
+	}
+	
+	public String getTextOfTeacher() {
+	
+		return null;
+	}
+
 
 	private TextView number_tv2;
 	private TextView score_tv4;

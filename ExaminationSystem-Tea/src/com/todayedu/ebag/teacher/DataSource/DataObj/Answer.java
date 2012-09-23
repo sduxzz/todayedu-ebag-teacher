@@ -33,6 +33,8 @@ public class Answer extends Data {
 	private double point;// 学生的成绩
 	private String state;
 	private String content;
+	public String textAnswer;// 问题的文字回答
+	public String textOfTeacher;// 问题的文字批阅
 	private String answerofSta;// 标准答案的url
 	private String answerofStu;// 考生答案的路径
 	private String answerofTea;// 老师批改后答案的路径
@@ -75,12 +77,11 @@ public class Answer extends Data {
 		answer.pid = obj.problemId;
 		answer.sid = obj.uid;
 		answer.number = number;
-		answer.answerofStu = obj.picAnswerUrl;
-		answer.answerofTea = obj.picOfTeacherUrl;
+		answer.textAnswer = obj.textAnswer;
+		answer.answerofStu = UrlBuilder.problemAnswerPicUrl(obj.picAnswerUrl);
 		answer.answerofSta = UrlBuilder.problemAnswerUrl(answer.pid);
 		answer.content = UrlBuilder.problemContentUrl(answer.pid);
 		answer.score = obj.score;
-		answer.point = obj.point;
 		switch (obj.state) {
 			case choice.answerState_waitAnser:
 			case choice.answerState_waitMark:
@@ -290,7 +291,9 @@ public class Answer extends Data {
 		return "Answer [sid=" + sid + ", id=" + id + ", pid=" + pid
 		        + ", number=" + number + ", score=" + score + ", point="
 		        + point + ", state=" + state + ", content=" + content
-		        + ", answerofSta=" + answerofSta + ", answerofStu="
-		        + answerofStu + ", answerofTea=" + answerofTea + "]";
+		        + ", textAnswer=" + textAnswer + ", textOfTeacher="
+		        + textOfTeacher + ", answerofSta=" + answerofSta
+		        + ", answerofStu=" + answerofStu + ", answerofTea="
+		        + answerofTea + "]";
 	}
 }

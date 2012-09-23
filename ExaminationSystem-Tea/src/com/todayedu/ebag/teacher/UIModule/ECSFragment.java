@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.todayedu.ebag.teacher.Constants.StateStr;
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.TempData;
 import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
@@ -79,8 +80,21 @@ public class ECSFragment extends ListFragment implements DSCallback {
 		}
 	}
 	
-	public void onConfirm() {
+	/**
+	 * 
+	 * @param picOfTeacherUrl
+	 * @param textOfTeacher
+	 * @param point
+	 */
+	public void onConfirm(String picOfTeacherUrl, String textOfTeacher,
+	        double point) {
 	
+		Answer answer = (Answer) TempData.getCurrentData();
+		answer.setAnswerofTea(picOfTeacherUrl);
+		answer.textOfTeacher = textOfTeacher;
+		answer.setPoint(point);
+		answer.setState(StateStr.CORRECTED);
+		ds.notifyDataChange();
 	}
 
 	@Override

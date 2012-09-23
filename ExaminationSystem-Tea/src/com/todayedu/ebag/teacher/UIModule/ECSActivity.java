@@ -36,7 +36,19 @@ public class ECSActivity extends BaseActivity {
 		        .findFragmentById(R.id.ecs_ecsf);
 		if (fragment == null)
 			return;
-		fragment.onConfirm();
+		ECSSFragment fragment2 = (ECSSFragment) this.getFragmentManager()
+		        .findFragmentById(R.id.ecs_eccsf);
+		String picOfTeacherUrl = fragment2.getPicOfTeacherUrl();
+		String textOfTeacher = fragment2.getTextOfTeacher();
+		String pointStr = fragment2.getPoint();
+		double point = 0;
+        try {
+	        point = Double.parseDouble(pointStr);
+        } catch (NumberFormatException e) {
+	        e.printStackTrace();
+			return;
+        }
+		fragment.onConfirm(picOfTeacherUrl, textOfTeacher, point);
 		if (!TempData.isLast()) {
 			onNext(null);
 		} else {
