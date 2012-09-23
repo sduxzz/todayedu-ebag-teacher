@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.todayedu.ebag.teacher.UIModule.MyScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg" >
@@ -80,22 +80,30 @@
 
         <LinearLayout
             android:id="@+id/ecss_ll"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
             android:layout_alignLeft="@+id/ecss_wv1"
             android:layout_below="@+id/ecss_wv2" >
-
-            <LinearLayout
-                android:id="@+id/ecss_ll_ll"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent" >
-            </LinearLayout>
-
-            <ImageView
-                android:id="@+id/ecss_ll_iv"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent" />
         </LinearLayout>
+        
+         <TextView
+            android:id="@+id/ecss_tv8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignBaseline="@+id/ecss_et2"
+            style="@style/listviewfont"
+            android:text="@string/sp_pro_text" />
+
+        <EditText
+            android:id="@+id/ecss_et2"
+            android:ems="10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ecss_ll"
+            android:layout_toRightOf="@+id/ecss_tv8"
+            android:inputType="text"
+             />
 
         <TextView
             android:id="@+id/ecss_tv7"
@@ -103,16 +111,16 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignBaseline="@+id/ecss_et1"
-            android:layout_marginTop="10dp"
             style="@style/listviewfont"
             android:text="@string/sp_pro_score" />
 
         <EditText
             android:id="@+id/ecss_et1"
-            android:layout_width="100dp"
+            android:ems="10"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ecss_ll"
-            android:layout_toRightOf="@+id/ecss_tv7"
+            android:layout_below="@+id/ecss_et2"
+            android:layout_alignLeft="@+id/ecss_et2"
             android:inputType="numberDecimal" />
 
         <ImageButton
@@ -121,8 +129,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/ecss_et1"
-            android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/ecss_et1"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
             android:onClick="onComfirm"
             android:background="@drawable/login_selector"/>
 
@@ -142,9 +151,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/ecss_b1"
-            android:layout_toRightOf="@+id/ecss_b1"
+            android:layout_alignLeft="@+id/ecss_et2"
             android:onClick="onNext"
             android:background="@drawable/next_selector" />
     </RelativeLayout>
 
-</ScrollView>
+</com.todayedu.ebag.teacher.UIModule.MyScrollView>

@@ -47,7 +47,7 @@ public class ECSDS extends BaseDataSource {
 	@Override
 	public void download(Context context) {
 	
-		int uid = Parameters.get(ParaIndex.UID_INDEX);
+		int uid = Parameters.get(ParaIndex.SID_INDEX);
 		int eid = Parameters.get(ParaIndex.EID_INDEX);
 		
 		client = new NetworkClient();

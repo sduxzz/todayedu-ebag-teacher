@@ -7,19 +7,23 @@ package com.todayedu.ebag.teacher.UIModule;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.todayedu.ebag.teacher.AsyncImageLoader;
+import com.todayedu.ebag.teacher.AsyncImageLoader.ImageLoadListener;
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.TempData;
+import com.todayedu.ebag.teacher.UIModule.paintpad.PaintPadViewCreator;
 
 /**
  * 学生某道题的批改界面
@@ -34,8 +38,7 @@ public class ECSSFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	        Bundle savedInstanceState) {
 	
-		return inflater.inflate(R.layout.ecss, container,
-		        false);
+		return inflater.inflate(R.layout.ecss, container, false);
 	}
 
 	@Override
@@ -43,6 +46,7 @@ public class ECSSFragment extends Fragment {
 	
 		super.onActivityCreated(savedInstanceState);
 		findView();
+		initPaintView();
 	}
 
 	public void setButton() {
@@ -71,7 +75,27 @@ public class ECSSFragment extends Fragment {
 		state_tv6.setText(state);
 		content_wv1.loadUrl(content);
 		answer_wv2.loadUrl(answerofSta);
-		// answer_iv.setImageBitmap(BitMapUtils.loadFromSdCard(answerofStu));
+		
+		if (!answerofStu.equals("")) {
+			imageLoader.loadImageBitmap(answerofStu, new ImageLoadListener() {
+				
+				@Override
+				public void onImageBitmapLoaded(Bitmap bitmap) {
+				
+					Log.i("ECSSFragment", answerofStu);
+					container_ll.setVisibility(View.VISIBLE);
+					creator.setbg(bitmap);
+				}
+				
+				@Override
+				public void onLoadFailed() {
+				
+					container_ll.setVisibility(View.GONE);
+				}
+			});
+		} else {
+			container_ll.setVisibility(View.GONE);
+		}
 		setPaintView();
 	}
 	
@@ -87,9 +111,8 @@ public class ECSSFragment extends Fragment {
 	
 	public String getTextOfTeacher() {
 	
-		return null;
+		return textofTeacher_et2.getText().toString();
 	}
-
 
 	private TextView number_tv2;
 	private TextView score_tv4;
@@ -99,12 +122,11 @@ public class ECSSFragment extends Fragment {
 	private WebView content_wv1;
 	private WebView answer_wv2;
 	private EditText score_et1;
-	private ImageView answer_iv;
-	private LinearLayout paint_ll;
-	private LinearLayout layout;
+	private EditText textofTeacher_et2;
+	private LinearLayout container_ll;
 	
-	private PaintView mPaintView = null;
-	
+	private PaintPadViewCreator creator;
+
 	private String number;
 	private String state;
 	private String score;
@@ -112,6 +134,8 @@ public class ECSSFragment extends Fragment {
 	private String answerofSta;
 	private String answerofStu;
 	
+	private AsyncImageLoader imageLoader = new AsyncImageLoader();
+
 	private void findView() {
 	
 		Activity activity = getActivity();
@@ -123,13 +147,21 @@ public class ECSSFragment extends Fragment {
 		next_b3 = (ImageButton) activity.findViewById(R.id.ecss_b3);
 		content_wv1 = (WebView) activity.findViewById(R.id.ecss_wv1);
 		answer_wv2 = (WebView) activity.findViewById(R.id.ecss_wv2);
-		answer_iv = (ImageView) activity.findViewById(R.id.ecss_ll_iv);
-		paint_ll = (LinearLayout) activity.findViewById(R.id.ecss_ll_ll);
-		layout = (LinearLayout) activity.findViewById(R.id.ecss_ll);
-		layout.setDrawingCacheQuality(LinearLayout.DRAWING_CACHE_QUALITY_HIGH);
+		score_et1 = (EditText) activity.findViewById(R.id.ecss_et1);
+		textofTeacher_et2 = (EditText) activity.findViewById(R.id.ecss_et2);
+		container_ll = (LinearLayout) activity.findViewById(R.id.ecss_ll);
 	}
 	
+	private void initPaintView() {
+	
+		creator = new PaintPadViewCreator((BaseActivity) getActivity(),
+		        container_ll, false);
+		View v = creator.getView();
+		v.setFocusable(true);
+		v.setFocusableInTouchMode(true);
+	}
+
 	private void setPaintView() {
-		
+
 	}
 }

@@ -70,6 +70,9 @@ public class ECorrectActivity extends BaseActivity {
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 	        long id) {
 	
+		if (position <= 0)
+			return;
+
 		Student student = (Student) ds.getList().get(position - 1);
 		Parameters.add(student.getSid(), ParaIndex.SID_INDEX);
 		start(ECSActivity.class);

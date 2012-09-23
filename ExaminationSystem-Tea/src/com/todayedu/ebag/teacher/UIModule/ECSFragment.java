@@ -111,6 +111,7 @@ public class ECSFragment extends ListFragment implements DSCallback {
 		AnswerResponse response = (AnswerResponse) object;
 		final List<Answer> list = ResponseParseUtil
 		        .parseAnswerResponse(response);
+		Log.i("ECSFragment", "onLoadSuccess: " + list.size());
 		ds.setList(list);
 		ds.createMaps(keys);
 		getActivity().runOnUiThread(new Runnable() {

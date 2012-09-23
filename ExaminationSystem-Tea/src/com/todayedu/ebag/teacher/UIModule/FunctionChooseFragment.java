@@ -47,11 +47,11 @@ public class FunctionChooseFragment extends ListFragment {
 	
 		super.onActivityCreated(savedInstanceState);
 		List<String> list = new ArrayList<String>();
-		list.add("我的试卷");
 		list.add("准备考试");
 		list.add("批改试卷");
 		list.add("讲评试卷");
 		list.add("统计分析");
+		// list.add("我的试卷");当需要是加上~~~
 		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.lv_1,
 		        R.id.lv1_tv_1, list));
 	}
@@ -62,20 +62,20 @@ public class FunctionChooseFragment extends ListFragment {
 		Log.i("FunctionFragment", "onListItemClick: Item clicked " + id);
 		switch (position) {
 			case 0:
-				examShow(0, 0);/* 0 代表全部的试卷，不论试卷的状态 */
-				break;
-			case 1:
 				examShow(choice.answerState_waitAnser, 1);
 				break;
-			case 2:
+			case 1:
 				examShow(choice.answerState_waitMark, 2);
 				break;
-			case 3:
+			case 2:
 				examShow(choice.answerState_waitComment, 3);
 				break;
-			case 4:
+			case 3:
 				examShow(choice.answerState_finish, 4);
 				break;
+			// case 4:
+			// examShow(0, 0);/* 0 代表全部的试卷，不论试卷的状态 */
+			// break;
 			default:
 				return;
 		}

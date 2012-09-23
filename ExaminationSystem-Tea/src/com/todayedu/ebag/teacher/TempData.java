@@ -82,6 +82,9 @@ public class TempData {
 		if (zDataSource == null)
 			return "";
 
+		if (zDataSource.getList().size() == 0)
+			return "";
+
 		Data data = zDataSource.getList().get(index);
 		Class<? extends Data> cl = data.getClass();
 		Field field = null;

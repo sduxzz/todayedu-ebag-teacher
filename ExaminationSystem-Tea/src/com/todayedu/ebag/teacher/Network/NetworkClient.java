@@ -28,8 +28,9 @@ public class NetworkClient {
 		zConnector = new NioSocketConnector();
 		zConnector.setConnectTimeoutMillis(2000);
 		DefaultIoFilterChainBuilder chain = zConnector.getFilterChain();
-		ProtocolCodecFilter filter = new ProtocolCodecFilter(
-		        new ObjectSerializationCodecFactory());
+		ObjectSerializationCodecFactory osf = new ObjectSerializationCodecFactory();
+		osf.setDecoderMaxObjectSize(osf.getDecoderMaxObjectSize() * 10);
+		ProtocolCodecFilter filter = new ProtocolCodecFilter(osf);
 		chain.addLast("objectFilter", filter);
 	}
 	

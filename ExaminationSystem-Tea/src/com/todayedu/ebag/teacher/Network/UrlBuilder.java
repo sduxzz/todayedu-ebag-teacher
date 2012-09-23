@@ -7,15 +7,17 @@ import android.util.Log;
 public class UrlBuilder {
 	
 	public static final String TAG = "UrlBuilder";
-	private static final String URL = "http://211.87.227.10:8080/ServerOfEbag/index.jsp?";
-	private static final String PID = "pid=";
+	private static final String URL = "http://211.87.227.10:8080/ServerOfEbag/index.jsp?pid=";
 	private static final String TYPE = "&type=";
 	
 	// 学生回答的图片
 	public static String problemAnswerPicUrl(String url) {
 	
+		if (url == null)
+			return "";
 		String result = null;
-		StringBuffer buffer = new StringBuffer(URL);
+		StringBuffer buffer = new StringBuffer(
+		        "http://211.87.227.10:8080/ServerOfEbag/pic/");
 		buffer.append(url);
 		result = buffer.toString();
 		Log.i(TAG, "problemAnswerPicUrl: url " + result);
@@ -68,7 +70,6 @@ public class UrlBuilder {
 	
 		String result = null;
 		StringBuffer buffer = new StringBuffer(URL);
-		buffer.append(PID);
 		buffer.append(String.valueOf(pid));
 		buffer.append(TYPE);
 		buffer.append(type);

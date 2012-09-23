@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/paint_mainLayout"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical" >
+
+	<!-- 工具箱 -->
+
+	<LinearLayout
+		android:id="@+id/paint_buttonLayout"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentTop="true">
+
+		<ImageButton
+			android:id="@+id/paint_imageButtonToColorLayout"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" >
+		</ImageButton>
+
+		<ImageButton
+			android:id="@+id/paint_imageButtonPen"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" >
+		</ImageButton>
+
+		<ImageButton
+			android:id="@+id/paint_imageButtonEraser"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" >
+		</ImageButton>
+
+		<ImageButton
+			android:id="@+id/paint_imageButtonUndo"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" >
+		</ImageButton>
+
+		<ImageButton
+			android:id="@+id/paint_imageButtonRedo"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" >
+		</ImageButton>
+
+		<ImageButton
+			android:id="@+id/paint_imageButtonClear"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" >
+		</ImageButton>
+
+		<ImageButton
+			android:id="@+id/paint_imageButtonSave"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" >
+		</ImageButton>
+	</LinearLayout>
+	<!-- 颜色选择器 -->
+
+	<LinearLayout
+		android:id="@+id/paint_LinearLayoutColor"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentTop="true"
+		android:visibility="invisible" >
+
+		<ImageButton
+			android:id="@+id/paint_imageButtonToButtonLayout"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" >
+		</ImageButton>
+
+		<RadioGroup
+			android:id="@+id/paint_radioGroupColor"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="5px"
+			android:orientation="horizontal" >
+		</RadioGroup>
+	</LinearLayout>
+	<!-- 画图区 -->
+
+	<LinearLayout
+		android:id="@+id/paint_linearLayoutDown"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/paint_buttonLayout">
+
+		<LinearLayout
+			android:id="@+id/paint_paintViewLayout"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" >
+		</LinearLayout>
+	</LinearLayout>
+	<!-- 橡皮擦大小选择 -->
+
+	<LinearLayout
+		android:id="@+id/paint_sizeSelectLayout"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/paint_buttonLayout"
+		android:layout_centerInParent="true"
+		android:layout_marginTop="8dp"
+		android:focusable="false"
+		android:orientation="horizontal"
+		android:visibility="invisible" >
+
+		<RadioGroup
+			android:id="@+id/paint_eraseRaidoGroup"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal" >
+
+			<RadioButton
+				android:id="@+id/paint_RadioButtonEraser01"
+				style="@style/CustomRadioButton1"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:checked="false"
+				android:minHeight="20dp"
+				android:minWidth="20dp"
+				android:padding="5dp" >
+			</RadioButton>
+
+			<RadioButton
+				android:id="@+id/paint_RadioButtonEraser02"
+				style="@style/CustomRadioButton2"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:checked="false"
+				android:minHeight="20dp"
+				android:minWidth="20dp"
+				android:padding="5dp" >
+			</RadioButton>
+
+			<RadioButton
+				android:id="@+id/paint_RadioButtonEraser03"
+				style="@style/CustomRadioButton3"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:checked="false"
+				android:minHeight="20dp"
+				android:minWidth="20dp"
+				android:padding="5dp" >
+			</RadioButton>
+
+			<RadioButton
+				android:id="@+id/paint_RadioButtonEraser04"
+				style="@style/CustomRadioButton4"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:checked="false"
+				android:minHeight="20dp"
+				android:minWidth="20dp"
+				android:padding="5dp" >
+			</RadioButton>
+
+			<RadioButton
+				android:id="@+id/paint_RadioButtonEraser05"
+				style="@style/CustomRadioButton5"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:checked="false"
+				android:minHeight="20dp"
+				android:minWidth="20dp"
+				android:padding="5dp" >
+			</RadioButton>
+		</RadioGroup>
+	</LinearLayout>
+	<!-- 画笔大小选择 -->
+
+	<LinearLayout
+		android:id="@+id/paint_sizeSelectLayoutPen"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/paint_buttonLayout"
+		android:layout_centerInParent="true"
+		android:layout_marginTop="8dp"
+		android:focusable="false"
+		android:orientation="horizontal"
+		android:visibility="invisible" >
+
+		<RadioGroup
+			android:id="@+id/paint_penRaidoGroup"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal" >
+
+			<RadioButton
+				android:id="@+id/paint_RadioButtonPen01"
+				style="@style/CustomRadioButton1"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:checked="false"
+				android:minHeight="20dp"
+				android:minWidth="20dp"
+				android:padding="5dp" >
+			</RadioButton>
+
+			<RadioButton
+				android:id="@+id/paint_RadioButtonPen02"
+				style="@style/CustomRadioButton2"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:checked="false"
+				android:minHeight="20dp"
+				android:minWidth="20dp"
+				android:padding="5dp" >
+			</RadioButton>
+
+			<RadioButton
+				android:id="@+id/paint_RadioButtonPen03"
+				style="@style/CustomRadioButton3"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:checked="false"
+				android:minHeight="20dp"
+				android:minWidth="20dp"
+				android:padding="5dp" >
+			</RadioButton>
+
+			<RadioButton
+				android:id="@+id/paint_RadioButtonPen04"
+				style="@style/CustomRadioButton4"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:checked="false"
+				android:minHeight="20dp"
+				android:minWidth="20dp"
+				android:padding="5dp" >
+			</RadioButton>
+
+			<RadioButton
+				android:id="@+id/paint_RadioButtonPen05"
+				style="@style/CustomRadioButton5"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:checked="false"
+				android:minHeight="20dp"
+				android:minWidth="20dp"
+				android:padding="5dp" >
+			</RadioButton>
+		</RadioGroup>
+	</LinearLayout>
+	<!-- 画笔的选择 -->
+
+	<LinearLayout
+		android:id="@+id/paint_shapSelectLayout1"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/paint_sizeSelectLayoutPen"
+		android:layout_centerInParent="true"
+		android:layout_marginTop="8dp"
+		android:background="@drawable/popbackground4"
+		android:focusable="false"
+		android:orientation="horizontal"
+		android:visibility="invisible" >
+
+		<RadioGroup
+			android:id="@+id/paint_shapRadioGroup"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal" >
+
+			<RadioButton
+				android:id="@+id/paint_RadioButtonShapCurv"
+				style="@style/ShapSelectCurv"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:checked="false"
+				android:paddingBottom="5dp"
+				android:paddingLeft="10dp"
+				android:paddingRight="5dp"
+				android:paddingTop="5dp" >
+			</RadioButton>
+
+			<RadioButton
+				android:id="@+id/paint_RadioButtonShapSquare"
+				style="@style/ShapSelectSquare"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:checked="false"
+				android:padding="5dp" >
+			</RadioButton>
+
+			<RadioButton
+				android:id="@+id/paint_RadioButtonShapRect"
+				style="@style/ShapSelectRect"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:checked="false"
+				android:padding="5dp" >
+			</RadioButton>
+
+			<RadioButton
+				android:id="@+id/paint_RadioButtonShapCircle"
+				style="@style/ShapSelectCircle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:checked="false"
+				android:padding="5dp" >
+			</RadioButton>
+
+			<RadioButton
+				android:id="@+id/paint_RadioButtonShapOval"
+				style="@style/ShapSelectOval"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:checked="false"
+				android:paddingBottom="5dp"
+				android:paddingLeft="5dp"
+				android:paddingRight="10dp"
+				android:paddingTop="5dp" >
+			</RadioButton>
+		</RadioGroup>
+	</LinearLayout>
+
+	<LinearLayout
+		android:id="@+id/paint_shapSelectLayout2"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_below="@id/paint_shapSelectLayout1"
+		android:layout_centerInParent="true"
+		android:layout_marginTop="0dp"
+		android:background="@drawable/popbackground4"
+		android:focusable="false"
+		android:orientation="horizontal"
+		android:visibility="invisible" >
+
+		<RadioGroup
+			android:id="@+id/paint_shapRadioGroupf"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal" >
+
+			<RadioButton
+				android:id="@+id/paint_RadioButtonShapLine"
+				style="@style/ShapSelectLine"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:checked="false"
+				android:paddingBottom="5dp"
+				android:paddingLeft="10dp"
+				android:paddingRight="5dp"
+				android:paddingTop="5dp" >
+			</RadioButton>
+
+			<RadioButton
+				android:id="@+id/paint_RadioButtonShapSquaref"
+				style="@style/ShapSelectSquaref"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:checked="false"
+				android:padding="5dp" >
+			</RadioButton>
+
+			<RadioButton
+				android:id="@+id/paint_RadioButtonShapRectf"
+				style="@style/ShapSelectRectf"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:checked="false"
+				android:padding="5dp" >
+			</RadioButton>
+
+			<RadioButton
+				android:id="@+id/paint_RadioButtonShapCirclef"
+				style="@style/ShapSelectCirclef"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:checked="false"
+				android:padding="5dp" >
+			</RadioButton>
+
+			<RadioButton
+				android:id="@+id/paint_RadioButtonShapOvalf"
+				style="@style/ShapSelectOvalf"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:checked="false"
+				android:paddingBottom="5dp"
+				android:paddingLeft="5dp"
+				android:paddingRight="10dp"
+				android:paddingTop="5dp" >
+			</RadioButton>
+		</RadioGroup>
+	</LinearLayout>
+
+</RelativeLayout>
