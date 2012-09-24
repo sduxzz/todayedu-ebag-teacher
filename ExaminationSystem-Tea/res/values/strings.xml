@@ -60,11 +60,12 @@
     <string name="sp_pro_label">标注</string>
     <string name="sp_pro_score">输入分数：</string>
     <string name="sp_pro_text">输入文字评述：</string>
+    <string name="sp_pro_textanswer">这里是文字回答：</string>
     <string name="sp_stu_score">得分:</string>
     <string name="sp_stu_correctstate">批改情况</string>
     <string name="sp_scstate_address">考试地点:</string>
     <string name="sp_scstate_people">考试人员:</string>
-	<string name="sp_networkalter">请检查网络连接，数据将从本地数据库中获取，可能不是最新！</string>
+	<string name="sp_networkalter">请检查网络连接！</string>
 	<string name="sp_name">登录名</string>
 	<string name="sp_password">登录密码</string>
 </resources>

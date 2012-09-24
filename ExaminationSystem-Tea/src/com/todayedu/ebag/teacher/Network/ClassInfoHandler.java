@@ -9,7 +9,7 @@ import org.apache.mina.core.session.IoSession;
 import org.ebag.net.request.ClassInfoRequest;
 import org.ebag.net.response.ClassInfoResponse;
 
-import android.content.Context;
+import android.app.Activity;
 
 
 /**
@@ -26,7 +26,7 @@ public class ClassInfoHandler extends BaseNetworkHandler {
 	 * @param dataSource
 	 * @param classId
 	 */
-	public ClassInfoHandler(Context context, NetworkCallBack callBack,
+	public ClassInfoHandler(Activity context, NetworkCallBack callBack,
 	        int classId) {
 	
 		super(context, callBack);

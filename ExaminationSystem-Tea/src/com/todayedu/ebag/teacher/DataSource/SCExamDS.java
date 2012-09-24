@@ -10,13 +10,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.content.Context;
+import android.app.Activity;
 
 import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.DataSource.DataObj.Problem;
 import com.todayedu.ebag.teacher.Network.ExamHandler;
-import com.todayedu.ebag.teacher.Network.NetworkClient;
 
 
 
@@ -26,20 +25,13 @@ import com.todayedu.ebag.teacher.Network.NetworkClient;
  */
 public class SCExamDS extends BaseDataSource {
 	
-	private NetworkClient client;
-
 	public SCExamDS(DSCallback callback) {
 	
 		super(callback);
 	}
-
-	@Override
-	public void localload(Context context) {
-		//do nothing
-	}
 	
 	@Override
-	public void download(Context context) {
+	public void download(Activity context) {
 		int cid = Parameters.get(ParaIndex.CID_INDEX);
 		int eid = Parameters.get(ParaIndex.EID_INDEX);
 		
@@ -47,11 +39,8 @@ public class SCExamDS extends BaseDataSource {
 		idList.add(eid);
 		List<String> fieldList = new ArrayList<String>();
 		fieldList.add("pInfoList");// pInfoList is the field name of ExamObj
-
-		client = new NetworkClient();
-		client.setHandler(new ExamHandler(context, this, cid, null, idList,
+		connect(new ExamHandler(context, this, cid, null, idList,
 		        fieldList));
-		client.connect();
 	}
 	
 	@Override
@@ -69,14 +58,4 @@ public class SCExamDS extends BaseDataSource {
 			maps.add(map);
 		}
 	}
-	
-	/**
-	 * @see com.todayedu.ebag.teacher.DataSource.BaseDataSource#disconnect()
-	 */
-	@Override
-	protected void disconnect() {
-	
-		disconnect(client);
-	}
-	
 }

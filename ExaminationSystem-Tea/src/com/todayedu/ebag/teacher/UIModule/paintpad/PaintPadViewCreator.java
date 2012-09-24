@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
@@ -22,8 +23,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.todayedu.ebag.teacher.R;
+import com.todayedu.ebag.teacher.Database.SDCard;
 import com.todayedu.ebag.teacher.UIModule.BaseActivity;
 import com.todayedu.ebag.teacher.UIModule.paintpad.interfaces.PaintViewCallBack;
+import com.todayedu.ebag.teacher.UIModule.paintpad.utils.BitMapUtils;
 import com.todayedu.ebag.teacher.UIModule.paintpad.utils.ImageButtonTools;
 import com.todayedu.ebag.teacher.UIModule.paintpad.utils.PaintConstants;
 import com.todayedu.ebag.teacher.UIModule.paintpad.view.ColorView;
@@ -46,7 +49,6 @@ public class PaintPadViewCreator implements View.OnClickListener {
 
 	// button 界面上的各个按钮
 	private ImageButton saveButton = null;
-	private ImageButton clearButton = null;
 	private ImageButton eraserButton = null;
 	private ImageButton penSizeButton = null;
 	private ImageButton undoButton = null;
@@ -91,9 +93,6 @@ public class PaintPadViewCreator implements View.OnClickListener {
 	// 使用PenType临时存储选择的变量，当创建时再传给PaintView
 	private int mPenType = PaintConstants.PEN_TYPE.PLAIN_PEN;
 
-	// 模式：答题纸还是演算纸？答题纸为true，演算纸为false
-	private boolean mode;
-
 	/**
 	 * 
 	 * @param context
@@ -102,12 +101,10 @@ public class PaintPadViewCreator implements View.OnClickListener {
 	 * @param problemId
 	 * @param mode
 	 */
-	public PaintPadViewCreator(BaseActivity context, ViewGroup viewGroup,
-	        boolean mode) {
+	public PaintPadViewCreator(BaseActivity context, ViewGroup viewGroup) {
 
 		this.context = context;
 		this.viewGroup = viewGroup;
-		this.mode = mode;
 		init();
 	}
 
@@ -161,7 +158,6 @@ public class PaintPadViewCreator implements View.OnClickListener {
 	private void findButtonById() {
 
 		saveButton = (ImageButton) findViewById(R.id.paint_imageButtonSave);
-		clearButton = (ImageButton) findViewById(R.id.paint_imageButtonClear);
 		eraserButton = (ImageButton) findViewById(R.id.paint_imageButtonEraser);
 		penSizeButton = (ImageButton) findViewById(R.id.paint_imageButtonPen);
 
@@ -177,8 +173,6 @@ public class PaintPadViewCreator implements View.OnClickListener {
 	 */
 	private void setBackGroundDrawable() {
 
-		clearButton.setBackgroundDrawable(getResources().getDrawable(
-		        R.drawable.newfile));
 		eraserButton.setBackgroundDrawable(getResources().getDrawable(
 		        R.drawable.eraser));
 		saveButton.setBackgroundDrawable(getResources().getDrawable(
@@ -201,7 +195,7 @@ public class PaintPadViewCreator implements View.OnClickListener {
 	private List<ImageButton> initButtonList() {
 
 		List<ImageButton> list = new ArrayList<ImageButton>();
-		list.add(clearButton);
+		// list.add(clearButton);
 		list.add(eraserButton);
 		list.add(saveButton);
 		list.add(penSizeButton);
@@ -550,10 +544,6 @@ public class PaintPadViewCreator implements View.OnClickListener {
 				onClickButtonSave();
 				break;
 
-			case R.id.paint_imageButtonClear:
-				onClickButtonClear();
-				break;
-
 			case R.id.paint_imageButtonEraser:
 				onClickButtonEraser();
 				break;
@@ -588,44 +578,32 @@ public class PaintPadViewCreator implements View.OnClickListener {
 	 */
 	public void onClickButtonSave() {
 	
-		// if (!mPaintView.canUndo())
-		// return;
-		// setAllLayoutInvisable();
-		// SDCard sdCard = new SDCard();
-		// File file = null;
-		//
-		// try {
-		// if (mode) {
-		// // 答题纸模式
-		// String fileFullPath = problemDAO.get(problemId, examId)
-		// .getGivenAnswer();
-		// if (sdCard.isFileExistedWithFullPath(fileFullPath)) {
-		// file = new File(fileFullPath);
-		// } else {
-		// file = sdCard.createSDFile(
-		// Const.SDCard.JD_ANSWER_IMAGE_PATH + examId,
-		// PicUpload.getFileName(Const.Net.uid));
-		// }
-		//
-		// } else {
-		// // 草稿纸模式
-		// file = sdCard.createSDFile(Const.SDCard.YANSUAN_IMAGE_PATH
-		// + examId, "y" + problemId + ".png");
-		// }
-		//
-		// } catch (Throwable e) {
-		// L.e(e);
-		// this.context.showLongToast("SD卡出错里啦，无法保存！><");
-		// }
-		// Bitmap bitmap = mPaintView.getSnapShoot();
-		// boolean result = BitMapUtils.saveToSdCard(file, bitmap);
-		// if (result) {
-		// if (mode) {
-		// saveToDB(file);
-		// }
-		// } else {
-		// this.context.showLongToast("暂存至数据库失败！><");
-		// }
+		if (!mPaintView.canUndo())
+			return;
+		setAllLayoutInvisable();
+		SDCard sdCard = new SDCard();
+		File file = null;
+		
+		try {
+			
+			String fileFullPath = "";// TODO:get file full path
+			if (sdCard.isFileExistedWithFullPath(fileFullPath)) {
+				file = new File(fileFullPath);
+			} else {
+				file = sdCard.createSDFile("", "");
+			}
+
+		} catch (Throwable e) {
+			e.printStackTrace();
+			this.context.showToast("SD卡出错里啦，无法保存！><");
+		}
+		Bitmap bitmap = mPaintView.getSnapShoot();
+		boolean result = BitMapUtils.saveToSdCard(file, bitmap);
+		if (result) {
+			saveToDB(file);
+		} else {
+			this.context.showToast("暂存至数据库失败！><");
+		}
 
 	}
 
@@ -636,12 +614,11 @@ public class PaintPadViewCreator implements View.OnClickListener {
 	 */
 	private void saveToDB(File file) {
 	
-		// boolean result = problemDAO.updateGivenAnswer(problemId, examId,
-		// file.getPath());
-		// if (result)
-		// this.context.showShortToast("保存成功！^^");
-		// else
-		// this.context.showLongToast("无法暂存到数据库！><");
+		boolean result = false;// TODO:save file to db;
+		if (result)
+			this.context.showToast("保存成功！^^");
+		else
+			this.context.showToast("无法暂存到数据库！><");
 	}
 
 	/**
@@ -649,33 +626,15 @@ public class PaintPadViewCreator implements View.OnClickListener {
 	 */
 	public void loadExsitedImage() {
 	
-		// SDCard sdCard = new SDCard();
-		// String filePath;
-		// if (mode) {
-		// // 查看是否已经答过题
-		// filePath = problemDAO.get(problemId, examId).getGivenAnswer();
-		// L.i("loadExsitedImage:" + filePath);
-		// if (sdCard.isFileExistedWithFullPath(filePath)) {
-		// Bitmap bitmap = BitMapUtils.loadFromSdCard(filePath);
-		// mPaintView.setForeBitMap(bitmap);
-		// mPaintView.resetState();
-		// upDateUndoRedo();
-		// }
-		//
-		// } else {
-		// // 查看是否有之前的演算
-		// filePath = Const.SDCard.YANSUAN_IMAGE_PATH + examId
-		// + File.separator + "y" + problemId + ".png";
-		// L.i("loadExsitedImage:" + filePath);
-		// if (sdCard.isFileExisted(filePath)) {
-		// Bitmap bitmap = BitMapUtils.loadFromSdCard(sdCard.getSDPATH()
-		// + filePath);
-		// mPaintView.setForeBitMap(bitmap);
-		// mPaintView.resetState();
-		// upDateUndoRedo();
-		// }
-		// }
-
+		SDCard sdCard = new SDCard();
+		String filePath = "";// TODO:get file path
+		Log.i("PaintPadViewCreator", "loadExsitedImage:" + filePath);
+		if (sdCard.isFileExistedWithFullPath(filePath)) {
+			Bitmap bitmap = BitMapUtils.loadFromSdCard(filePath);
+			mPaintView.setForeBitMap(bitmap);
+			mPaintView.resetState();
+			upDateUndoRedo();
+		}
 	}
 
 	/**
@@ -867,7 +826,10 @@ public class PaintPadViewCreator implements View.OnClickListener {
 	
 	public void setbg(Bitmap bitmap) {
 	
-		mPaintView.setTempForeBitmap(bitmap);
+		// mPaintView.clearAll();
+		mPaintView.setForeBitMap(bitmap);
+		// mPaintView.resetState();
+		upDateUndoRedo();
 	}
 
 }

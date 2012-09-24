@@ -11,24 +11,22 @@ import org.apache.mina.core.session.IoSession;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.util.Log;
-
 
 /**
  * @author zhenzxie
- *
+ * 
  */
 public abstract class BaseNetworkHandler implements IoHandler {
 	
 	protected String TAG = this.getClass().getSimpleName();
-	protected Context zContext;
+	protected Activity zContext;
 	private ProgressDialog zDialog;
 	protected NetworkCallBack networkCallBack;
 	
-	public BaseNetworkHandler(Context context, NetworkCallBack callBack) {
+	public BaseNetworkHandler(Activity activity, NetworkCallBack callBack) {
 	
-		this.zContext = context;
+		this.zContext = activity;
 		this.networkCallBack = callBack;
 	}
 
@@ -39,7 +37,7 @@ public abstract class BaseNetworkHandler implements IoHandler {
 	public void sessionCreated(IoSession session) throws Exception {
 	
 		Log.i(TAG, "sessionCreated");
-		((Activity) zContext).runOnUiThread(new Runnable() {
+		zContext.runOnUiThread(new Runnable() {
 			
 			@Override
 			public void run() {
@@ -79,7 +77,6 @@ public abstract class BaseNetworkHandler implements IoHandler {
 	public void sessionClosed(IoSession session) throws Exception {
 	
 		Log.i(TAG, "sessionClosed");
-		dismiss();
 	}
 	
 	/**
@@ -88,12 +85,11 @@ public abstract class BaseNetworkHandler implements IoHandler {
 	 */
 	@Override
 	public void exceptionCaught(IoSession session, Throwable cause)
-			throws Exception {
+	        throws Exception {
 	
 		Log.i(TAG, "exceptionCaught");
 		cause.printStackTrace();
 		networkCallBack.failed(cause);
-		dismiss();
 	}
 	
 	/**
@@ -114,19 +110,22 @@ public abstract class BaseNetworkHandler implements IoHandler {
 	public void messageReceived(IoSession arg0, Object arg1) throws Exception {
 	
 		Log.i(TAG, "messageReceived");
-		dismiss();
 	}
 
-	private void dismiss() {
+	public void dismiss() {
 	
-		if (zDialog != null)
-			((Activity) zContext).runOnUiThread(new Runnable() {
-				
-				@Override
-				public void run() {
-				
+		Log.i(TAG, "-----------------dismiss-----------------");
+		zContext.runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+			
+				if (zDialog != null) {
+					Log.i(TAG, "----------------------------------------");
+
 					zDialog.dismiss();
 				}
-			});
+			}
+		});
 	}
 }

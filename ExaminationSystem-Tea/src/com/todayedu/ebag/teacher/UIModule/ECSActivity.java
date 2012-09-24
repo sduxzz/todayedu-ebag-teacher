@@ -6,6 +6,7 @@
 package com.todayedu.ebag.teacher.UIModule;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.todayedu.ebag.teacher.R;
@@ -56,6 +57,18 @@ public class ECSActivity extends BaseActivity {
 		}
 	}
 	
+	/**
+	 * @see android.app.Activity#onBackPressed()
+	 */
+	@Override
+	public void onBackPressed() {
+	
+		super.onBackPressed();
+		Log.i(TAG, "onBackPressed");
+		this.finish();
+		TempData.clear();
+	}
+
 	public void onPrevious(View view) {
 	
 		TempData.moveToPrevious();

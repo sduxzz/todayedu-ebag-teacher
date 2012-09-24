@@ -10,7 +10,7 @@ import org.ebag.net.obj.I.signal;
 import org.ebag.net.request.LoginRequest;
 import org.ebag.net.response.LoginResponse;
 
-import android.content.Context;
+import android.app.Activity;
 
 
 /**
@@ -23,7 +23,7 @@ public class LoginHandler extends BaseNetworkHandler {
 	public String upwd;
 	public NetworkCallBack networkCallBack;
 	
-	public LoginHandler(Context context, String uname, String upwd,
+	public LoginHandler(Activity context, String uname, String upwd,
 	        NetworkCallBack networkCallBack) {
 	
 		super(context, networkCallBack);

@@ -9,13 +9,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.content.Context;
+import android.app.Activity;
 
 import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.DataSource.DataObj.Student;
 import com.todayedu.ebag.teacher.Network.ClassExamActivityHandler;
-import com.todayedu.ebag.teacher.Network.NetworkClient;
 
 /**
  * load the students' name,id,state
@@ -25,28 +24,17 @@ import com.todayedu.ebag.teacher.Network.NetworkClient;
  */
 public class SCStateDS extends BaseDataSource {
 	
-	private NetworkClient client;
-	
 	public SCStateDS(DSCallback callback) {
 	
 		super(callback);
 	}
 
 	@Override
-	public void localload(Context context) {
-	
-		// do nothing
-	}
-
-	@Override
-	public void download(final Context context) {
+	public void download(Activity context) {
 	
 		int cid = Parameters.get(ParaIndex.CID_INDEX);
 		int eid = Parameters.get(ParaIndex.EID_INDEX);
-
-		client = new NetworkClient();
-		client.setHandler(new ClassExamActivityHandler(context, this, cid, eid));
-		client.connect();
+		connect(new ClassExamActivityHandler(context, this, cid, eid));
 	}
 
 	@Override
@@ -65,14 +53,4 @@ public class SCStateDS extends BaseDataSource {
 			maps.add(map);
 		}
 	}
-
-	/**
-	 * @see com.todayedu.ebag.teacher.DataSource.BaseDataSource#disconnect()
-	 */
-	@Override
-	protected void disconnect() {
-	
-		disconnect(client);
-	}
-
 }

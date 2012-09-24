@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.TempData;
+import com.todayedu.ebag.teacher.DataSource.DataObj.Problem;
 
 /**
  * 讲评试卷界面中的题目界面
@@ -69,14 +70,18 @@ public class PCCFragment extends Fragment {
 	}
 	
 	public void getAndSet() {
-	
-		number = TempData.getCurrent("number");
-		point = TempData.getCurrent("point");
-		state = TempData.getCurrent("state");
-		content = TempData.getCurrent("content");
-		answer = TempData.getCurrent("answer");
-		analysis = TempData.getCurrent("analysis");
 		
+		Problem problem = (Problem) TempData.getCurrentData();
+		if (problem == null)
+			return;
+
+		number = problem.getNumber() + "";
+		point = problem.getPoint() + "";
+		state = problem.getState();
+		content = problem.getContent();
+		answer = problem.getAnswer();
+		analysis = problem.getAnalysis();
+
 		pcc_tv2.setText(number);
 		pcc_tv4.setText(point);
 		pcc_tv6.setText(state);

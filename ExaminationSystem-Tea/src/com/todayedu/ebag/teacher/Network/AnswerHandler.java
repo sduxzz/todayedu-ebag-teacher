@@ -11,7 +11,7 @@ import org.apache.mina.core.session.IoSession;
 import org.ebag.net.request.AnswerRequest;
 import org.ebag.net.response.AnswerResponse;
 
-import android.content.Context;
+import android.app.Activity;
 import android.util.Log;
 
 /**
@@ -37,7 +37,7 @@ public class AnswerHandler extends BaseNetworkHandler {
 	 * @param idList
 	 * @param fieldList
 	 */
-	public AnswerHandler(Context context, NetworkCallBack callBack, int uid,
+	public AnswerHandler(Activity context, NetworkCallBack callBack, int uid,
 	        int examId, List<Integer> idList, List<String> fieldList) {
 	
 		super(context, callBack);

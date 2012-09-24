@@ -9,10 +9,13 @@ import java.util.List;
 
 import org.ebag.net.response.ClassExamactivityResponse;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 
 import com.todayedu.ebag.teacher.Parameters;
@@ -49,7 +52,6 @@ public class ECorrectActivity extends BaseActivity {
 
 		ds = new ECorrectDS(this);
 		ds.load(this);
-		addLifeCycleListener(ds);
 		
 		adapter = new BaseDataAdapter(this, ds, R.layout.lv_3, new int[] {
 		        R.id.lv3_tv_1, R.id.lv3_tv_2, R.id.lv3_tv_3 }, keys);
@@ -63,19 +65,30 @@ public class ECorrectActivity extends BaseActivity {
 	}
 	
 	/**
-	 * @see com.todayedu.ebag.teacher.UIModule.BaseActivity#onItemClick(android.widget.AdapterView,
-	 *      android.view.View, int, long)
+	 * @param lv
+	 * @param headerView
 	 */
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position,
-	        long id) {
+	protected void resetListView(ListView lv, View headerView,
+	        BaseAdapter adapter) {
 	
-		if (position <= 0)
-			return;
+		lv.addHeaderView(headerView);
+		lv.setOnItemClickListener(new OnItemClickListener() {
+			
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+			        int position, long id) {
+			
+				if (position <= 0)
+					return;
 
-		Student student = (Student) ds.getList().get(position - 1);
-		Parameters.add(student.getSid(), ParaIndex.SID_INDEX);
-		start(ECSActivity.class);
+				Student student = (Student) ds.getList().get(position - 1);
+				Parameters.add(student.getSid(), ParaIndex.SID_INDEX);
+				start(ECSActivity.class);
+			}
+		});
+		lv.setBackgroundColor(Color.WHITE);
+		lv.setCacheColorHint(Color.WHITE);
+		lv.setAdapter(adapter);
 	}
 	
 	@Override

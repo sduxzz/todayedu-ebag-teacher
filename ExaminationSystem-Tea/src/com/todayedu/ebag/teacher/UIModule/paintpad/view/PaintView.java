@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -96,11 +97,6 @@ public class PaintView extends View implements UndoCommand {
 		mPaintType = PEN_TYPE.PLAIN_PEN;
 		mCurrentShapeType = SHAP.CURV;
 		creatNewPen();
-	}
-	
-	public Canvas getCanvas() {
-	
-		return mCanvas;
 	}
 
 	/**
@@ -239,7 +235,9 @@ public class PaintView extends View implements UndoCommand {
 	 */
 	public void setForeBitMap(Bitmap bitmap) {
 	
+		Log.i("PaintView", "setForeBitmap");
 		if (bitmap == null) {
+			Log.i("PaintView", "setForeBitmap: bitmap is null");
 			return;
 		}
 		
@@ -248,13 +246,16 @@ public class PaintView extends View implements UndoCommand {
 		mBitmap = BitMapUtils.duplicateBitmap(bitmap);
 		mOrgBitMap = BitMapUtils.duplicateBitmap(mBitmap);
 		
-		if (bitmap != null && !bitmap.isRecycled()) {
-			bitmap.recycle();
-			bitmap = null;
+		// if (bitmap != null && !bitmap.isRecycled()) {
+		// bitmap.recycle();
+		// bitmap = null;
+		// }
+		
+		if (null != mBitmap && null != mCanvas) {
+			Log.i("PaintView", "setForeBitmap: canvas set new bitmap");
+			mCanvas.setBitmap(mBitmap);
+			invalidate();
 		}
-		
-		invalidate();
-		
 	}
 
 	/**

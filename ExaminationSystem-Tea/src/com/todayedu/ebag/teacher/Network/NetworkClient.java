@@ -22,11 +22,12 @@ import org.ebag.net.obj.I;
 public class NetworkClient {
 	
 	private NioSocketConnector zConnector;
+	private BaseNetworkHandler zHandler;
 	
 	public NetworkClient() {
 	
 		zConnector = new NioSocketConnector();
-		zConnector.setConnectTimeoutMillis(2000);
+		// zConnector.setConnectTimeoutMillis(2000);
 		DefaultIoFilterChainBuilder chain = zConnector.getFilterChain();
 		ObjectSerializationCodecFactory osf = new ObjectSerializationCodecFactory();
 		osf.setDecoderMaxObjectSize(osf.getDecoderMaxObjectSize() * 10);
@@ -36,6 +37,7 @@ public class NetworkClient {
 	
 	public void setHandler(IoHandler handler) {
 	
+		zHandler = (BaseNetworkHandler) handler;
 		zConnector.setHandler(handler);
 	}
 	
@@ -71,7 +73,9 @@ public class NetworkClient {
 	
 	public void disconnect() {
 	
-		if (zConnector != null && zConnector.isDisposed())
+		if (zConnector != null && !zConnector.isDisposed()) {
 			zConnector.dispose();
+			zHandler.dismiss();
+		}
 	}
 }

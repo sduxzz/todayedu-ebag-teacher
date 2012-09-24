@@ -10,14 +10,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.content.Context;
-import android.util.Log;
+import android.app.Activity;
 
 import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.DataSource.DataObj.Exam;
 import com.todayedu.ebag.teacher.Network.ExamHandler;
-import com.todayedu.ebag.teacher.Network.NetworkClient;
 
 /**
  * this DataSource is used for ExamShowActivity
@@ -27,33 +25,13 @@ import com.todayedu.ebag.teacher.Network.NetworkClient;
  */
 public class ExamListDS extends BaseDataSource {
 	
-	private NetworkClient client;
-
 	public ExamListDS(DSCallback callback) {
 	
 		super(callback);
 	}
 
 	@Override
-	public void localload(Context context) {
-	
-		String cid = Parameters.getStr(ParaIndex.CID_INDEX);
-		int state = Parameters.get(ParaIndex.EXAMSTATE_INDEX);
-		Log.i(TAG, cid + "   " + state);
-		String sql = null;
-		String[] selectArgs = null;
-		if (state == 0) {// select all exams
-			sql = "select eid ,ename from EXAM where cid = ? ";
-			selectArgs = new String[] { cid };
-		} else {
-			sql = "select eid ,ename from EXAM where cid = ? and state = ?";
-			selectArgs = new String[] { cid, String.valueOf(state) };
-		}
-		localload(context, sql, selectArgs);
-	}
-
-	@Override
-	public void download(Context context) {
+	public void download(Activity context) {
 	
 		int cid = Parameters.get(ParaIndex.CID_INDEX);
 		int state = Parameters.get(ParaIndex.EXAMSTATE_INDEX);
@@ -68,11 +46,7 @@ public class ExamListDS extends BaseDataSource {
 		fieldList.add("name");
 		fieldList.add("id");// id,name and type is the field name of ExamObj
 		fieldList.add("type");
-		client = new NetworkClient();
-		ExamHandler handler = new ExamHandler(context, this, cid, stateList,
-		        null, fieldList);
-		client.setHandler(handler);
-		client.connect();
+		connect(new ExamHandler(context, this, cid, stateList, null, fieldList));
 	}
 	
 	/**
@@ -92,14 +66,5 @@ public class ExamListDS extends BaseDataSource {
 			map.put(keys[1], String.valueOf(exam.getEid()));
 			maps.add(map);
 		}
-	}
-	
-	/**
-	 * @see com.todayedu.ebag.teacher.DataSource.BaseDataSource#disconnect()
-	 */
-	@Override
-	protected void disconnect() {
-	
-		disconnect(client);
 	}
 }

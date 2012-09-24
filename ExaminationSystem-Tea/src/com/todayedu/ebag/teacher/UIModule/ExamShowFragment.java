@@ -58,7 +58,6 @@ public class ExamShowFragment extends ListFragment implements DSCallback {
 		FunctionActivity activity = (FunctionActivity) getActivity();
 		
 		ds = new ExamListDS(this);
-		activity.addLifeCycleListener(ds);
 
 		adapter = new BaseDataAdapter(activity, ds, R.layout.lv_1,
 		        new int[] { R.id.lv1_tv_1 }, keys);
@@ -126,7 +125,7 @@ public class ExamShowFragment extends ListFragment implements DSCallback {
 		String TAG = "ExamShowFragment";
 		Log.i(TAG, "onLoadFailed");
 		if (throwable != null) {
-			Log.i(TAG, throwable.getMessage());
+			Log.i(TAG, throwable.getMessage() + "");
 		}
 		activity.showToast("º”‘ÿ ˝æ› ß∞‹");
 	}

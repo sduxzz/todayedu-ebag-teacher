@@ -9,7 +9,7 @@ import org.apache.mina.core.session.IoSession;
 import org.ebag.net.request.AnswerAnalysisRequest;
 import org.ebag.net.response.AnswerAnalysisResponse;
 
-import android.content.Context;
+import android.app.Activity;
 import android.util.Log;
 
 
@@ -27,7 +27,7 @@ public class AnswerAnalysisHandler extends BaseNetworkHandler {
 	 * @param context
 	 * @param callBack
 	 */
-	public AnswerAnalysisHandler(Context context, NetworkCallBack callBack,
+	public AnswerAnalysisHandler(Activity context, NetworkCallBack callBack,
 	        int cid, int eid) {
 	
 		super(context, callBack);

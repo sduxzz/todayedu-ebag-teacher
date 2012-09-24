@@ -57,7 +57,6 @@ public class ECSFragment extends ListFragment implements DSCallback {
 		
 		ds = new ECSDS(this);
 		ds.load(activity);
-		activity.addLifeCycleListener(ds);
 		
 		adapter = new BaseDataAdapter(activity, ds, R.layout.lv_2, new int[] {
 		        R.id.lv2_tv_1, R.id.lv2_tv_2 }, keys);

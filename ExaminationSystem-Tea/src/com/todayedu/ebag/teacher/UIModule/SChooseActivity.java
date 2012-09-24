@@ -84,7 +84,6 @@ public class SChooseActivity extends BaseActivity {
 		if (scExamDs == null) {
 			scStateDs = new SCStateDS(new SCStateDSCallback());
 			scStateDs.load(this);
-			addLifeCycleListener(scStateDs);
 		}
 		if (scStateAdapter == null) {
 			scStateAdapter = new BaseDataAdapter(this, scStateDs,
@@ -116,7 +115,6 @@ public class SChooseActivity extends BaseActivity {
 		if (scExamDs == null) {
 			scExamDs = new SCExamDS(new SCExamDSCallback());
 			scExamDs.load(this);
-			addLifeCycleListener(scExamDs);
 		}
 		if (scExamAdapter == null) {
 			scExamAdapter = new BaseDataAdapter(this, scExamDs, R.layout.lv_2,

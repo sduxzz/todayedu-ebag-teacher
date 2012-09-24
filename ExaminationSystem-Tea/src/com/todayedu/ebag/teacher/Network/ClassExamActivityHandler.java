@@ -9,7 +9,7 @@ import org.apache.mina.core.session.IoSession;
 import org.ebag.net.request.ClassExamactivityRequest;
 import org.ebag.net.response.ClassExamactivityResponse;
 
-import android.content.Context;
+import android.app.Activity;
 import android.util.Log;
 
 /**
@@ -22,7 +22,7 @@ public class ClassExamActivityHandler extends BaseNetworkHandler {
 	private int cid;
 	private int eid;
 	
-	public ClassExamActivityHandler(Context context, NetworkCallBack callBack,
+	public ClassExamActivityHandler(Activity context, NetworkCallBack callBack,
 	        int cid, int eid) {
 	
 		super(context, callBack);

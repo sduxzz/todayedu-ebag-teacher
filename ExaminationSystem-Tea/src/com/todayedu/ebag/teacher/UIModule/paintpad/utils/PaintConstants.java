@@ -49,7 +49,7 @@ public class PaintConstants {
 		public static final int BACKGROUND_COLOR = Color.WHITE;
 	}
 
-	public static final int UNDO_STACK_SIZE = 20;
+	public static final int UNDO_STACK_SIZE = 30;
 
 	public static final int COLOR_VIEW_SIZE = 80;
 

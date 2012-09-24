@@ -9,7 +9,7 @@ import org.apache.mina.core.session.IoSession;
 import org.ebag.net.request.StartExamRequest;
 import org.ebag.net.response.StartExamResponse;
 
-import android.content.Context;
+import android.app.Activity;
 
 /**
  * @author <a href="zhenzxie.iteye.cn">zhenzxie</a>
@@ -21,7 +21,8 @@ public class StartExamHandler extends BaseNetworkHandler {
 	private int cid;
 	private int eid;
 	
-	public StartExamHandler(Context context, NetworkCallBack callBack, int cid,
+	public StartExamHandler(Activity context, NetworkCallBack callBack,
+	        int cid,
 	        int eid) {
 	
 		super(context, callBack);

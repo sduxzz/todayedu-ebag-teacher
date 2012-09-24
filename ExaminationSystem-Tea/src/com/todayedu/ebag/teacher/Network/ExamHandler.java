@@ -11,7 +11,7 @@ import org.apache.mina.core.session.IoSession;
 import org.ebag.net.request.ExamRequet;
 import org.ebag.net.response.ExamResponse;
 
-import android.content.Context;
+import android.app.Activity;
 import android.util.Log;
 
 import com.todayedu.ebag.teacher.Parameters;
@@ -43,7 +43,8 @@ public class ExamHandler extends BaseNetworkHandler {
 	 * @param idList
 	 * @param fieldList
 	 */
-	public ExamHandler(Context context, NetworkCallBack networkCallBack, int classId,
+	public ExamHandler(Activity context, NetworkCallBack networkCallBack,
+	        int classId,
 	        List<Integer> stateList, List<Integer> idList,
 	        List<String> fieldList) {
 	

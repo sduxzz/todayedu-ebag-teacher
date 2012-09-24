@@ -31,6 +31,17 @@ public class PCommentActivity extends BaseActivity {
 		Log.i(TAG, "onCreate");
 	}
 	
+	/**
+	 * @see android.app.Activity#onBackPressed()
+	 */
+	@Override
+	public void onBackPressed() {
+	
+		super.onBackPressed();
+		this.finish();
+		TempData.clear();
+	}
+
 	public void onPrevious(View view) {
 	
 		TempData.moveToPrevious();

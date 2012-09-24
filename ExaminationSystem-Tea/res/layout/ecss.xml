@@ -10,58 +10,58 @@
 
         <TextView
             android:id="@+id/ecss_tv1"
+            style="@style/listviewfont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            style="@style/listviewfont"
             android:text="@string/comm_pro_id_colon" />
 
         <TextView
             android:id="@+id/ecss_tv2"
+            style="@style/listviewfont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/ecss_tv1"
-            android:layout_toRightOf="@+id/ecss_tv1"
-            style="@style/listviewfont"
+            android:layout_alignTop="@id/ecss_tv1"
+            android:layout_toRightOf="@id/ecss_tv1"
             android:text="XXXX" />
 
         <TextView
             android:id="@+id/ecss_tv3"
+            style="@style/listviewfont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/ecss_tv1"
-            android:layout_toRightOf="@+id/ecss_tv2"
+            android:layout_alignTop="@id/ecss_tv1"
             android:layout_marginLeft="20dp"
-            style="@style/listviewfont"
+            android:layout_toRightOf="@id/ecss_tv2"
             android:text="@string/comm_pro_score_colon" />
 
         <TextView
             android:id="@+id/ecss_tv4"
+            style="@style/listviewfont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/ecss_tv1"
-            android:layout_toRightOf="@+id/ecss_tv3"
-            style="@style/listviewfont"
+            android:layout_alignTop="@id/ecss_tv1"
+            android:layout_toRightOf="@id/ecss_tv3"
             android:text="XXXX" />
 
         <TextView
             android:id="@+id/ecss_tv5"
+            style="@style/listviewfont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/ecss_tv1"
-            android:layout_toRightOf="@+id/ecss_tv4"
+            android:layout_alignTop="@id/ecss_tv1"
             android:layout_marginLeft="20dp"
-            style="@style/listviewfont"
+            android:layout_toRightOf="@id/ecss_tv4"
             android:text="@string/comm_stu_pro_state_colon" />
 
         <TextView
             android:id="@+id/ecss_tv6"
+            style="@style/listviewfont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/ecss_tv1"
-            android:layout_toRightOf="@+id/ecss_tv5"
-            style="@style/listviewfont"
+            android:layout_alignTop="@id/ecss_tv1"
+            android:layout_toRightOf="@id/ecss_tv5"
             android:text="XXXX" />
 
         <WebView
@@ -69,91 +69,112 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/ecss_tv5" />
+            android:layout_below="@id/ecss_tv5" />
 
         <WebView
             android:id="@+id/ecss_wv2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/ecss_wv1"
-            android:layout_below="@+id/ecss_wv1" />
+            android:layout_below="@id/ecss_wv1" />
 
         <LinearLayout
             android:id="@+id/ecss_ll"
             android:layout_width="match_parent"
             android:layout_height="400dp"
-            android:layout_alignLeft="@+id/ecss_wv1"
-            android:layout_below="@+id/ecss_wv2" >
+            android:layout_alignLeft="@id/ecss_wv1"
+            android:layout_below="@id/ecss_wv2" >
         </LinearLayout>
-        
-         <TextView
-            android:id="@+id/ecss_tv8"
+
+        <TextView
+            android:id="@+id/ecss_tv9"
+            style="@style/listviewfont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_alignBaseline="@+id/ecss_et2"
+            android:layout_below="@id/ecss_ll"
+            android:layout_marginBottom="10dp"
+            android:text="@string/sp_pro_textanswer" />
+
+        <TextView
+            android:id="@+id/ecss_tv10"
             style="@style/listviewfont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/ecss_tv9"
+            android:layout_toRightOf="@id/ecss_tv9"
+            android:ems="30"
+            android:ellipsize="marquee"/>
+
+        <TextView
+            android:id="@+id/ecss_tv8"
+            style="@style/listviewfont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ecss_tv9"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="10dp"
             android:text="@string/sp_pro_text" />
 
         <EditText
             android:id="@+id/ecss_et2"
-            android:ems="10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ecss_ll"
-            android:layout_toRightOf="@+id/ecss_tv8"
-            android:inputType="text"
-             />
+            android:layout_below="@id/ecss_tv9"
+            android:layout_alignLeft="@id/ecss_tv10"
+            android:ems="10"
+            android:inputType="text" />
 
         <TextView
             android:id="@+id/ecss_tv7"
+            style="@style/listviewfont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/ecss_et2"
             android:layout_alignParentLeft="true"
-            android:layout_alignBaseline="@+id/ecss_et1"
-            style="@style/listviewfont"
+            android:layout_marginTop="10dp"
             android:text="@string/sp_pro_score" />
 
         <EditText
             android:id="@+id/ecss_et1"
-            android:ems="10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ecss_et2"
-            android:layout_alignLeft="@+id/ecss_et2"
+            android:layout_alignLeft="@id/ecss_tv10"
+            android:layout_below="@id/ecss_et2"
+            android:ems="10"
             android:inputType="numberDecimal" />
 
         <ImageButton
             android:id="@+id/ecss_b4"
-            android:contentDescription="@string/comm_app_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/ecss_et1"
-            android:layout_toRightOf="@+id/ecss_et1"
-            android:layout_marginTop="10dp"
+            android:layout_alignTop="@id/ecss_et1"
             android:layout_marginLeft="20dp"
-            android:onClick="onComfirm"
-            android:background="@drawable/login_selector"/>
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/ecss_et1"
+            android:background="@drawable/login_selector"
+            android:contentDescription="@string/comm_app_name"
+            android:onClick="onComfirm" />
 
         <ImageButton
             android:id="@+id/ecss_b1"
-            android:contentDescription="@string/comm_app_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/ecss_tv1"
-            android:layout_below="@+id/ecss_et1"
-            android:onClick="onPrevious"
-            android:background="@drawable/prev_selector" />
+            android:layout_alignLeft="@id/ecss_tv1"
+            android:layout_below="@id/ecss_et1"
+            android:background="@drawable/prev_selector"
+            android:contentDescription="@string/comm_app_name"
+            android:onClick="onPrevious" />
 
         <ImageButton
             android:id="@+id/ecss_b3"
-            android:contentDescription="@string/comm_app_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/ecss_b1"
-            android:layout_alignLeft="@+id/ecss_et2"
-            android:onClick="onNext"
-            android:background="@drawable/next_selector" />
+            android:layout_alignLeft="@id/ecss_et2"
+            android:layout_alignTop="@id/ecss_b1"
+            android:background="@drawable/next_selector"
+            android:contentDescription="@string/comm_app_name"
+            android:onClick="onNext" />
     </RelativeLayout>
 
 </com.todayedu.ebag.teacher.UIModule.MyScrollView>

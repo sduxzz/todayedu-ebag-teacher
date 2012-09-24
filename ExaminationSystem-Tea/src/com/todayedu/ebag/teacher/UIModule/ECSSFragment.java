@@ -23,6 +23,7 @@ import com.todayedu.ebag.teacher.AsyncImageLoader;
 import com.todayedu.ebag.teacher.AsyncImageLoader.ImageLoadListener;
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.TempData;
+import com.todayedu.ebag.teacher.DataSource.DataObj.Answer;
 import com.todayedu.ebag.teacher.UIModule.paintpad.PaintPadViewCreator;
 
 /**
@@ -61,14 +62,20 @@ public class ECSSFragment extends Fragment {
 			next_b3.setEnabled(true);
 	}
 	
+
 	public void getAndSet() {
 	
-		number = TempData.getCurrent("number");
-		score = TempData.getCurrent("score");
-		state = TempData.getCurrent("state");
-		content = TempData.getCurrent("content");
-		answerofSta = TempData.getCurrent("answerofSta");
-		answerofStu = TempData.getCurrent("answerofStu");
+		Answer answer = (Answer) TempData.getCurrentData();
+		if (answer == null)
+			return;
+
+		number = String.valueOf(answer.getNumber());
+		score = String.valueOf(answer.getScore());
+		state = answer.getState();
+		answerofText = answer.textAnswer;
+		content = answer.getContent();
+		answerofSta = answer.getAnswerofSta();
+		answerofStu = answer.getAnswerofStu();
 		
 		number_tv2.setText(number);
 		score_tv4.setText(score);
@@ -76,7 +83,13 @@ public class ECSSFragment extends Fragment {
 		content_wv1.loadUrl(content);
 		answer_wv2.loadUrl(answerofSta);
 		
-		if (!answerofStu.equals("")) {
+		if (answerofText != null) {
+			answer_tv10.setText(answerofText);
+		} else {
+			answer_tv10.setText("没有文字回答");
+		}
+
+		if (answerofStu != null && !answerofStu.equals("")) {
 			imageLoader.loadImageBitmap(answerofStu, new ImageLoadListener() {
 				
 				@Override
@@ -96,7 +109,6 @@ public class ECSSFragment extends Fragment {
 		} else {
 			container_ll.setVisibility(View.GONE);
 		}
-		setPaintView();
 	}
 	
 	public String getPoint() {
@@ -117,6 +129,7 @@ public class ECSSFragment extends Fragment {
 	private TextView number_tv2;
 	private TextView score_tv4;
 	private TextView state_tv6;
+	private TextView answer_tv10;
 	private ImageButton previous_b1;
 	private ImageButton next_b3;
 	private WebView content_wv1;
@@ -133,6 +146,7 @@ public class ECSSFragment extends Fragment {
 	private String content;
 	private String answerofSta;
 	private String answerofStu;
+	private String answerofText;// 学生的文字回答
 	
 	private AsyncImageLoader imageLoader = new AsyncImageLoader();
 
@@ -143,6 +157,7 @@ public class ECSSFragment extends Fragment {
 		number_tv2 = (TextView) activity.findViewById(R.id.ecss_tv2);
 		score_tv4 = (TextView) activity.findViewById(R.id.ecss_tv4);
 		state_tv6 = (TextView) activity.findViewById(R.id.ecss_tv6);
+		answer_tv10 = (TextView) activity.findViewById(R.id.ecss_tv10);
 		previous_b1 = (ImageButton) activity.findViewById(R.id.ecss_b1);
 		next_b3 = (ImageButton) activity.findViewById(R.id.ecss_b3);
 		content_wv1 = (WebView) activity.findViewById(R.id.ecss_wv1);
@@ -155,13 +170,9 @@ public class ECSSFragment extends Fragment {
 	private void initPaintView() {
 	
 		creator = new PaintPadViewCreator((BaseActivity) getActivity(),
-		        container_ll, false);
+		        container_ll);
 		View v = creator.getView();
 		v.setFocusable(true);
 		v.setFocusableInTouchMode(true);
-	}
-
-	private void setPaintView() {
-
 	}
 }

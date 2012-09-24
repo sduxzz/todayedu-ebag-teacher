@@ -10,13 +10,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.content.Context;
+import android.app.Activity;
 
 import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.DataSource.DataObj.Analysis;
 import com.todayedu.ebag.teacher.Network.AnswerAnalysisHandler;
-import com.todayedu.ebag.teacher.Network.NetworkClient;
 
 /**
  * @author <a href="zhenzxie.iteye.cn">zhenzxie</a>
@@ -28,8 +27,6 @@ public class AnswerAnalysisDS extends BaseDataSource {
 	private List<List<Map<String, String>>> childrenList;
 	private Analysis max;
 	private Analysis min;
-	private NetworkClient client;
-
 	/**
 	 * @param callback
 	 */
@@ -62,26 +59,14 @@ public class AnswerAnalysisDS extends BaseDataSource {
 	}
 	
 	/**
-	 * @see com.todayedu.ebag.teacher.DataSource.BaseDataSource#localload(android.content.Context)
-	 */
-	@Override
-	protected void localload(Context context) {
-	
-		// do nothing
-	}
-	
-	/**
 	 * @see com.todayedu.ebag.teacher.DataSource.BaseDataSource#download(android.content.Context)
 	 */
 	@Override
-	protected void download(Context context) {
+	protected void download(Activity context) {
 	
 		int cid = Parameters.get(ParaIndex.CID_INDEX);
 		int eid = Parameters.get(ParaIndex.CID_INDEX);
-		
-		client = new NetworkClient();
-		client.setHandler(new AnswerAnalysisHandler(context, this, cid, eid));
-		client.connect();
+		connect(new AnswerAnalysisHandler(context, this, cid, eid));
 	}
 	
 	/**
@@ -170,13 +155,4 @@ public class AnswerAnalysisDS extends BaseDataSource {
 		return map;
 	}
 	
-	/**
-	 * @see com.todayedu.ebag.teacher.DataSource.BaseDataSource#disconnect()
-	 */
-	@Override
-	protected void disconnect() {
-	
-		disconnect(client);
-		
-	}
 }
