@@ -10,11 +10,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.ebag.net.obj.answer.AnswerAnalysis;
+import org.ebag.net.obj.answer.GradeObj;
+
 import android.app.Activity;
 
 import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.Parameters.ParaIndex;
-import com.todayedu.ebag.teacher.DataSource.DataObj.Analysis;
 import com.todayedu.ebag.teacher.Network.AnswerAnalysisHandler;
 
 /**
@@ -25,8 +27,7 @@ import com.todayedu.ebag.teacher.Network.AnswerAnalysisHandler;
 public class AnswerAnalysisDS extends BaseDataSource {
 	
 	private List<List<Map<String, String>>> childrenList;
-	private Analysis max;
-	private Analysis min;
+	private AnswerAnalysis res=null;
 	/**
 	 * @param callback
 	 */
@@ -37,15 +38,14 @@ public class AnswerAnalysisDS extends BaseDataSource {
 		this.childrenList = childrenList;
 	}
 	
-	/**
-	 * @see com.todayedu.ebag.teacher.DataSource.BaseDataSource#createMaps(java.lang.String[])
-	 */
 	@Override
 	public void createMaps(String[] keys) {
 	
 		List<List<Map<String, String>>> lists = this.childrenList;
-		
 		List<Map<String, String>> list;
+
+		if (res == null)
+			return;
 
 		list = createTotalTable(keys);
 		lists.add(list);
@@ -58,62 +58,40 @@ public class AnswerAnalysisDS extends BaseDataSource {
 		
 	}
 	
-	/**
-	 * @see com.todayedu.ebag.teacher.DataSource.BaseDataSource#download(android.content.Context)
-	 */
 	@Override
-	protected void download(Activity context) {
+	public void download(Activity context) {
 	
 		int cid = Parameters.get(ParaIndex.CID_INDEX);
 		int eid = Parameters.get(ParaIndex.CID_INDEX);
-		connect(new AnswerAnalysisHandler(context, this, cid, eid));
+		loadStart(new AnswerAnalysisHandler(context, this, cid, eid));
 	}
 	
 	/**
-	 * @return the max
+	 * @return the res
 	 */
-	public Analysis getMax() {
+	public AnswerAnalysis getRes() {
 	
-		return max;
+		return res;
 	}
 	
 	/**
-	 * @param max
-	 *            the max to set
+	 * @param res
+	 *            the res to set
 	 */
-	public void setMax(Analysis max) {
+	public void setRes(AnswerAnalysis res) {
 	
-		this.max = max;
-	}
-	
-	/**
-	 * @return the min
-	 */
-	public Analysis getMin() {
-	
-		return min;
-	}
-	
-	/**
-	 * @param min
-	 *            the min to set
-	 */
-	public void setMin(Analysis min) {
-	
-		this.min = min;
+		this.res = res;
 	}
 
 	// 返回总分分排行榜的列表
 	private List<Map<String, String>> createTotalTable(String[] keys) {
-	
-		List<? extends Data> data = this.getList();
+
+		if (res.allGradeList == null)
+			return null;
 		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
 		Map<String, String> map;
-		Analysis analysis;
-		
-		for (Data d : data) {
-			analysis = (Analysis) d;
-			map = createMap(keys, analysis);
+		for (GradeObj gradeObj : res.allGradeList) {
+			map = createMap(keys, gradeObj);
 			list.add(map);
 		}
 		return list;
@@ -122,37 +100,34 @@ public class AnswerAnalysisDS extends BaseDataSource {
 	// 返回最少得分题目列表。列表中只有一项数据
 	private List<Map<String, String>> createMax(String[] keys) {
 	
-		Analysis data = this.getMax();
-		return create(data, keys);
+		if (res.maxGrade == null)
+			return null;
+		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+		Map<String, String> map = createMap(keys, res.maxGrade);
+		list.add(map);
+		return list;
 	}
-	
+
 	// 返回最多得分题目列表。列表中只有一项数据
 	private List<Map<String, String>> createMin(String[] keys) {
 	
-		Analysis data = this.getMax();
-		return create(data, keys);
-	}
-	
-	private List<Map<String, String>> create(Analysis data, String[] keys) {
-	
-		final Analysis analysis = data;
+		if (res.minGrade == null)
+			return null;
 		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-		Map<String, String> map = createMap(keys, analysis);
+		Map<String, String> map = createMap(keys, res.minGrade);
 		list.add(map);
 		return list;
 	}
 	
 	/**
 	 * @param keys
-	 * @param analysis
 	 * @return
 	 */
-	private Map<String, String> createMap(String[] keys, Analysis analysis) {
+	private Map<String, String> createMap(String[] keys, GradeObj gradeObj) {
 	
 		Map<String, String> map = new HashMap<String, String>();
-		map.put(keys[0], analysis.getName());
-		map.put(keys[1], String.valueOf(analysis.getScore()));
+		map.put(keys[0], gradeObj.u_name);
+		map.put(keys[1], gradeObj.p_grade + "");
 		return map;
 	}
-	
 }

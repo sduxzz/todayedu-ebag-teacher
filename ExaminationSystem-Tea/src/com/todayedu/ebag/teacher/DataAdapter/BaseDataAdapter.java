@@ -58,7 +58,7 @@ public class BaseDataAdapter extends BaseAdapter implements Observer {
 	 */
 	public int getCount() {
 	
-		return zDataSource.getList().size();
+		return zDataSource.getListMap().size();
 	}
 	
 	/**
@@ -66,7 +66,7 @@ public class BaseDataAdapter extends BaseAdapter implements Observer {
 	 */
 	public Object getItem(int position) {
 	
-		return zDataSource.getList().get(position);
+		return zDataSource.getListMap().get(position);
 	}
 	
 	/**
@@ -123,7 +123,7 @@ public class BaseDataAdapter extends BaseAdapter implements Observer {
 	
 	protected void bindView(int position, View view) {
 	
-		final Map<String, String> dataSet = zDataSource.getData().get(position);
+		final Map<String, String> dataSet = zDataSource.getListMap().get(position);
 		if (dataSet == null) {
 			return;
 		}

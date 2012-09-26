@@ -42,6 +42,23 @@ public class SDCard {
 			SDCardAvailable = SDCardWriteable = false;
 	}
 
+	public File getOutputMediaFile(String path) {
+	
+		File mediaStorageDir = new File(
+		        Environment
+		                .getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+		        path);
+		Log.i("SDCard", mediaStorageDir.getAbsolutePath());
+		if (!mediaStorageDir.exists()) {
+			if (!mediaStorageDir.mkdirs()) {
+				Log.d("SDCard", "failed to create directory");
+				return null;
+			}
+		}
+		
+		return mediaStorageDir;
+	}
+
 	/**
 	 * 判断文件或目录是否存在
 	 * 
@@ -66,9 +83,10 @@ public class SDCard {
 		if (fullFilePath == null || "".equals(fullFilePath))
 			return result;
 		if (SDCardWriteable == true) {
-			Log.i("SDCard", "SdCard_isFileExisted:" + fullFilePath);
 			File file = new File(fullFilePath);
 			result = file.exists();
+			Log.i("SDCard", "SdCard_isFileExisted:" + fullFilePath + "    "
+			        + result);
 		}
 		return result;
 	}
@@ -87,7 +105,8 @@ public class SDCard {
 			if (isFileExisted(fileDir)) {
 				return dir;
 			}
-			dir.mkdirs();
+			boolean result = dir.mkdirs();
+			Log.i("SDCard", "createSDDir: result " + result);
 		}
 
 		return dir;
@@ -107,11 +126,11 @@ public class SDCard {
 		if (SDCardWriteable == true) {
 			File dir = createSDDir(path);
 			if (dir != null) {
-				if (isFileExisted(path + File.separator + fileName)) {
-					new File(SDPATH + path + File.separator + fileName)
+				if (isFileExisted(path + "/" + fileName)) {
+					new File(SDPATH + path + "/" + fileName)
 							.delete();
 				}
-				file = new File(SDPATH + path + File.separator + fileName);
+				file = new File(SDPATH + path + "/" + fileName);
 				file.createNewFile();
 			}
 		}

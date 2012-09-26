@@ -5,8 +5,6 @@
  */
 package com.todayedu.ebag.teacher.UIModule;
 
-import java.util.List;
-
 import org.ebag.net.response.AnswerResponse;
 
 import android.app.ListFragment;
@@ -18,17 +16,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.todayedu.ebag.teacher.Constants.StateStr;
 import com.todayedu.ebag.teacher.R;
-import com.todayedu.ebag.teacher.TempData;
 import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
 import com.todayedu.ebag.teacher.DataSource.DSCallback;
 import com.todayedu.ebag.teacher.DataSource.ECSDS;
 import com.todayedu.ebag.teacher.DataSource.DataObj.Answer;
-import com.todayedu.ebag.teacher.Network.ResponseParseUtil;
 
 /**
- * 某个学生的要批改试卷的界面中的题目列表
+ * 某个学生的要批改试卷的界面中的题目列表界面
  * 
  * @author <a href="zhenzxie.iteye.cn">zhenzxie</a>
  * @version 1.0
@@ -36,16 +31,11 @@ import com.todayedu.ebag.teacher.Network.ResponseParseUtil;
  */
 public class ECSFragment extends ListFragment implements DSCallback {
 	
-	/**
-	 * @see android.app.ListFragment#onCreateView(android.view.LayoutInflater,
-	 *      android.view.ViewGroup, android.os.Bundle)
-	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	        Bundle savedInstanceState) {
 	
-		return inflater.inflate(R.layout.listfragment, container,
-		        false);
+		return inflater.inflate(R.layout.listfragment, container, false);
 	}
 
 	@Override
@@ -53,16 +43,12 @@ public class ECSFragment extends ListFragment implements DSCallback {
 	
 		super.onActivityCreated(savedInstanceState);
 
-		ECSActivity activity = (ECSActivity) getActivity();
-		
 		ds = new ECSDS(this);
-		ds.load(activity);
-		
-		adapter = new BaseDataAdapter(activity, ds, R.layout.lv_2, new int[] {
-		        R.id.lv2_tv_1, R.id.lv2_tv_2 }, keys);
+		ds.load(getActivity());
+		adapter = new BaseDataAdapter(getActivity(), ds, R.layout.lv_2,
+		        new int[] { R.id.lv2_tv_1, R.id.lv2_tv_2 }, keys);
 		ds.addObserver(adapter);
-		
-		addHeaderView(activity, R.array.pro_id_state);
+		addHeaderView(getActivity(), R.array.pro_id_state);
 		setListAdapter(adapter);
 	}
 	
@@ -70,13 +56,48 @@ public class ECSFragment extends ListFragment implements DSCallback {
 	public void onResume() {
 	
 		super.onResume();
-		String TAG = "ECSFragment";
-		Log.i(TAG, "onResume");
 		if (ds != null && adapter != null) {
 			ds.notifyDataChange();
 			changeECSS();
-			Log.i(TAG, "onResume notifyDataChange");
+			Log.i("ECSFragment", "onResume notifyDataChange");
 		}
+	}
+	
+	@Override
+	public void onListItemClick(ListView l, View v, int position, long id) {
+	
+		Log.i("ECSFragment", "onListItemClick: Item clicked " + position);
+		if (ds.moveTo(position - 1))
+			changeECSS();
+	}
+	
+	@Override
+	public void onLoadSuccess(Object object) {
+	
+		AnswerResponse response = (AnswerResponse) object;
+		if (response == null || response.examList.size() == 0)
+			return;
+		ds.setExamList(response.examList);
+		ds.createMaps(getActivity(), keys);
+		ds.notifyDataChange(getActivity());
+		getActivity().runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+			
+				changeECSS();
+			}
+		});
+	}
+	
+	@Override
+	public void onLoadFailed(Throwable throwable) {
+	
+		SChooseActivity activity = (SChooseActivity) getActivity();
+		if (throwable != null) {
+			Log.i("ECSFragment", throwable.getMessage());
+		}
+		activity.showToast("加载数据失败");
 	}
 	
 	/**
@@ -85,61 +106,24 @@ public class ECSFragment extends ListFragment implements DSCallback {
 	 * @param textOfTeacher
 	 * @param point
 	 */
-	public void onConfirm(String picOfTeacherUrl, String textOfTeacher,
-	        double point) {
+	public void onConfirm(String answerofTea, String textOfTeacher, double point) {
 	
-		Answer answer = (Answer) TempData.getCurrentData();
-		answer.setAnswerofTea(picOfTeacherUrl);
-		answer.textOfTeacher = textOfTeacher;
-		answer.setPoint(point);
-		answer.setState(StateStr.CORRECTED);
+		ds.onComfirm(getActivity(), answerofTea, textOfTeacher, point);
 		ds.notifyDataChange();
 	}
 
-	@Override
-	public void onListItemClick(ListView l, View v, int position, long id) {
+	public void onNext() {
 	
-		Log.i("ECSFragment", "onListItemClick: Item clicked " + id);
-		TempData.setCurrentIndex(position - 1);
+		ds.moveToNext();
 		changeECSS();
 	}
 	
-	@Override
-	public void onLoadSuccess(Object object) {
+	public void onPrevious() {
 	
-		AnswerResponse response = (AnswerResponse) object;
-		final List<Answer> list = ResponseParseUtil
-		        .parseAnswerResponse(response);
-		Log.i("ECSFragment", "onLoadSuccess: " + list.size());
-		ds.setList(list);
-		ds.createMaps(keys);
-		getActivity().runOnUiThread(new Runnable() {
-			
-			@Override
-			public void run() {
-			
-				ds.notifyDataChange();
-				TempData.storeData(ds, 0);
-				changeECSS();
-			}
-		});
+		ds.moveToPrevious();
+		changeECSS();
 	}
-	
-	/**
-	 * @see com.todayedu.ebag.teacher.DataSource.DSCallback#onLoadFailed(java.lang.Throwable)
-	 */
-	@Override
-	public void onLoadFailed(Throwable throwable) {
-	
-		SChooseActivity activity = (SChooseActivity) getActivity();
-		String TAG = "ECSFragment";
-		Log.i(TAG, "onLoadFailed");
-		if (throwable != null) {
-			Log.i(TAG, throwable.getMessage());
-		}
-		activity.showToast("加载数据失败");
-	}
-	
+
 	private BaseDataAdapter adapter;
 	private ECSDS ds;
 	private final String[] keys = new String[] { "number", "state" };
@@ -151,10 +135,11 @@ public class ECSFragment extends ListFragment implements DSCallback {
 	}
 	
 	/**
-	 * @see ECSActivity#changeECSS()
+	 * @see ECSActivity#changeECSS(Answer, boolean, boolean)
 	 */
 	private void changeECSS() {
 	
-		((ECSActivity) getActivity()).changeECSS();
+		((ECSActivity) getActivity()).changeECSS(ds.getCurrentAnswer(),
+		        ds.canPrevious(), ds.canNext());
 	}
 }

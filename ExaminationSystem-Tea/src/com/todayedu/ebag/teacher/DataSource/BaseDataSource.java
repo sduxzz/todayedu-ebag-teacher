@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.Observable;
 
 import android.app.Activity;
-import android.content.Context;
 import android.widget.Toast;
 
 import com.todayedu.ebag.teacher.R;
@@ -28,8 +27,7 @@ import com.todayedu.ebag.teacher.UIModule.BaseActivity;
 public abstract class BaseDataSource extends Observable implements NetworkCallBack {
 	
 	protected String TAG = this.getClass().getSimpleName();
-	protected List<? extends Data> list = new ArrayList<Data>();
-	protected List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+	protected List<Map<String, String>> map = new ArrayList<Map<String, String>>();
 	protected DSCallback callback;
 	protected NetworkClient client;
 
@@ -51,14 +49,23 @@ public abstract class BaseDataSource extends Observable implements NetworkCallBa
 	 */
 	protected abstract void download(Activity context);
 	
-	public void connect(BaseNetworkHandler handler) {
+	/**
+	 * 打开网络链接，设置处理器，开始下载数据
+	 * 
+	 * @param handler
+	 *            处理器
+	 */
+	public void loadStart(BaseNetworkHandler handler) {
 	
 		client = new NetworkClient();
 		client.setHandler(handler);
 		client.connect();
 	}
 
-	protected void disconnect() {
+	/**
+	 * 下载结束，断开网络连接
+	 */
+	protected void loadComplete() {
 	
 		client.disconnect();
 	}
@@ -81,16 +88,8 @@ public abstract class BaseDataSource extends Observable implements NetworkCallBa
 	}
 
 	/**
-	 * 
-	 * @see com.todayedu.ebag.teacher.DataSource.DataSource#save(android.content.Context)
+	 * 提醒观察者数据改变了
 	 */
-	public void save(Context context) {
-	
-		for (Data d : list) {
-			d.save(context);
-		}
-	}
-
 	public void notifyDataChange() {
 	
 		setChanged();
@@ -99,30 +98,28 @@ public abstract class BaseDataSource extends Observable implements NetworkCallBa
 	}
 	
 	/**
-	 * @return the list
-	 */
-	public List<? extends Data> getList() {
-	
-		return list;
-	}
-	
-	/**
-	 * set the list and fill the Maps
+	 * 在UI线程中更新数据
 	 * 
-	 * @param list
-	 *            the list to set
+	 * @param activity
 	 */
-	public void setList(List<? extends Data> list) {
+	public void notifyDataChange(Activity activity) {
 	
-		this.list = list;
+		activity.runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+			
+				notifyDataChange();
+			}
+		});
 	}
 	
 	/**
 	 * @return the data
 	 */
-	public List<Map<String, String>> getData() {
+	public List<Map<String, String>> getListMap() {
 	
-		return data;
+		return map;
 	}
 	
 	/**
@@ -132,7 +129,7 @@ public abstract class BaseDataSource extends Observable implements NetworkCallBa
 	@Override
 	public void success(Object response) {
 	
-		disconnect();
+		loadComplete();
 		callback.onLoadSuccess(response);
 	}
 
@@ -143,7 +140,7 @@ public abstract class BaseDataSource extends Observable implements NetworkCallBa
 	@Override
 	public void failed(Throwable throwable) {
 	
-		disconnect();
+		loadComplete();
 		callback.onLoadFailed(throwable);
 	}
 

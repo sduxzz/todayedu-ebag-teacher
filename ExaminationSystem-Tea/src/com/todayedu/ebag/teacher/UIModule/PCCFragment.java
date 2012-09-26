@@ -15,8 +15,8 @@ import android.webkit.WebView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.todayedu.ebag.teacher.Constants.StateStr;
 import com.todayedu.ebag.teacher.R;
-import com.todayedu.ebag.teacher.TempData;
 import com.todayedu.ebag.teacher.DataSource.DataObj.Problem;
 
 /**
@@ -28,10 +28,6 @@ import com.todayedu.ebag.teacher.DataSource.DataObj.Problem;
  */
 public class PCCFragment extends Fragment {
 	
-	/**
-	 * @see android.app.ListFragment#onCreateView(android.view.LayoutInflater,
-	 *      android.view.ViewGroup, android.os.Bundle)
-	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	        Bundle savedInstanceState) {
@@ -43,38 +39,27 @@ public class PCCFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 	
 		super.onActivityCreated(savedInstanceState);
-		
 		Activity activity = getActivity();
-		
 		pcc_tv2 = (TextView) activity.findViewById(R.id.pcc_tv2);
 		pcc_tv4 = (TextView) activity.findViewById(R.id.pcc_tv4);
 		pcc_tv6 = (TextView) activity.findViewById(R.id.pcc_tv6);
 		pcc_b1 = (ImageButton) activity.findViewById(R.id.pcc_b1);
+		pcc_b2 = (ImageButton) activity.findViewById(R.id.pcc_b2);
 		pcc_b4 = (ImageButton) activity.findViewById(R.id.pcc_b4);
 		pcc_wv1 = (WebView) activity.findViewById(R.id.pcc_wv1);
 		pcc_wv2 = (WebView) activity.findViewById(R.id.pcc_wv2);
 		pcc_wv3 = (WebView) activity.findViewById(R.id.pcc_wv3);
-		
 	}
 	
-	public void setButton() {
-	
-		if (TempData.isFirst())
-			pcc_b1.setEnabled(false);
-		else
-			pcc_b1.setEnabled(true);
-		if (TempData.isLast())
-			pcc_b4.setEnabled(false);
-		else
-			pcc_b4.setEnabled(true);
-	}
-	
-	public void getAndSet() {
+	/**
+	 * 设置题目界面
+	 * 
+	 * @param problem
+	 * @param canPrevious
+	 * @param canNext
+	 */
+	public void resetPCC(Problem problem, boolean canPrevious, boolean canNext) {
 		
-		Problem problem = (Problem) TempData.getCurrentData();
-		if (problem == null)
-			return;
-
 		number = problem.getNumber() + "";
 		point = problem.getPoint() + "";
 		state = problem.getState();
@@ -88,12 +73,14 @@ public class PCCFragment extends Fragment {
 		pcc_wv1.loadUrl(content);
 		pcc_wv2.loadUrl(answer);
 		pcc_wv3.loadUrl(analysis);
+		setButton(canPrevious, canNext, state);
 	}
 	
 	private TextView pcc_tv2;
 	private TextView pcc_tv4;
 	private TextView pcc_tv6;
 	private ImageButton pcc_b1;
+	private ImageButton pcc_b2;
 	private ImageButton pcc_b4;
 	private WebView pcc_wv1;
 	private WebView pcc_wv2;
@@ -106,4 +93,20 @@ public class PCCFragment extends Fragment {
 	private String answer;
 	private String analysis;
 	
+	private void setButton(boolean canPrevious, boolean canNext, String state) {
+	
+		if (canPrevious)
+			pcc_b1.setEnabled(true);
+		else
+			pcc_b1.setEnabled(false);
+		if (canNext)
+			pcc_b4.setEnabled(true);
+		else
+			pcc_b4.setEnabled(false);
+		if(StateStr.COMMENTED.equals(state))
+			pcc_b2.setEnabled(false);
+		else
+			pcc_b2.setEnabled(true);
+	}
+
 }

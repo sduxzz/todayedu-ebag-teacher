@@ -1,7 +1,5 @@
 package com.todayedu.ebag.teacher;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.ref.SoftReference;
 import java.net.URL;
 import java.util.HashMap;
@@ -9,16 +7,9 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.HttpGet;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.http.AndroidHttpClient;
 import android.os.Handler;
-import android.util.Log;
 
 public class AsyncImageLoader {
 	
@@ -61,53 +52,6 @@ public class AsyncImageLoader {
 		});
 	}
 	
-	protected Bitmap getBitmap(final String imageUrl) {
-	
-		final String TAG = "AsynImageLoader";
-		final AndroidHttpClient client = AndroidHttpClient
-		        .newInstance("Android");
-		final HttpGet getRequest = new HttpGet(imageUrl);
-		try {
-			HttpResponse response = client.execute(getRequest);
-			final int statusCode = response.getStatusLine().getStatusCode();
-			if (statusCode != HttpStatus.SC_OK) {
-				Log.w(TAG, "从" + imageUrl + "中下载图片时出错!,错误码:"
-				        + statusCode);
-				return null;
-			}
-			final HttpEntity entity = response.getEntity();
-			if (entity != null) {
-				InputStream inputStream = null;
-				try {
-					inputStream = entity.getContent();
-					
-					final Bitmap bitmap = BitmapFactory
-					        .decodeStream(inputStream);
-					return bitmap;
-				} finally {
-					if (inputStream != null) {
-						inputStream.close();
-					}
-					entity.consumeContent();
-				}
-			}
-		} catch (IOException e) {
-			getRequest.abort();
-			Log.w(TAG, "I/O errorwhile retrieving bitmap from " + imageUrl, e);
-		} catch (IllegalStateException e) {
-			getRequest.abort();
-			Log.w(TAG, "Incorrect URL:" + imageUrl);
-		} catch (Exception e) {
-			getRequest.abort();
-			Log.w(TAG, "Error whileretrieving bitmap from " + imageUrl, e);
-		} finally {
-			if (client != null) {
-				client.close();
-			}
-		}
-		return null;
-	}
-
 	public Map<String, SoftReference<Bitmap>> getImageCache() {
 	
 		return imageCache;

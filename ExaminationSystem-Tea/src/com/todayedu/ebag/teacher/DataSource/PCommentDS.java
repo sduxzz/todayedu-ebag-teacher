@@ -5,31 +5,34 @@
  */
 package com.todayedu.ebag.teacher.DataSource;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.app.Activity;
-import android.util.Log;
+import org.ebag.net.obj.exam.ProblemInfoObj;
 
+import android.app.Activity;
+import android.content.Context;
+import android.util.SparseArray;
+
+import com.todayedu.ebag.teacher.Constants.StateStr;
 import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.DataSource.DataObj.Problem;
 import com.todayedu.ebag.teacher.Network.ExamHandler;
-import com.todayedu.ebag.teacher.Network.NetworkCallBack;
+import com.todayedu.ebag.teacher.Network.UrlBuilder;
 
 /**
  * @author zhenzxie
  * 
  */
-public class PCommentDS extends BaseDataSource implements Serializable, NetworkCallBack {
+public class PCommentDS extends BaseDataSource {
 
-	/**
-     * 
-     */
-	private static final long serialVersionUID = -8223593166299776033L;
+	private SparseArray<Problem> temp = new SparseArray<Problem>();
+	private List<ProblemInfoObj> pInfoList;
+	private int index = 0;
+
 	public PCommentDS(DSCallback callback) {
 	
 		super(callback);
@@ -45,24 +48,158 @@ public class PCommentDS extends BaseDataSource implements Serializable, NetworkC
 		idList.add(eid);
 		List<String> fieldList = new ArrayList<String>();
 		fieldList.add("pInfoList");// pInfoList is the field name of ExamObj
-		connect(new ExamHandler(context, this, cid, null,
-		        idList, fieldList));
+		loadStart(new ExamHandler(context, this, cid, null, idList, fieldList));
 	}
 
 	@Override
 	public void createMaps(String[] keys) {
 	
-		Log.i(TAG, "createMaps");
-		List<? extends Data> list = this.getList();
-		List<Map<String, String>> maps = this.getData();
+		// createMaps(Context, String[]);
+	}
+	
+	public void createMaps(Context context, String[] keys) {
+
+		List<ProblemInfoObj> list = this.getpInfoList();
+		List<Map<String, String>> maps = this.getListMap();
+		maps.clear();
 		Map<String, String> map = null;
-		Problem problem = null;
-		for (Data data : list) {
-			problem = (Problem) data;
+		int i = 1;
+		for (ProblemInfoObj obj : list) {
 			map = new HashMap<String, String>();
-			map.put(keys[0], String.valueOf(problem.getNumber()));
-			map.put(keys[1], problem.getState());
+			map.put(keys[0], "第" + (i++) + "题");
+			map.put(keys[1], Problem.getStateFromDB(obj.id, context));
 			maps.add(map);
 		}
+	}
+	
+	public void onLable(Context context) {
+	
+		Problem problem = (Problem) getCurrentProblem();
+		problem.setState(StateStr.COMMENTED);
+		problem.save(context);
+		Map<String, String> map = getListMap().get(index);
+		map.put("state", StateStr.COMMENTED);
+	}
+	
+	/**
+	 * 获得当前ProblemInfoObj所代表的Problem
+	 * 
+	 * @return Problem
+	 */
+	public Problem getCurrentProblem() {
+	
+		if (pInfoList == null)
+			return null;
+		ProblemInfoObj obj = pInfoList.get(index);
+		int id = obj.id;
+		Problem problem = temp.get(id);
+		if (problem == null) {
+			problem = new Problem();
+			problem.setPid(id);
+			problem.setNumber(index + 1);
+			problem.setPoint(obj.point);
+			problem.setState(getListMap().get(index).get("state"));
+			problem.setContent(UrlBuilder.problemContentUrl(id));
+			problem.setAnswer(UrlBuilder.problemAnswerUrl(id));
+			problem.setAnalysis(UrlBuilder.problemAnalysis(id));
+			temp.put(id, problem);
+		}
+		return problem;
+	}
+
+	/**
+	 * 向后移动一位
+	 */
+	public void moveToNext() {
+	
+		if (canNext()) {
+			index++;
+		}
+	}
+	
+	/**
+	 * 是否能向后移动一位
+	 * 
+	 * @return boolean
+	 */
+	public boolean canNext() {
+	
+		if (getpInfoList() == null)
+			return false;
+		if (index >= getpInfoList().size() - 1) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * 向前移动一位
+	 */
+	public void moveToPrevious() {
+	
+		if (canPrevious()) {
+			index--;
+		}
+	}
+	
+	/**
+	 * 是否能向前移动一位
+	 * 
+	 * @return boolean
+	 */
+	public boolean canPrevious() {
+	
+		if (index <= 0) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * 移动到index位置
+	 * 
+	 * @param index
+	 */
+	public boolean moveTo(int index) {
+	
+		if (index >= 0 && index < getpInfoList().size()) {
+			this.index = index;
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * @return the pInfoList
+	 */
+	public List<ProblemInfoObj> getpInfoList() {
+	
+		return pInfoList;
+	}
+	
+	/**
+	 * @param pInfoList
+	 *            the pInfoList to set
+	 */
+	public void setpInfoList(List<ProblemInfoObj> pInfoList) {
+	
+		this.pInfoList = pInfoList;
+	}
+	
+	/**
+	 * @return the index
+	 */
+	public int getIndex() {
+	
+		return index;
+	}
+	
+	/**
+	 * @param index
+	 *            the index to set
+	 */
+	public void setIndex(int index) {
+	
+		this.index = index;
 	}
 }

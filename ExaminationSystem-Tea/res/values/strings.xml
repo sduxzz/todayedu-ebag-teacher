@@ -2,7 +2,7 @@
 <resources>
 
     <!-- common(comm) -->
-    <string name="comm_app_name">ExaminationSystem-Tea</string>
+    <string name="comm_app_name">ExaminationSystem</string>
     <string name="comm_stu_id">学号</string>
     <string name="comm_stu_name">姓名</string>
     <string name="comm_stu_score">成绩</string>

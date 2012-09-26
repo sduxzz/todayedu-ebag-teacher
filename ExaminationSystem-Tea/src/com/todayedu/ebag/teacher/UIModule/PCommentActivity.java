@@ -6,73 +6,76 @@
 package com.todayedu.ebag.teacher.UIModule;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.todayedu.ebag.teacher.R;
-import com.todayedu.ebag.teacher.TempData;
+import com.todayedu.ebag.teacher.DataSource.DataObj.Problem;
 
 /**
- * 讲评试卷的题目列表
+ * 讲评试卷界面，包括一个题目列表界面和题目界面
  * 
  * @author zhenzxie
- * 
+ * @see PCommentFragment
+ * @see PCCFragment
  */
 public class PCommentActivity extends BaseActivity {
 
-	/**
-	 * @see com.todayedu.ebag.teacher.UIModule.MonitoredActivity#onCreate(android.os.Bundle)
-	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 	
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pcomment);
-		Log.i(TAG, "onCreate");
 	}
 	
-	/**
-	 * @see android.app.Activity#onBackPressed()
-	 */
 	@Override
 	public void onBackPressed() {
 	
 		super.onBackPressed();
 		this.finish();
-		TempData.clear();
 	}
 
 	public void onPrevious(View view) {
 	
-		TempData.moveToPrevious();
-		changePCC();
+		PCommentFragment fragment = getPCommentFragment();
+		fragment.onPrevious();
 	}
 	
 	public void onLabel(View view) {
 	
-		PCommentFragment fragment = (PCommentFragment) this
-		        .getFragmentManager().findFragmentById(R.id.pc_pcf);
+		PCommentFragment fragment = getPCommentFragment();
 		fragment.onLabel();
-		if (!TempData.isLast()) {
-			onNext(null);
-		} else {
-			changePCC();
-		}
 	}
-	
+
 	public void onNext(View view) {
 	
-		TempData.moveToNext();
-		changePCC();
+		PCommentFragment fragment = getPCommentFragment();
+		fragment.onNext();
 	}
 	
-	public void changePCC() {
+	/**
+	 * 修改PCCommentFragment
+	 * 
+	 * @param problem
+	 * @param canPrevious
+	 * @param canNext
+	 */
+	public void changePCC(Problem problem, boolean canPrevious, boolean canNext) {
 	
 		PCCFragment fragment = (PCCFragment) this.getFragmentManager()
 		        .findFragmentById(R.id.pc_pccf);
-		if (fragment == null)
+		if (fragment == null || problem == null)
 			return;
-		fragment.getAndSet();
-		fragment.setButton();
+		fragment.resetPCC(problem, canPrevious, canNext);
 	}
+	
+	/**
+	 * @return PCommentFragment
+	 */
+	private PCommentFragment getPCommentFragment() {
+	
+		PCommentFragment fragment = (PCommentFragment) this
+		        .getFragmentManager().findFragmentById(R.id.pc_pcf);
+		return fragment;
+	}
+
 }

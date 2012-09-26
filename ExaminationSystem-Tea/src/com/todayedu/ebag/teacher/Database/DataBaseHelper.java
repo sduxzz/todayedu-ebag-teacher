@@ -12,12 +12,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.todayedu.ebag.teacher.Constants.StateStr;
 import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.Parameters.ParaIndex;
-import com.todayedu.ebag.teacher.DataSource.DataObj.EClass;
-import com.todayedu.ebag.teacher.DataSource.DataObj.Exam;
+import com.todayedu.ebag.teacher.DataSource.DataObj.Answer;
 import com.todayedu.ebag.teacher.DataSource.DataObj.Problem;
-import com.todayedu.ebag.teacher.DataSource.DataObj.Student;
 
 /**
  * @author zhenzxie
@@ -37,16 +36,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 	
-		Class<?>[] classes = { EClass.class, Exam.class, Problem.class,
-		        Student.class };
+		Class<?>[] classes = { Problem.class, Answer.class };
 		TableHelper.createTablesByClasses(db, classes);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 	
-		Class<?>[] classes = { EClass.class, Exam.class, Problem.class,
-		        Student.class };
+		Class<?>[] classes = { Problem.class, Answer.class };
 		TableHelper.dropTablesByClasses(db, classes);
 		onCreate(db);
 	}
@@ -63,7 +60,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 	public <T> long insert(Class<T> clazz, T entity, String tableName,
 	        ContentValues cv) {
 	
-		Log.d(TAG,
+		Log.i(TAG,
 		        "[insert]: inset into " + tableName + " " + entity.toString());
 		SQLiteDatabase db = this.getWritableDatabase();
 
@@ -71,7 +68,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 			long row = db.insert(tableName, null, cv);
 			return row;
 		} catch (Exception e) {
-			Log.d(TAG, "[insert] into DB Exception.");
+			Log.i(TAG, "[insert] into DB Exception.");
 			e.printStackTrace();
 		} finally {
 			if (db != null) {
@@ -81,63 +78,80 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 		return 0L;
 	}
 	
-	/**
-	 * 
-	 * @param sql
-	 * @param selectionArgs
-	 * @param loader
-	 * @return
-	 */
-	// public List<Data> query2MapList(String sql, String[] selectionArgs,
-	// DataSourceLoader loader) {
-	//
-	// Log.d(TAG, "[query2MapList]: " + sql);
-	// List<Data> list = new ArrayList<Data>();
-	// SQLiteDatabase db = this.getReadableDatabase();
-	// BaseDataSource ds = loader.getzDataSource();
-	// Class<? extends Data> cl = ds.getzClass();
-	// Cursor cursor = db.rawQuery(sql, selectionArgs);
-	// try {
-	// Data entity;
-	// int count = cursor.getCount();
-	// int num = 0;
-	// if (cursor.moveToFirst()) {
-	// do {
-	// num++;
-	// entity = cl.newInstance();
-	// entity.fillData(cursor);
-	// list.add(entity);
-	// loader.onPublishProgress(num * 10 / count * 10);
-	// } while (cursor.moveToNext());
-	// }
-	// } catch (Exception e) {
-	// Log.e(TAG, "[query2MapList] from DB exception");
-	// } finally {
-	// if (cursor != null) {
-	// cursor.close();
-	// }
-	// if (db != null) {
-	// db.close();
-	// }
-	// }
-	// return list;
-	// }
-
 	public String queryProState(int pid) {
 	
 		String state = null;
 		String eid = Parameters.getStr(ParaIndex.EID_INDEX);
 		String cid = Parameters.getStr(ParaIndex.CID_INDEX);
 		SQLiteDatabase db = this.getReadableDatabase();
-		Cursor cursor = db.query(
-		        "PROBLEM",
-		        new String[] { "state" },
-		        "where pid = ? and eid = ? and cid = ?",
+		Cursor cursor = db.query("PROBLEM", new String[] { "state" },
+		        "pid = ? and eid = ? and cid = ?",
 		        new String[] { String.valueOf(pid), eid, cid }, null, null,
 		        null);
-		state = cursor.getString(cursor.getColumnIndex("state"));
-		
+		if (cursor.moveToFirst()) {
+			state = cursor.getString(cursor.getColumnIndex("state"));
+		} else {
+			state = StateStr.COMMENT;// 如果数据库没有存，则是未讲评的题
+		}
+		db.close();
 		return state;
+	}
+	
+	public Answer queryAnswer(int id, int sid, int pid) {
+	
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db
+		        .query("ANSWER", new String[] { "STATE", "POINT",
+		                "TEXTOFTEACHER", "ANSWEROFTEA" },
+		                "ID = ? and SID = ? and PID = ?",
+		                new String[] { String.valueOf(id), String.valueOf(sid),
+		                        String.valueOf(pid) }, null, null, null);
+		Answer answer = null;
+		if (cursor.moveToFirst()) {
+			answer = new Answer();
+			answer.setState(cursor.getString(cursor.getColumnIndex("STATE")));
+			answer.setPoint(cursor.getDouble(cursor.getColumnIndex("POINT")));
+			answer.setTextOfTeacher(cursor.getString(cursor
+			        .getColumnIndex("TEXTOFTEACHER")));
+			answer.setAnswerofTea(cursor.getString(cursor
+			        .getColumnIndex("ANSWEROFTEA")));
+		}
+		db.close();
+		return answer;
+	}
+
+	/**
+	 * query a row by a special id
+	 */
+	public boolean isAnswerExist(int id) {
+	
+		String selection = "ID = ?";
+		String[] selectionArgs = { Integer.toString(id) };
+		SQLiteDatabase db = this.getReadableDatabase();
+		Cursor cursor = db.query("ANSWER", new String[] { "ANSWEROFTEA" },
+		        selection, selectionArgs, null, null, null);
+		boolean result = cursor.moveToFirst();
+		db.close();
+		return result;
+	}
+	
+	public boolean updateAnswer(ContentValues cv, int id) {
+	
+		String selection = "ID = ?";
+		String[] selectionArgs = { Integer.toString(id) };
+		SQLiteDatabase db = null;
+		int count = -1;
+		try {
+			db = this.getWritableDatabase();
+			count = db.update("ANSWER", cv, selection, selectionArgs);
+		} catch (Exception e) {
+			Log.d(TAG, "[update] DB Exception.");
+			e.printStackTrace();
+		} finally {
+			if (db != null)
+				db.close();
+		}
+		return count >= 1 ? true : false;
 	}
 
 }

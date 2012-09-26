@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.todayedu.ebag.teacher.Constants.PATH;
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.Database.SDCard;
 import com.todayedu.ebag.teacher.UIModule.BaseActivity;
@@ -48,7 +49,6 @@ public class PaintPadViewCreator implements View.OnClickListener {
 	private PaintView mPaintView = null;
 
 	// button 界面上的各个按钮
-	private ImageButton saveButton = null;
 	private ImageButton eraserButton = null;
 	private ImageButton penSizeButton = null;
 	private ImageButton undoButton = null;
@@ -157,7 +157,6 @@ public class PaintPadViewCreator implements View.OnClickListener {
 	 */
 	private void findButtonById() {
 
-		saveButton = (ImageButton) findViewById(R.id.paint_imageButtonSave);
 		eraserButton = (ImageButton) findViewById(R.id.paint_imageButtonEraser);
 		penSizeButton = (ImageButton) findViewById(R.id.paint_imageButtonPen);
 
@@ -175,8 +174,6 @@ public class PaintPadViewCreator implements View.OnClickListener {
 
 		eraserButton.setBackgroundDrawable(getResources().getDrawable(
 		        R.drawable.eraser));
-		saveButton.setBackgroundDrawable(getResources().getDrawable(
-		        R.drawable.save));
 		penSizeButton.setBackgroundDrawable(getResources().getDrawable(
 		        R.drawable.pen_default));
 		redoButton.setBackgroundDrawable(getResources().getDrawable(
@@ -195,9 +192,7 @@ public class PaintPadViewCreator implements View.OnClickListener {
 	private List<ImageButton> initButtonList() {
 
 		List<ImageButton> list = new ArrayList<ImageButton>();
-		// list.add(clearButton);
 		list.add(eraserButton);
-		list.add(saveButton);
 		list.add(penSizeButton);
 		list.add(undoButton);
 		list.add(redoButton);
@@ -540,9 +535,6 @@ public class PaintPadViewCreator implements View.OnClickListener {
 	public void onClick(View v) {
 
 		switch (v.getId()) {
-			case R.id.paint_imageButtonSave:
-				onClickButtonSave();
-				break;
 
 			case R.id.paint_imageButtonEraser:
 				onClickButtonEraser();
@@ -576,58 +568,36 @@ public class PaintPadViewCreator implements View.OnClickListener {
 	/**
 	 * 保存
 	 */
-	public void onClickButtonSave() {
+	public boolean onClickButtonSave(String dir, String path) {
 	
-		if (!mPaintView.canUndo())
-			return;
 		setAllLayoutInvisable();
 		SDCard sdCard = new SDCard();
 		File file = null;
 		
 		try {
-			
-			String fileFullPath = "";// TODO:get file full path
+			String fileFullPath = PATH.DIR_PATH + path;
 			if (sdCard.isFileExistedWithFullPath(fileFullPath)) {
 				file = new File(fileFullPath);
 			} else {
-				file = sdCard.createSDFile("", "");
+				file = sdCard.createSDFile(dir, path);
 			}
-
 		} catch (Throwable e) {
 			e.printStackTrace();
-			this.context.showToast("SD卡出错里啦，无法保存！><");
+			this.context.showToast("SD卡出错里啦，无法保存！请重试><");
+			return false;
 		}
 		Bitmap bitmap = mPaintView.getSnapShoot();
-		boolean result = BitMapUtils.saveToSdCard(file, bitmap);
-		if (result) {
-			saveToDB(file);
-		} else {
-			this.context.showToast("暂存至数据库失败！><");
-		}
+		return BitMapUtils.saveToSdCard(file, bitmap);
 
 	}
-
-	/**
-	 * 把文件位置保存到数据库
-	 * 
-	 * @param file
-	 */
-	private void saveToDB(File file) {
 	
-		boolean result = false;// TODO:save file to db;
-		if (result)
-			this.context.showToast("保存成功！^^");
-		else
-			this.context.showToast("无法暂存到数据库！><");
-	}
-
 	/**
 	 * 载入已经存在的图片
 	 */
-	public void loadExsitedImage() {
+	public void loadExsitedImage(String path) {
 	
 		SDCard sdCard = new SDCard();
-		String filePath = "";// TODO:get file path
+		String filePath = path;
 		Log.i("PaintPadViewCreator", "loadExsitedImage:" + filePath);
 		if (sdCard.isFileExistedWithFullPath(filePath)) {
 			Bitmap bitmap = BitMapUtils.loadFromSdCard(filePath);
@@ -667,22 +637,6 @@ public class PaintPadViewCreator implements View.OnClickListener {
 				        return;
 			        }
 		        }).show();
-	}
-
-	/**
-	 * 进入下一题之前复位
-	 * 
-	 * @param examId
-	 * @param problemId
-	 */
-	public void reset(int examId, int problemId) {
-
-		mPaintView.clearAll();
-		mPaintView.resetState();
-		upDateUndoRedo();
-		upDateColorView();
-		resetSizeView();
-		loadExsitedImage();
 	}
 
 	/**

@@ -5,24 +5,27 @@
  */
 package com.todayedu.ebag.teacher.UIModule;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.todayedu.ebag.teacher.R;
-import com.todayedu.ebag.teacher.TempData;
+import com.todayedu.ebag.teacher.DataSource.DataObj.Answer;
 
 /**
- * 某个学生的要批改试卷的界面
+ * 某个学生的要批改试卷的界面,包括题目列表界面和题目界面
  * 
  * @author zhenzxie
+ * @see ECSFragment
+ * @see ECSSFragment
  * 
  */
 public class ECSActivity extends BaseActivity {
 	
-	/**
-	 * @see com.todayedu.ebag.teacher.UIModule.MonitoredActivity#onCreate(android.os.Bundle)
-	 */
+	private boolean issave = false;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 	
@@ -30,64 +33,106 @@ public class ECSActivity extends BaseActivity {
 		setContentView(R.layout.ecs);
 	}
 	
-
-	public void onComfirm(View view) {
-	
-		ECSFragment fragment = (ECSFragment) this.getFragmentManager()
-		        .findFragmentById(R.id.ecs_ecsf);
-		if (fragment == null)
-			return;
-		ECSSFragment fragment2 = (ECSSFragment) this.getFragmentManager()
-		        .findFragmentById(R.id.ecs_eccsf);
-		String picOfTeacherUrl = fragment2.getPicOfTeacherUrl();
-		String textOfTeacher = fragment2.getTextOfTeacher();
-		String pointStr = fragment2.getPoint();
-		double point = 0;
-        try {
-	        point = Double.parseDouble(pointStr);
-        } catch (NumberFormatException e) {
-	        e.printStackTrace();
-			return;
-        }
-		fragment.onConfirm(picOfTeacherUrl, textOfTeacher, point);
-		if (!TempData.isLast()) {
-			onNext(null);
-		} else {
-			changeECSS();
-		}
-	}
-	
-	/**
-	 * @see android.app.Activity#onBackPressed()
-	 */
 	@Override
 	public void onBackPressed() {
 	
 		super.onBackPressed();
-		Log.i(TAG, "onBackPressed");
 		this.finish();
-		TempData.clear();
 	}
 
+	public void onComfirm(View view) {
+	
+		ECSSFragment fragment2 = (ECSSFragment) this.getFragmentManager()
+		        .findFragmentById(R.id.ecs_eccsf);
+		if (fragment2.onConfirm()) {
+			String picOfTeacherUrl = fragment2.getPicOfTeacherUrl();
+			String textOfTeacher = fragment2.getTextOfTeacher();
+			String pointStr = fragment2.getPoint();
+			double point = 0;
+			try {
+				point = Double.parseDouble(pointStr);
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+				showToast("请输入正确得分");
+				return;
+			}
+			ECSFragment fragment = (ECSFragment) this.getFragmentManager()
+			        .findFragmentById(R.id.ecs_ecsf);
+			fragment.onConfirm(picOfTeacherUrl, textOfTeacher, point);
+			showToast("成功保存");
+			issave = true;
+		}
+	}
+	
 	public void onPrevious(View view) {
 	
-		TempData.moveToPrevious();
-		changeECSS();
+		if (!issave) {
+			new AlertDialog.Builder(this)
+			        .setMessage("没保存就要离开吗？")
+			        .setPositiveButton(R.string.comm_confirm,
+			                new OnClickListener() {
+				                
+				                @Override
+				                public void onClick(DialogInterface dialog,
+				                        int which) {
+				                
+					                previous();
+				                }
+			                }).setNegativeButton(R.string.comm_cancel, null)
+			        .show();
+		} else {
+			issave = false;
+			previous();
+		}
 	}
 	
 	public void onNext(View view) {
-	
-		TempData.moveToNext();
-		changeECSS();
+
+		if (!issave) {
+			new AlertDialog.Builder(this)
+			        .setMessage("没保存就要离开吗？")
+			        .setPositiveButton(R.string.comm_confirm,
+			                new OnClickListener() {
+				                
+				                @Override
+				                public void onClick(DialogInterface dialog,
+				                        int which) {
+				                
+					                next();
+				                }
+			                }).setNegativeButton(R.string.comm_cancel, null)
+			        .show();
+		} else {
+			issave = false;
+			next();
+		}
 	}
 	
-	public void changeECSS() {
+	public void changeECSS(Answer answer, boolean canPrevious, boolean canNext) {
 	
 		ECSSFragment fragment = (ECSSFragment) this.getFragmentManager()
 		        .findFragmentById(R.id.ecs_eccsf);
-		if (fragment == null)
+		if (fragment == null || answer == null)
 			return;
-		fragment.getAndSet();
-		fragment.setButton();
+		fragment.resetECSS(answer, canPrevious, canNext);
+	}
+
+	private void previous() {
+	
+		ECSFragment fragment = getEcsFragment();
+		fragment.onPrevious();
+	}
+
+	private void next() {
+	
+		ECSFragment fragment = getEcsFragment();
+		fragment.onNext();
+	}
+	
+	private ECSFragment getEcsFragment() {
+	
+		ECSFragment fragment = (ECSFragment) this.getFragmentManager()
+		        .findFragmentById(R.id.ecs_ecsf);
+		return fragment;
 	}
 }

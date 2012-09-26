@@ -8,6 +8,8 @@ package com.todayedu.ebag.teacher.UIModule;
 import java.util.List;
 
 import org.ebag.net.obj.I.choice;
+import org.ebag.net.obj.exam.ExamObj;
+import org.ebag.net.obj.exam.ProblemInfoObj;
 import org.ebag.net.response.ClassExamactivityResponse;
 import org.ebag.net.response.ExamResponse;
 import org.ebag.net.response.StartExamResponse;
@@ -28,13 +30,10 @@ import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
 import com.todayedu.ebag.teacher.DataSource.DSCallback;
-import com.todayedu.ebag.teacher.DataSource.Data;
 import com.todayedu.ebag.teacher.DataSource.SCExamDS;
-import com.todayedu.ebag.teacher.DataSource.SCStateDS;
-import com.todayedu.ebag.teacher.DataSource.DataObj.Exam;
+import com.todayedu.ebag.teacher.DataSource.ClassStudentDS;
 import com.todayedu.ebag.teacher.Network.NetworkCallBack;
 import com.todayedu.ebag.teacher.Network.NetworkClient;
-import com.todayedu.ebag.teacher.Network.ResponseParseUtil;
 import com.todayedu.ebag.teacher.Network.StartExamHandler;
 
 /**
@@ -45,9 +44,6 @@ import com.todayedu.ebag.teacher.Network.StartExamHandler;
  */
 public class SChooseActivity extends BaseActivity {
 	
-	/**
-	 * @see com.todayedu.ebag.teacher.UIModule.MonitoredActivity#onCreate(android.os.Bundle)
-	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 	
@@ -72,7 +68,7 @@ public class SChooseActivity extends BaseActivity {
 	public void onState(View view) {
 	
 		setTv13Text(R.string.sp_scstate_address, R.string.sp_scstate_people);
-		int etype = Parameters.getExam().getEtype();
+		int etype = Parameters.getExamObj().getType();
 		if (etype == choice.examType_exam) {
 			tv_2.setText(R.string.comm_school);
 		} else {
@@ -81,8 +77,8 @@ public class SChooseActivity extends BaseActivity {
 		tv_4.setText(Parameters.getClassName());
 		setTv56Visibility(View.INVISIBLE);
 		
-		if (scExamDs == null) {
-			scStateDs = new SCStateDS(new SCStateDSCallback());
+		if (scStateDs == null) {
+			scStateDs = new ClassStudentDS(new SCStateDSCallback());
 			scStateDs.load(this);
 		}
 		if (scStateAdapter == null) {
@@ -103,14 +99,14 @@ public class SChooseActivity extends BaseActivity {
 	// 考卷基本情况
 	public void onExam(View view) {
 
-		Exam exam = Parameters.getExam();
+		ExamObj exam = Parameters.getExamObj();
 		setTv13Text(R.string.comm_exam_name_colon,
 		        R.string.comm_exam_totalscore_colon);
-		tv_2.setText(exam.getEname());
-		tv_4.setText(String.valueOf(exam.getTotal()) + "分");
+		tv_2.setText(exam.getName());
+		tv_4.setText(String.valueOf(exam.getPoints()) + "分");
 		setTv56Visibility(View.VISIBLE);
 		tv_5.setText(R.string.comm_exam_totaltime_colon);
-		tv_6.setText(String.valueOf(exam.getEtime()));
+		tv_6.setText(String.valueOf(exam.getTime()));// TODO:确认考试时间的单位
 		
 		if (scExamDs == null) {
 			scExamDs = new SCExamDS(new SCExamDSCallback());
@@ -130,16 +126,6 @@ public class SChooseActivity extends BaseActivity {
 		scExamAdapter.notifyDataSetChanged();
 	}
 	
-	/**
-	 * @param lv
-	 * @param headerView
-	 */
-	public void resetListView(ListView lv, View headerView, BaseAdapter adapter) {
-	
-		lv.addHeaderView(headerView);
-		lv.setAdapter(adapter);
-	}
-
 	// 开始考试
 	public void onStart(View view) {
 
@@ -208,11 +194,11 @@ public class SChooseActivity extends BaseActivity {
 	private final String[] scExamKeys = new String[] { "number", "point" };
 	private final String[] scStateKeys = new String[] { "sid", "sname", "state" };
 	private SCExamDS scExamDs;
-	private SCStateDS scStateDs;
+	private ClassStudentDS scStateDs;
 
 	/**
-     * 
-     */
+	 * 展示一个dialog
+	 */
 	private void showAlertDialog(CharSequence message,
 	        OnClickListener positiveListener, OnClickListener negativeListener) {
 	
@@ -222,6 +208,16 @@ public class SChooseActivity extends BaseActivity {
 		        .show();
 	}
 	
+	/**
+	 * @param lv
+	 * @param headerView
+	 */
+	private void resetListView(ListView lv, View headerView, BaseAdapter adapter) {
+	
+		lv.addHeaderView(headerView);
+		lv.setAdapter(adapter);
+	}
+
 	private void setTv13Text(int tv1Text, int tv3Text) {
 	
 		tv_1.setText(tv1Text);
@@ -246,19 +242,14 @@ public class SChooseActivity extends BaseActivity {
 		public void onLoadSuccess(Object object) {
 		
 			ExamResponse examResponse = (ExamResponse) object;
-			final List<Data> list = ResponseParseUtil
-			        .parseExamResponse2ProblemList(examResponse,
-			                SChooseActivity.this);
-			scExamDs.setList(list);
+			if (examResponse == null || examResponse.getExamList().size() == 0)
+				return;
+			List<ProblemInfoObj> list = examResponse.getExamList().get(0).pInfoList;
+			if (list == null || list.size() == 0)
+				return;
+			scExamDs.setpInfoList(list);
 			scExamDs.createMaps(scExamKeys);
-			SChooseActivity.this.runOnUiThread(new Runnable() {
-				
-				@Override
-				public void run() {
-				
-					scExamDs.notifyDataChange();
-				}
-			});
+			scExamDs.notifyDataChange(SChooseActivity.this);
 		}
 		
 		@Override
@@ -274,18 +265,11 @@ public class SChooseActivity extends BaseActivity {
 		public void onLoadSuccess(Object object) {
 		
 			ClassExamactivityResponse examResponse = (ClassExamactivityResponse) object;
-			final List<Data> list = ResponseParseUtil
-			        .paraClassExamActivityResponse(examResponse);
-			scStateDs.setList(list);
+			if (examResponse == null || examResponse.lst.size() == 0)
+				return;
+			scStateDs.setExamActivitiesList(examResponse.lst);
 			scStateDs.createMaps(scStateKeys);
-			SChooseActivity.this.runOnUiThread(new Runnable() {
-				
-				@Override
-				public void run() {
-				
-					scStateDs.notifyDataChange();
-				}
-			});
+			scStateDs.notifyDataChange(SChooseActivity.this);
 		}
 
 		@Override

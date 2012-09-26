@@ -5,17 +5,16 @@
  */
 package com.todayedu.ebag.teacher.DataSource.DataObj;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.content.ContentValues;
+import android.content.Context;
 
-import org.ebag.net.obj.I.choice;
-import org.ebag.net.obj.answer.AnswerObj;
-
-import android.util.Log;
-
-import com.todayedu.ebag.teacher.Constants.StateStr;
-import com.todayedu.ebag.teacher.DataSource.Data;
-import com.todayedu.ebag.teacher.Network.UrlBuilder;
+import com.todayedu.ebag.teacher.Parameters;
+import com.todayedu.ebag.teacher.Parameters.ParaIndex;
+import com.todayedu.ebag.teacher.Database.DataBaseHelper;
+import com.todayedu.ebag.teacher.Database.annotation.Column;
+import com.todayedu.ebag.teacher.Database.annotation.Id;
+import com.todayedu.ebag.teacher.Database.annotation.Table;
+import com.todayedu.ebag.teacher.UIModule.BaseActivity;
 
 
 /**
@@ -23,114 +22,91 @@ import com.todayedu.ebag.teacher.Network.UrlBuilder;
  * @version 1.0
  * @since 1.0
  */
-public class Answer extends Data {
-	
-	private int sid;// 学生id
+@Table(name = "ANSWER")
+public class Answer {
+
+	@Id
+	@Column(name = "ID")
 	private int id;// 回答id
+	@Column(name = "SID")
+	private int sid;// 学生id
+	@Column(name="PID")
 	private int pid;// 问题id
+	@Column(name = "POINT")
+	private double point;// 学生的成绩
+	@Column(name = "STATE")
+	private String state;
+	@Column(name = "ANSWEROFTEA")
+	private String answerofTea;// 老师批改后答案的路径（只有文件名,当要使用本体图片是请加上目录路径，目录路径和文件名中间要再加上/）
 	private int number;
 	private double score;// 题目的总分
-	private double point;// 学生的成绩
-	private String state;
 	private String content;
-	public String textAnswer;// 问题的文字回答
-	public String textOfTeacher;// 问题的文字批阅
+	private String textAnswer;// 问题的文字回答
+	@Column(name = "TEXTOFTEACHER")
+	private String textOfTeacher;// 问题的文字批阅
 	private String answerofSta;// 标准答案的url
 	private String answerofStu;// 考生答案的路径
-	private String answerofTea;// 老师批改后答案的路径
 	
+	static DataBaseHelper helper;
 
 	public Answer() {
 	
 	}
 	
-	public Answer(int sid, int eid, int pid, int number, double score,
-	        String state, String content, String answerofSta,
-	        String answerofStu, String answerofTea) {
+	public void save(Context context) {
 	
-		this.sid = sid;
-		this.id = eid;
-		this.pid = pid;
-		this.number = number;
-		this.score = score;
-		this.state = state;
-		this.content = content;
-		this.answerofSta = answerofSta;
-		this.answerofStu = answerofStu;
-		this.answerofTea = answerofTea;
+		getDBHelper(context);
+		ContentValues cv = new ContentValues();
+		cv.put("SID", Parameters.get(ParaIndex.SID_INDEX));
+		cv.put("PID", pid);
+		cv.put("ID", id);
+		cv.put("STATE", state);
+		cv.put("POINT", point);
+		cv.put("TEXTOFTEACHER", textOfTeacher);
+		cv.put("ANSWEROFTEA", answerofTea);
+		if (helper.isAnswerExist(id)) {
+			if (!helper.updateAnswer(cv, id))
+				((BaseActivity) context).showToast("更新保存失败。请重试");
+		} else {
+			if (helper.insert(Answer.class, this, "ANSWER", cv) == 0L)
+				((BaseActivity) context).showToast("保存失败。请重试");
+		}
 	}
 	
-	public static List<Answer> parse(List<AnswerObj> list) {
+	public static Answer query(Context context, int id, int sid, int pid) {
 	
-		List<Answer> aList = new ArrayList<Answer>();
-		int i = 1;
-		for (AnswerObj obj : list) {
-			aList.add(parse(obj, i++));
-		}
-		return aList;
-	}
-
-	public static Answer parse(AnswerObj obj, int number) {
-	
-		Answer answer = new Answer();
-		answer.id = obj.id;
-		answer.pid = obj.problemId;
-		answer.sid = obj.uid;
-		answer.number = number;
-		answer.textAnswer = obj.textAnswer;
-		answer.answerofStu = UrlBuilder.problemAnswerPicUrl(obj.picAnswerUrl);
-		answer.answerofSta = UrlBuilder.problemAnswerUrl(answer.pid);
-		answer.content = UrlBuilder.problemContentUrl(answer.pid);
-		answer.score = obj.score;
-		switch (obj.state) {
-			case choice.answerState_waitAnser:
-			case choice.answerState_waitMark:
-				answer.state = StateStr.CORRECT;
-				break;
-			case choice.answerState_finish:
-			case choice.answerState_waitComment:
-			default:
-				answer.state = StateStr.CORRECTED;
-		}
-		Log.i(answer.TAG, "parse:" + answer.toString());
-		return answer;
+		getDBHelper(context);
+		return helper.queryAnswer(id, sid, pid);
 	}
 
 	/**
-	 * @return the sid
+	 * @param context
 	 */
-	public int getSid() {
+	private static void getDBHelper(Context context) {
 	
-		return sid;
+		if (helper == null) {
+			helper = new DataBaseHelper(context);
+		}
 	}
-	
+
 	/**
-	 * @param sid
-	 *            the sid to set
+	 * @return the id
 	 */
-	public void setSid(int sid) {
-	
-		this.sid = sid;
-	}
-	
-	/**
-	 * @return the eid
-	 */
-	public int getEid() {
+	public int getId() {
 	
 		return id;
 	}
 	
-	/**
-	 * @param eid
-	 *            the eid to set
+    /**
+	 * @param id
+	 *            the id to set
 	 */
-	public void setEid(int eid) {
+	public void setId(int id) {
 	
-		this.id = eid;
+		this.id = id;
 	}
 	
-	/**
+    /**
 	 * @return the pid
 	 */
 	public int getPid() {
@@ -138,7 +114,7 @@ public class Answer extends Data {
 		return pid;
 	}
 	
-	/**
+    /**
 	 * @param pid
 	 *            the pid to set
 	 */
@@ -147,7 +123,7 @@ public class Answer extends Data {
 		this.pid = pid;
 	}
 	
-	/**
+    /**
 	 * @return the number
 	 */
 	public int getNumber() {
@@ -155,7 +131,7 @@ public class Answer extends Data {
 		return number;
 	}
 	
-	/**
+    /**
 	 * @param number
 	 *            the number to set
 	 */
@@ -164,7 +140,7 @@ public class Answer extends Data {
 		this.number = number;
 	}
 	
-	/**
+    /**
 	 * @return the score
 	 */
 	public double getScore() {
@@ -172,7 +148,7 @@ public class Answer extends Data {
 		return score;
 	}
 	
-	/**
+    /**
 	 * @param score
 	 *            the score to set
 	 */
@@ -181,22 +157,24 @@ public class Answer extends Data {
 		this.score = score;
 	}
 	
-	/**
-     * @return the point
-     */
+    /**
+	 * @return the point
+	 */
     public double getPoint() {
     
-	    return point;
+		return point;
     }
 
 	/**
-     * @param point the point to set
-     */
+	 * @param point
+	 *            the point to set
+	 */
     public void setPoint(double point) {
     
-	    this.point = point;
+		this.point = point;
     }
 
+	
 	/**
 	 * @return the state
 	 */
@@ -205,7 +183,7 @@ public class Answer extends Data {
 		return state;
 	}
 	
-	/**
+    /**
 	 * @param state
 	 *            the state to set
 	 */
@@ -214,7 +192,7 @@ public class Answer extends Data {
 		this.state = state;
 	}
 	
-	/**
+    /**
 	 * @return the content
 	 */
 	public String getContent() {
@@ -222,7 +200,7 @@ public class Answer extends Data {
 		return content;
 	}
 	
-	/**
+    /**
 	 * @param content
 	 *            the content to set
 	 */
@@ -231,7 +209,43 @@ public class Answer extends Data {
 		this.content = content;
 	}
 	
-	/**
+    /**
+	 * @return the textAnswer
+	 */
+	public String getTextAnswer() {
+	
+		if (textAnswer == null)
+			return "没有文字回答";
+		return textAnswer;
+	}
+	
+    /**
+	 * @param textAnswer
+	 *            the textAnswer to set
+	 */
+	public void setTextAnswer(String textAnswer) {
+	
+		this.textAnswer = textAnswer;
+	}
+	
+    /**
+	 * @return the textOfTeacher
+	 */
+	public String getTextOfTeacher() {
+	
+		return textOfTeacher;
+	}
+	
+    /**
+	 * @param textOfTeacher
+	 *            the textOfTeacher to set
+	 */
+	public void setTextOfTeacher(String textOfTeacher) {
+	
+		this.textOfTeacher = textOfTeacher;
+	}
+	
+    /**
 	 * @return the answerofSta
 	 */
 	public String getAnswerofSta() {
@@ -239,7 +253,7 @@ public class Answer extends Data {
 		return answerofSta;
 	}
 	
-	/**
+    /**
 	 * @param answerofSta
 	 *            the answerofSta to set
 	 */
@@ -248,7 +262,7 @@ public class Answer extends Data {
 		this.answerofSta = answerofSta;
 	}
 	
-	/**
+    /**
 	 * @return the answerofStu
 	 */
 	public String getAnswerofStu() {
@@ -256,7 +270,7 @@ public class Answer extends Data {
 		return answerofStu;
 	}
 	
-	/**
+    /**
 	 * @param answerofStu
 	 *            the answerofStu to set
 	 */
@@ -265,7 +279,7 @@ public class Answer extends Data {
 		this.answerofStu = answerofStu;
 	}
 	
-	/**
+    /**
 	 * @return the answerofTea
 	 */
 	public String getAnswerofTea() {
@@ -281,14 +295,14 @@ public class Answer extends Data {
 	
 		this.answerofTea = answerofTea;
 	}
-	
+
 	/**
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 	
-		return "Answer [sid=" + sid + ", id=" + id + ", pid=" + pid
+		return "Answer [id=" + id + ", sid=" + sid + ", pid=" + pid
 		        + ", number=" + number + ", score=" + score + ", point="
 		        + point + ", state=" + state + ", content=" + content
 		        + ", textAnswer=" + textAnswer + ", textOfTeacher="

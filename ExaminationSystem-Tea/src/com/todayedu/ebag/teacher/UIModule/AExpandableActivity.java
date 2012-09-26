@@ -25,9 +25,6 @@ import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.DataSource.AnswerAnalysisDS;
 import com.todayedu.ebag.teacher.DataSource.DSCallback;
-import com.todayedu.ebag.teacher.DataSource.Data;
-import com.todayedu.ebag.teacher.DataSource.DataObj.Analysis;
-import com.todayedu.ebag.teacher.Network.ResponseParseUtil;
 
 /**
  * 试卷分析的各种入口（总分排行，最少得分题目，最多得分题目，题目详细列表）
@@ -37,23 +34,7 @@ import com.todayedu.ebag.teacher.Network.ResponseParseUtil;
  */
 public class AExpandableActivity extends ExpandableListActivity implements DSCallback {
 	
-	private static final String TAG = "AExpandableActivity";
-	
-	private String[] groupFrom = new String[] { "group" };
 
-	private int[] groupTo = new int[] { R.id.aexpandable_group };
-	
-	private String[] childFrom = new String[] { "sid", "score" };
-
-	private int[] childTo = new int[] { R.id.aexpandable_child_sid,
-	        R.id.aexpandable_child_score };
-	
-	private AnswerAnalysisDS ds;
-	private SimpleExpandableListAdapter adapter;
-
-	/**
-	 * @see android.app.Activity#onCreate(android.os.Bundle)
-	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -87,10 +68,6 @@ public class AExpandableActivity extends ExpandableListActivity implements DSCal
 		return adapter;
 	}
 
-	/**
-	 * @see android.app.ExpandableListActivity#onChildClick(android.widget.ExpandableListView,
-	 *      android.view.View, int, int, long)
-	 */
 	@Override
 	public boolean onChildClick(ExpandableListView parent, View v,
 	        int groupPosition, int childPosition, long id) {
@@ -103,38 +80,21 @@ public class AExpandableActivity extends ExpandableListActivity implements DSCal
 		return false;
 	}
 	
-	/**
-	 * @see com.todayedu.ebag.teacher.DataSource.DSCallback#onLoadSuccess(java.lang.Object)
-	 */
 	@Override
 	public void onLoadSuccess(Object object) {
 	
-		Log.i(TAG, "onLoadSuccess");
 		AnswerAnalysisResponse response = (AnswerAnalysisResponse) object;
-		List<Data> data = ResponseParseUtil
-		        .paraAnswerAnalysisResponse(response);
-		Analysis max = ResponseParseUtil
-		        .paraAnswerAnalysisResponseGetMax(response);
-		Analysis min = ResponseParseUtil
-		        .paraAnswerAnalysisResponseGetMin(response);
-		
+		if (response == null || response.res == null)
+			return;
 		Parameters.detailMap = response.res.detailMap;// 保存整个详细列表
-
-		ds.setList(data);
-		ds.setMax(max);
-		ds.setMin(min);
-
+		ds.setRes(response.res);
 		ds.createMaps(childFrom);
 		adapter.notifyDataSetChanged();
 	}
 	
-	/**
-	 * @see com.todayedu.ebag.teacher.DataSource.DSCallback#onLoadFailed(java.lang.Throwable)
-	 */
 	@Override
 	public void onLoadFailed(Throwable throwable) {
 	
-		Log.i(TAG, "onLoadFailed");
 		if (throwable != null) {
 			Log.i(TAG, throwable.getMessage() + "");
 		}
@@ -143,8 +103,19 @@ public class AExpandableActivity extends ExpandableListActivity implements DSCal
 			@Override
 			public void run() {
 			
-				Toast.makeText(AExpandableActivity.this, "加载数据失败", 0).show();
+				Toast.makeText(AExpandableActivity.this, "加载数据失败",
+				        Toast.LENGTH_LONG).show();
 			}
 		});
 	}
+	
+	private static final String TAG = "AExpandableActivity";
+	private String[] groupFrom = new String[] { "group" };
+	private int[] groupTo = new int[] { R.id.aexpandable_group };
+	private String[] childFrom = new String[] { "sid", "score" };
+	private int[] childTo = new int[] { R.id.aexpandable_child_sid,
+	        R.id.aexpandable_child_score };
+	private AnswerAnalysisDS ds;
+	private SimpleExpandableListAdapter adapter;
+
 }

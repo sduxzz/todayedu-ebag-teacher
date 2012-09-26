@@ -10,11 +10,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.ebag.net.obj.exam.ProblemInfoObj;
+
 import android.app.Activity;
 
 import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.Parameters.ParaIndex;
-import com.todayedu.ebag.teacher.DataSource.DataObj.Problem;
 import com.todayedu.ebag.teacher.Network.ExamHandler;
 
 
@@ -25,6 +26,7 @@ import com.todayedu.ebag.teacher.Network.ExamHandler;
  */
 public class SCExamDS extends BaseDataSource {
 	
+	public List<ProblemInfoObj> pInfoList;
 	public SCExamDS(DSCallback callback) {
 	
 		super(callback);
@@ -39,23 +41,41 @@ public class SCExamDS extends BaseDataSource {
 		idList.add(eid);
 		List<String> fieldList = new ArrayList<String>();
 		fieldList.add("pInfoList");// pInfoList is the field name of ExamObj
-		connect(new ExamHandler(context, this, cid, null, idList,
+		loadStart(new ExamHandler(context, this, cid, null, idList,
 		        fieldList));
 	}
 	
 	@Override
 	public void createMaps(String[] keys) {
 	
-		List<? extends Data> list = this.getList();
-		List<Map<String, String>> maps = this.getData();
+		List<ProblemInfoObj> list = this.getpInfoList();
+		List<Map<String, String>> maps = this.getListMap();
+		maps.clear();
 		Map<String, String> map = null;
-		Problem problem = null;
-		for (Data data : list) {
-			problem = (Problem) data;
+		int i = 1;
+		for (ProblemInfoObj obj : list) {
 			map = new HashMap<String, String>();
-			map.put(keys[0], String.valueOf(problem.getNumber()));
-			map.put(keys[1], String.valueOf(problem.getPoint()));
+			map.put(keys[0], "µÚ" + (i++) + "Ìâ");
+			map.put(keys[1], String.valueOf(obj.getPoint()));
 			maps.add(map);
 		}
+	}
+
+	
+	/**
+	 * @return the pInfoList
+	 */
+	public List<ProblemInfoObj> getpInfoList() {
+	
+		return pInfoList;
+	}
+	
+    /**
+	 * @param pInfoList
+	 *            the pInfoList to set
+	 */
+	public void setpInfoList(List<ProblemInfoObj> pInfoList) {
+	
+		this.pInfoList = pInfoList;
 	}
 }

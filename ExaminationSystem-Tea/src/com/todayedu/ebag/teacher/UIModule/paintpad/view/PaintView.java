@@ -235,7 +235,6 @@ public class PaintView extends View implements UndoCommand {
 	 */
 	public void setForeBitMap(Bitmap bitmap) {
 	
-		Log.i("PaintView", "setForeBitmap");
 		if (bitmap == null) {
 			Log.i("PaintView", "setForeBitmap: bitmap is null");
 			return;

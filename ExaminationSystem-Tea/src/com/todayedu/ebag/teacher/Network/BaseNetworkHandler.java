@@ -45,7 +45,7 @@ public abstract class BaseNetworkHandler implements IoHandler {
 				zDialog = new ProgressDialog(zContext);
 				zDialog.setTitle("∑√Œ Õ¯¬Á");
 				zDialog.setMessage("loading,wait please...");
-				zDialog.setCancelable(true);// TODO:change true to false
+				zDialog.setCancelable(false);
 				zDialog.show();
 			}
 		});

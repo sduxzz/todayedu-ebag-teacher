@@ -5,8 +5,6 @@
  */
 package com.todayedu.ebag.teacher.UIModule;
 
-import java.util.List;
-
 import org.ebag.net.response.ExamResponse;
 
 import android.app.ListFragment;
@@ -18,19 +16,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.todayedu.ebag.teacher.Parameters;
-import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
-import com.todayedu.ebag.teacher.DataSource.BaseDataSource;
 import com.todayedu.ebag.teacher.DataSource.DSCallback;
-import com.todayedu.ebag.teacher.DataSource.Data;
 import com.todayedu.ebag.teacher.DataSource.ExamListDS;
-import com.todayedu.ebag.teacher.DataSource.DataObj.Exam;
-import com.todayedu.ebag.teacher.Network.ResponseParseUtil;
 
 /**
- * 五种不同模式的试卷列表，对应有着不同的headerview内容文本，跳转到不同的Activity
+ * 四种不同模式的试卷列表，对应有着不同的headerview内容文本，跳转到不同的Activity。
  * 
  * @author <a href="zhenzxie.iteye.cn">zhenzxie</a>
  * @version 1.0
@@ -38,10 +30,6 @@ import com.todayedu.ebag.teacher.Network.ResponseParseUtil;
  */
 public class ExamShowFragment extends ListFragment implements DSCallback {
 	
-	/**
-	 * @see android.app.ListFragment#onCreateView(android.view.LayoutInflater,
-	 *      android.view.ViewGroup, android.os.Bundle)
-	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	        Bundle savedInstanceState) {
@@ -55,31 +43,29 @@ public class ExamShowFragment extends ListFragment implements DSCallback {
 	
 		super.onActivityCreated(savedInstanceState);
 		
-		FunctionActivity activity = (FunctionActivity) getActivity();
-		
 		ds = new ExamListDS(this);
-
-		adapter = new BaseDataAdapter(activity, ds, R.layout.lv_1,
+		adapter = new BaseDataAdapter(getActivity(), ds, R.layout.lv_1,
 		        new int[] { R.id.lv1_tv_1 }, keys);
 		ds.addObserver(adapter);
-
-		addHeaderView(activity, R.array.appname);
+		addHeaderView(getActivity(), R.array.appname);
 		setListAdapter(adapter);
 	}
 	
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 	
-		Log.i("FunctionFragment", "onListItemClick: Item clicked " + id);
+		Log.i("FunctionFragment", "onListItemClick: Item clicked " + position);
 		if (position <= 0)
 			return;
-		Exam exam = (Exam) ds.getList().get(position - 1);
-		int eid = exam.getEid();
-		Parameters.add(eid, ParaIndex.EID_INDEX);
-		Parameters.setExam(exam);
-		((FunctionActivity) getActivity()).start();
+		ds.onListItemClick(position);
+		((FunctionActivity) getActivity()).start(allTargetActivity[mode]);
 	}
-	
+
+	/**
+	 * 载入试卷数据
+	 * 
+	 * @param activity
+	 */
 	public void load(FunctionActivity activity) {
 
 		if (ds != null) {
@@ -87,35 +73,26 @@ public class ExamShowFragment extends ListFragment implements DSCallback {
 		}
 	}
 	
-	private View headerView;
-	public void addHeaderView(Context context, int res) {
-	
-		headerView = HeaderViewFactory.createHeaderView1(context, res);
-		getListView().addHeaderView(headerView, null, false);
-	}
-	
-	public void changeHeaderView(Context context, int res) {
+	/**
+	 * 修改HeaderView
+	 * 
+	 * @param context
+	 */
+	public void changeHeaderView(Context context) {
 	
 		getListView().removeHeaderView(headerView);
-		addHeaderView(context, res);
+		addHeaderView(context, allHeadViewTestId[mode]);
 	}
 
 	@Override
 	public void onLoadSuccess(Object object) {
 	
-		ExamResponse examResponse = (ExamResponse) object;
-		final List<Data> list = ResponseParseUtil
-		        .parseExamResponse(examResponse);
-		ds.setList(list);
+		ExamResponse examResponse = ((ExamResponse) object);
+		if (examResponse == null || examResponse.examList.size() == 0)
+			return;
+		ds.setExamList(examResponse.examList);
 		ds.createMaps(keys);
-		getActivity().runOnUiThread(new Runnable() {
-			
-			@Override
-			public void run() {
-			
-				ds.notifyDataChange();
-			}
-		});
+		ds.notifyDataChange(getActivity());
 	}
 	
 	@Override
@@ -129,8 +106,48 @@ public class ExamShowFragment extends ListFragment implements DSCallback {
 		}
 		activity.showToast("加载数据失败");
 	}
+	
+	/**
+	 * 设置mode
+	 * 
+	 * @param mode
+	 *            的值注意要参考allHeadViewTestId和allTargetActivity两个成员数组，
+	 *            就不在FunctionActivity中定义静态的int来标识每种mode了。
+	 */
+	public void setMode(int mode) {
+	
+		this.mode = mode;
+	}
 
+	/**
+	 * 四种HeaderView所使用的文本资源id数组
+	 */
+	private static final int[] allHeadViewTestId = new int[] { R.array.start,
+	        R.array.correct, R.array.comment, R.array.analysis };
+	/**
+	 * 四中不同的目标Activity
+	 */
+	private static final Class<?>[] allTargetActivity = new Class[] {
+	        SChooseActivity.class, ECorrectActivity.class,
+	        PCommentActivity.class, AExpandableActivity.class };
+	/**
+	 * ExamShowFragment的模式：0-->开始考试;1-->批改试卷;2-->讲评试卷;3-->统计分析试卷;
+	 * <p>
+	 * 使用mode来决定使用allHeadViewTestId和allTargetActivity两个数组中的值
+	 * </p>
+	 * Note: mode的值大小必须在0到allHeadViewTestId.length(allTargetAcivity.length),
+	 * 程序并未检查mode的值是否合法！
+	 * 
+	 */
+	private int mode = -100;
 	private BaseDataAdapter adapter;
-	private BaseDataSource ds;
-	private final String[] keys = new String[] { "ename", "eid" };
+	private ExamListDS ds;
+	private final String[] keys = new String[] { "ename" };
+	private View headerView;
+	
+	private void addHeaderView(Context context, int res) {
+	
+		headerView = HeaderViewFactory.createHeaderView1(context, res);
+		getListView().addHeaderView(headerView, null, false);
+	}
 }

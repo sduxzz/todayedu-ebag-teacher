@@ -30,10 +30,6 @@ import com.todayedu.ebag.teacher.R;
  */
 public class FunctionChooseFragment extends ListFragment {
 	
-	/**
-	 * @see android.app.ListFragment#onCreateView(android.view.LayoutInflater,
-	 *      android.view.ViewGroup, android.os.Bundle)
-	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	        Bundle savedInstanceState) {
@@ -51,7 +47,6 @@ public class FunctionChooseFragment extends ListFragment {
 		list.add("批改试卷");
 		list.add("讲评试卷");
 		list.add("统计分析");
-		// list.add("我的试卷");当需要是加上~~~
 		setListAdapter(new ArrayAdapter<String>(getActivity(), R.layout.lv_1,
 		        R.id.lv1_tv_1, list));
 	}
@@ -59,23 +54,20 @@ public class FunctionChooseFragment extends ListFragment {
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 	
-		Log.i("FunctionFragment", "onListItemClick: Item clicked " + id);
+		Log.i("FunctionFragment", "onListItemClick: Item clicked " + position);
 		switch (position) {
 			case 0:
-				examShow(choice.answerState_waitAnser, 1);
+				examShow(choice.answerState_waitAnser, 0);
 				break;
 			case 1:
-				examShow(choice.answerState_waitMark, 2);
+				examShow(choice.answerState_waitMark, 1);
 				break;
 			case 2:
-				examShow(choice.answerState_waitComment, 3);
+				examShow(choice.answerState_waitComment, 2);
 				break;
 			case 3:
-				examShow(choice.answerState_finish, 4);
+				examShow(choice.answerState_finish, 3);
 				break;
-			// case 4:
-			// examShow(0, 0);/* 0 代表全部的试卷，不论试卷的状态 */
-			// break;
 			default:
 				return;
 		}

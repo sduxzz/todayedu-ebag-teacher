@@ -21,10 +21,13 @@ import android.widget.TextView;
 
 import com.todayedu.ebag.teacher.AsyncImageLoader;
 import com.todayedu.ebag.teacher.AsyncImageLoader.ImageLoadListener;
+import com.todayedu.ebag.teacher.Constants.PATH;
+import com.todayedu.ebag.teacher.Parameters;
+import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.R;
-import com.todayedu.ebag.teacher.TempData;
 import com.todayedu.ebag.teacher.DataSource.DataObj.Answer;
 import com.todayedu.ebag.teacher.UIModule.paintpad.PaintPadViewCreator;
+import com.todayedu.ebag.teacher.UIModule.paintpad.PicUpload;
 
 /**
  * 学生某道题的批改界面
@@ -49,63 +52,62 @@ public class ECSSFragment extends Fragment {
 		findView();
 		initPaintView();
 	}
-
-	public void setButton() {
 	
-		if (TempData.isFirst())
-			previous_b1.setEnabled(false);
-		else
-			previous_b1.setEnabled(true);
-		if (TempData.isLast())
-			next_b3.setEnabled(false);
-		else
-			next_b3.setEnabled(true);
+	public boolean onConfirm() {
+	
+		picOfTeacherUrl = PicUpload.getFileName(Parameters
+		        .get(ParaIndex.SID_INDEX));// 获取文件名
+		return creator.onClickButtonSave("/ebag", picOfTeacherUrl);
 	}
-	
 
-	public void getAndSet() {
+	public void resetECSS(Answer answer, boolean canPrevious, boolean canNext) {
 	
-		Answer answer = (Answer) TempData.getCurrentData();
 		if (answer == null)
 			return;
 
 		number = String.valueOf(answer.getNumber());
 		score = String.valueOf(answer.getScore());
 		state = answer.getState();
-		answerofText = answer.textAnswer;
 		content = answer.getContent();
 		answerofSta = answer.getAnswerofSta();
+		picOfTeacherUrl = answer.getAnswerofTea();
 		answerofStu = answer.getAnswerofStu();
+		textAnswer = answer.getTextAnswer();
+		point = String.valueOf(answer.getPoint());
+		textOfTeacher = answer.getTextOfTeacher() + "";
 		
 		number_tv2.setText(number);
 		score_tv4.setText(score);
 		state_tv6.setText(state);
 		content_wv1.loadUrl(content);
 		answer_wv2.loadUrl(answerofSta);
-		
-		if (answerofText != null) {
-			answer_tv10.setText(answerofText);
-		} else {
-			answer_tv10.setText("没有文字回答");
-		}
+		answer_tv10.setText(textAnswer);
+		score_et1.setText(point);
+		textofTeacher_et2.setText(textOfTeacher);
+		setButton(canPrevious, canNext);
 
 		if (answerofStu != null && !answerofStu.equals("")) {
-			imageLoader.loadImageBitmap(answerofStu, new ImageLoadListener() {
-				
-				@Override
-				public void onImageBitmapLoaded(Bitmap bitmap) {
-				
-					Log.i("ECSSFragment", answerofStu);
-					container_ll.setVisibility(View.VISIBLE);
-					creator.setbg(bitmap);
-				}
-				
-				@Override
-				public void onLoadFailed() {
-				
-					container_ll.setVisibility(View.GONE);
-				}
-			});
+			container_ll.setVisibility(View.VISIBLE);
+			if (picOfTeacherUrl != null) {
+				creator.loadExsitedImage(PATH.DIR_PATH + "/" + picOfTeacherUrl);
+			} else {
+				imageLoader.loadImageBitmap(answerofStu,
+				        new ImageLoadListener() {
+					        
+					        @Override
+					        public void onImageBitmapLoaded(Bitmap bitmap) {
+					        
+						        Log.i("ECSSFragment", answerofStu);
+						        creator.setbg(bitmap);
+					        }
+					        
+					        @Override
+					        public void onLoadFailed() {
+					        
+						        container_ll.setVisibility(View.GONE);
+					        }
+				        });
+			}
 		} else {
 			container_ll.setVisibility(View.GONE);
 		}
@@ -113,12 +115,12 @@ public class ECSSFragment extends Fragment {
 	
 	public String getPoint() {
 	
-		return score_et1.getText().toString();// may be nullpointerexception
+		return score_et1.getText().toString();
 	}
 	
 	public String getPicOfTeacherUrl() {
 	
-		return null;
+		return picOfTeacherUrl;
 	}
 	
 	public String getTextOfTeacher() {
@@ -142,18 +144,20 @@ public class ECSSFragment extends Fragment {
 
 	private String number;
 	private String state;
-	private String score;
+	private String score;// 题目总分
+	private String point;// 学生的得分
 	private String content;
 	private String answerofSta;
 	private String answerofStu;
-	private String answerofText;// 学生的文字回答
+	private String textAnswer;// 学生的文字回答
+	private String textOfTeacher;// 老师的批改
+	private String picOfTeacherUrl;
 	
 	private AsyncImageLoader imageLoader = new AsyncImageLoader();
 
 	private void findView() {
 	
 		Activity activity = getActivity();
-		
 		number_tv2 = (TextView) activity.findViewById(R.id.ecss_tv2);
 		score_tv4 = (TextView) activity.findViewById(R.id.ecss_tv4);
 		state_tv6 = (TextView) activity.findViewById(R.id.ecss_tv6);
@@ -174,5 +178,17 @@ public class ECSSFragment extends Fragment {
 		View v = creator.getView();
 		v.setFocusable(true);
 		v.setFocusableInTouchMode(true);
+	}
+	
+	private void setButton(boolean canPrevious, boolean canNext) {
+	
+		if (canPrevious)
+			previous_b1.setEnabled(true);
+		else
+			previous_b1.setEnabled(false);
+		if (canNext)
+			next_b3.setEnabled(true);
+		else
+			next_b3.setEnabled(false);
 	}
 }

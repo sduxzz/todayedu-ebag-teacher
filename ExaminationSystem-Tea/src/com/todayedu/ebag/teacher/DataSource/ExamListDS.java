@@ -10,11 +10,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.ebag.net.obj.exam.ExamObj;
+
 import android.app.Activity;
+import android.util.Log;
 
 import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.Parameters.ParaIndex;
-import com.todayedu.ebag.teacher.DataSource.DataObj.Exam;
 import com.todayedu.ebag.teacher.Network.ExamHandler;
 
 /**
@@ -25,6 +27,8 @@ import com.todayedu.ebag.teacher.Network.ExamHandler;
  */
 public class ExamListDS extends BaseDataSource {
 	
+	private List<ExamObj> examList;
+	
 	public ExamListDS(DSCallback callback) {
 	
 		super(callback);
@@ -34,37 +38,58 @@ public class ExamListDS extends BaseDataSource {
 	public void download(Activity context) {
 	
 		int cid = Parameters.get(ParaIndex.CID_INDEX);
-		int state = Parameters.get(ParaIndex.EXAMSTATE_INDEX);
-
-		List<Integer> stateList = null;
-		if (state != 0) {// when state is 0(request all exam),so stateList is
-			             // null;
-			stateList = new ArrayList<Integer>();
-			stateList.add(state);
-		}
+		int state = Parameters.get(ParaIndex.ESTATE_INDEX);
+		
+		List<Integer> stateList = new ArrayList<Integer>();
+		stateList.add(state);
 		List<String> fieldList = new ArrayList<String>();
+		/* name,id and type is the field name of ExamObj */
 		fieldList.add("name");
-		fieldList.add("id");// id,name and type is the field name of ExamObj
+		fieldList.add("id");
 		fieldList.add("type");
-		connect(new ExamHandler(context, this, cid, stateList, null, fieldList));
+		loadStart(new ExamHandler(context, this, cid, stateList, null,
+		        fieldList));
 	}
 	
-	/**
-	 * @see com.todayedu.ebag.teacher.DataSource.BaseDataSource#fillMaps()
-	 */
 	@Override
 	public void createMaps(String[] keys) {
 	
-		List<? extends Data> list = this.getList();
-		List<Map<String, String>> maps = this.getData();
+		List<ExamObj> list = this.getExamList();
+		List<Map<String, String>> maps = this.getListMap();
+		maps.clear();
 		Map<String, String> map = null;
-		Exam exam = null;
-		for (Data data : list) {
-			exam = (Exam) data;
+		for (ExamObj obj : list) {
 			map = new HashMap<String, String>();
-			map.put(keys[0], exam.getEname());
-			map.put(keys[1], String.valueOf(exam.getEid()));
+			map.put(keys[0], obj.name);
 			maps.add(map);
+			Log.i(TAG, "createMaps: " + obj);
 		}
+	}
+	
+	/**
+	 * @param position
+	 */
+	public void onListItemClick(int position) {
+	
+		ExamObj exam = getExamList().get(position - 1);
+		Parameters.add(exam.id, ParaIndex.EID_INDEX);
+		Parameters.setExamObj(exam);
+	}
+	
+	/**
+	 * @return the examList
+	 */
+	public List<ExamObj> getExamList() {
+	
+		return examList;
+	}
+	
+	/**
+	 * @param examList
+	 *            the examList to set
+	 */
+	public void setExamList(List<ExamObj> examList) {
+	
+		this.examList = examList;
 	}
 }

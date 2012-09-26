@@ -5,11 +5,6 @@
  */
 package com.todayedu.ebag.teacher.DataSource.DataObj;
 
-import org.ebag.net.obj.answer.GradeObj;
-
-import android.util.Log;
-
-import com.todayedu.ebag.teacher.DataSource.Data;
 
 
 /**
@@ -17,7 +12,7 @@ import com.todayedu.ebag.teacher.DataSource.Data;
  * @version 1.0
  * @since 1.0
  */
-public class Analysis extends Data {
+public class Analysis {
 	
 	private String name;
 	private double score;
@@ -65,14 +60,6 @@ public class Analysis extends Data {
 	
 		this.score = score;
 	}
-	
-	public static Analysis para2Analysis(GradeObj obj) {
-	
-		Analysis analysis = new Analysis(obj.u_name, obj.p_grade);
-		Log.i(analysis.TAG, analysis.toString());
-		return analysis;
-	}
-
 	/**
 	 * @see java.lang.Object#toString()
 	 */

@@ -3,7 +3,7 @@
  * 2012 2012-7-2 ����12:09:09
  * @author zhenzxie
  */
-package com.todayedu.ebag.teacher.DataSource;
+package com.todayedu.ebag.teacher.Database;
 
 import java.util.List;
 
@@ -11,14 +11,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.todayedu.ebag.teacher.Database.DataBaseHelper;
+import com.todayedu.ebag.teacher.DataSource.BaseDataSource;
 
 /**
  * @author zhenzxie
- * @param <T>
  * 
  */
-public class DBLoader extends AsyncTask<Context, Integer, List<Data>> {
+public class DBLoader extends AsyncTask<Context, Integer, Object> {
 	
 	public static final String TAG = "DataSourceLoader";
 	
@@ -43,12 +42,8 @@ public class DBLoader extends AsyncTask<Context, Integer, List<Data>> {
 		zSA = selectionArgs;
 	}
 
-
-	/**
-	 * @see android.os.AsyncTask#doInBackground(Params[])
-	 */
 	@Override
-	protected List<Data> doInBackground(Context... params) {
+	protected List<Object> doInBackground(Context... params) {
 	
 		Context context = params[0];
 		DataBaseHelper helper = new DataBaseHelper(context);
@@ -56,9 +51,6 @@ public class DBLoader extends AsyncTask<Context, Integer, List<Data>> {
 		return null;
 	}
 
-	/**
-	 * @see android.os.AsyncTask#onProgressUpdate(Progress[])
-	 */
 	@Override
 	protected void onProgressUpdate(Integer... values) {
 	
@@ -70,17 +62,13 @@ public class DBLoader extends AsyncTask<Context, Integer, List<Data>> {
 		publishProgress(value);
 	}
 
-	/**
-	 * @see android.os.AsyncTask#onPostExecute(java.lang.Object)
-	 */
-	@Override
-	protected void onPostExecute(List<Data> result) {
-	
-		zDialog.dismiss();
-
-		zDataSource.setList(result);
-		zDataSource.notifyDataChange();
-	}
+	// @Override
+	// protected void onPostExecute(List<Object> result) {
+	//
+	// zDialog.dismiss();
+	//
+	// zDataSource.notifyDataChange();
+	// }
 
 	/**
 	 * @return the zDataSource

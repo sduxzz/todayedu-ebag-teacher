@@ -9,8 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.ebag.net.obj.answer.GradeObj;
-
-import com.todayedu.ebag.teacher.DataSource.DataObj.Exam;
+import org.ebag.net.obj.exam.ExamObj;
 
 /**
  * The stack that is used in delivering parameters. You must be careful when you
@@ -28,16 +27,12 @@ public class Parameters {
 		public static final int EID_INDEX = 2;
 		public static final int SID_INDEX = 3;
 		public static final int PID_INDEX = 4;
-		public static final int EXAMSTATE_INDEX = 5;
-		public static final int PROBLEMSTATE_INDEX = 6;
-		public static final int PROBLEMNUMBER_INDEX = 7;
-		@Deprecated
-		public static final int EXAMSHOWACTIVITYMODE_INDEX = 8;
+		public static final int ESTATE_INDEX = 5;
 	}
 
-	private static int[] parameters = new int[10];
+	private static int[] parameters = new int[6];
 	private static String className;
-	private static Exam exam;
+	private static ExamObj examObj;
 	// key为题目id,value为本题目所有学生得分情况
 	public static HashMap<Integer, ArrayList<GradeObj>> detailMap;
 	
@@ -94,20 +89,20 @@ public class Parameters {
 	}
 
 	/**
-	 * @return the exam
+	 * @return the examObj
 	 */
-	public static Exam getExam() {
+	public static ExamObj getExamObj() {
 	
-		return exam;
+		return examObj;
 	}
-
-	/**
-	 * @param exam
-	 *            the exam to set
-	 */
-	public static void setExam(Exam exam) {
 	
-		Parameters.exam = exam;
+    /**
+	 * @param examObj
+	 *            the examObj to set
+	 */
+	public static void setExamObj(ExamObj examObj) {
+	
+		Parameters.examObj = examObj;
 	}
 
 	/**
@@ -121,9 +116,7 @@ public class Parameters {
 		        + parameters[ParaIndex.EID_INDEX] + " sid:"
 		        + parameters[ParaIndex.SID_INDEX] + " pid:"
 		        + parameters[ParaIndex.PID_INDEX] + " exam state:"
-		        + parameters[ParaIndex.EXAMSTATE_INDEX] + "problem state:"
-		        + parameters[ParaIndex.PROBLEMSTATE_INDEX] + "problem number:"
-		        + parameters[ParaIndex.PROBLEMNUMBER_INDEX] + "class name:"
-		        + className + "exam:" + exam;
+		        + parameters[ParaIndex.ESTATE_INDEX] + "class name:"
+		        + className + "exam:" + examObj;
 	}
 }
