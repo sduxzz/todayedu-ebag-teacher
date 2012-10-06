@@ -9,7 +9,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,6 @@ import android.widget.TextView;
 
 import com.todayedu.ebag.teacher.AsyncImageLoader;
 import com.todayedu.ebag.teacher.AsyncImageLoader.ImageLoadListener;
-import com.todayedu.ebag.teacher.Constants.PATH;
 import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.R;
@@ -53,74 +51,41 @@ public class ECSSFragment extends Fragment {
 		initPaintView();
 	}
 	
+	/**
+	 * 处理保存事件，主要是保存老师批改后的图片
+	 * 
+	 * @return
+	 */
 	public boolean onConfirm() {
 	
-		picOfTeacherUrl = PicUpload.getFileName(Parameters
-		        .get(ParaIndex.SID_INDEX));// 获取文件名
-		return creator.onClickButtonSave("/ebag", picOfTeacherUrl);
+		answerofTea = Answer.getAnswerofTeaFullPath(PicUpload
+		        .getFileName(Parameters.get(ParaIndex.SID_INDEX)));// 获取文件路径
+		return creator.onClickButtonSave(answerofTea);
 	}
 
+	/**
+	 * 修改ECSSFragment上显示的内容
+	 * 
+	 * @param answer
+	 * @param canPrevious
+	 * @param canNext
+	 */
 	public void resetECSS(Answer answer, boolean canPrevious, boolean canNext) {
 	
 		if (answer == null)
 			return;
-
-		number = String.valueOf(answer.getNumber());
-		score = String.valueOf(answer.getScore());
-		state = answer.getState();
-		content = answer.getContent();
-		answerofSta = answer.getAnswerofSta();
-		picOfTeacherUrl = answer.getAnswerofTea();
-		answerofStu = answer.getAnswerofStu();
-		textAnswer = answer.getTextAnswer();
-		point = String.valueOf(answer.getPoint());
-		textOfTeacher = answer.getTextOfTeacher() + "";
-		
-		number_tv2.setText(number);
-		score_tv4.setText(score);
-		state_tv6.setText(state);
-		content_wv1.loadUrl(content);
-		answer_wv2.loadUrl(answerofSta);
-		answer_tv10.setText(textAnswer);
-		score_et1.setText(point);
-		textofTeacher_et2.setText(textOfTeacher);
-		setButton(canPrevious, canNext);
-
-		if (answerofStu != null && !answerofStu.equals("")) {
-			container_ll.setVisibility(View.VISIBLE);
-			if (picOfTeacherUrl != null) {
-				creator.loadExsitedImage(PATH.DIR_PATH + "/" + picOfTeacherUrl);
-			} else {
-				imageLoader.loadImageBitmap(answerofStu,
-				        new ImageLoadListener() {
-					        
-					        @Override
-					        public void onImageBitmapLoaded(Bitmap bitmap) {
-					        
-						        Log.i("ECSSFragment", answerofStu);
-						        creator.setbg(bitmap);
-					        }
-					        
-					        @Override
-					        public void onLoadFailed() {
-					        
-						        container_ll.setVisibility(View.GONE);
-					        }
-				        });
-			}
-		} else {
-			container_ll.setVisibility(View.GONE);
-		}
+		getValueFromAnswer(answer);
+		changeUIWithField(canPrevious, canNext);
 	}
-	
+
 	public String getPoint() {
 	
 		return score_et1.getText().toString();
 	}
 	
-	public String getPicOfTeacherUrl() {
+	public String getAnswerofTea() {
 	
-		return picOfTeacherUrl;
+		return answerofTea;
 	}
 	
 	public String getTextOfTeacher() {
@@ -147,13 +112,27 @@ public class ECSSFragment extends Fragment {
 	private String score;// 题目总分
 	private String point;// 学生的得分
 	private String content;
-	private String answerofSta;
-	private String answerofStu;
+	private String answerofSta;// 标准答案的URL
+	private String answerofStu;// 学生图片的路径（在网络）
+	private String answerofTea;// 老师批改后的图片的路径（在本地）,某张图片的路径是在按下确定按钮后才确定（参考onConfirm方法）
 	private String textAnswer;// 学生的文字回答
 	private String textOfTeacher;// 老师的批改
-	private String picOfTeacherUrl;
 	
-	private AsyncImageLoader imageLoader = new AsyncImageLoader();
+	private AsyncImageLoader imageLoader = new AsyncImageLoader(
+	        new ImageLoadListener() {
+		        
+		        @Override
+		        public void onImageBitmapLoaded(Bitmap bitmap) {
+		        
+			        creator.setbg(bitmap);
+		        }
+		        
+		        @Override
+		        public void onLoadFailed() {
+		        
+			        container_ll.setVisibility(View.GONE);
+		        }
+	        });
 
 	private void findView() {
 	
@@ -171,13 +150,32 @@ public class ECSSFragment extends Fragment {
 		container_ll = (LinearLayout) activity.findViewById(R.id.ecss_ll);
 	}
 	
-	private void initPaintView() {
+	/**
+	 * @param canPrevious
+	 * @param canNext
+	 */
+	private void changeUIWithField(boolean canPrevious, boolean canNext) {
 	
-		creator = new PaintPadViewCreator((BaseActivity) getActivity(),
-		        container_ll);
-		View v = creator.getView();
-		v.setFocusable(true);
-		v.setFocusableInTouchMode(true);
+		number_tv2.setText(number);
+		score_tv4.setText(score);
+		state_tv6.setText(state);
+		content_wv1.loadUrl(content);
+		answer_wv2.loadUrl(answerofSta);
+		answer_tv10.setText(textAnswer);
+		score_et1.setText(point);
+		textofTeacher_et2.setText(textOfTeacher);
+		setButton(canPrevious, canNext);
+		
+		if (answerofStu != null && !answerofStu.equals("")) {
+			container_ll.setVisibility(View.VISIBLE);
+			if (answerofTea != null) {
+				creator.loadExsitedImage(answerofTea);
+			} else {
+				imageLoader.loadImageBitmap(answerofStu);
+			}
+		} else {
+			container_ll.setVisibility(View.GONE);
+		}
 	}
 	
 	private void setButton(boolean canPrevious, boolean canNext) {
@@ -190,5 +188,31 @@ public class ECSSFragment extends Fragment {
 			next_b3.setEnabled(true);
 		else
 			next_b3.setEnabled(false);
+	}
+
+	/**
+	 * @param answer
+	 */
+	private void getValueFromAnswer(Answer answer) {
+	
+		number = String.valueOf(answer.getNumber());
+		score = String.valueOf(answer.getScore());
+		state = answer.getState();
+		content = answer.getContent();
+		answerofSta = answer.getAnswerofSta();
+		answerofTea = answer.getAnswerofTea();
+		answerofStu = answer.getAnswerofStu();
+		textAnswer = answer.getTextAnswer();
+		textOfTeacher = answer.getTextOfTeacher();
+		point = String.valueOf(answer.getPoint());
+	}
+
+	private void initPaintView() {
+	
+		creator = new PaintPadViewCreator((BaseActivity) getActivity(),
+		        container_ll);
+		View v = creator.getView();
+		v.setFocusable(true);
+		v.setFocusableInTouchMode(true);
 	}
 }

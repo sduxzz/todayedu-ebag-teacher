@@ -5,7 +5,6 @@
  */
 package com.todayedu.ebag.teacher;
 
-import android.os.Environment;
 
 /**
  * contain some useful constants
@@ -22,12 +21,7 @@ public interface Constants {
 		public static final String CORRECT = "未批改";
 		public static final String CORRECTED = "已批改";
 		public static final String HANDIN = "未提交";
-	}
-	
-	public static class PATH {
-		
-		public static final String DIR_PATH = Environment
-		        .getExternalStorageDirectory().getPath() + "/ebag";
-		
+		public static final String NOANSWER = "没有文字回答";
+		public static final String NOCORRECT = "还没有批注哦";
 	}
 }

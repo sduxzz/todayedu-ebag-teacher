@@ -1,15 +1,11 @@
 package com.todayedu.ebag.teacher.Database;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 
 import android.os.Environment;
 import android.util.Log;
+
+import com.todayedu.ebag.teacher.DataSource.DataObj.Answer;
 
 /**
  * SD卡处理类
@@ -18,11 +14,13 @@ import android.util.Log;
  * 
  */
 public class SDCard {
+
 	private String SDPATH = "";
 	private boolean SDCardAvailable = false;
 	private boolean SDCardWriteable = false;
 
 	public SDCard() {
+
 		updateSDCardState();
 		SDPATH = Environment.getExternalStorageDirectory().getPath();
 	}
@@ -31,6 +29,7 @@ public class SDCard {
 	 * 检测SD卡得读写状态
 	 */
 	public void updateSDCardState() {
+
 		String state = Environment.getExternalStorageState();
 
 		if (Environment.MEDIA_MOUNTED.equals(state))
@@ -67,6 +66,7 @@ public class SDCard {
 	 * @return 文件或目录存在时，返回 true；否则返回 false
 	 */
 	public boolean isFileExisted(String relativeFilePath) {
+
 		if (relativeFilePath == null || "".equals(relativeFilePath))
 			return false;
 		return isFileExistedWithFullPath(SDPATH + relativeFilePath);
@@ -79,6 +79,7 @@ public class SDCard {
 	 * @return
 	 */
 	public boolean isFileExistedWithFullPath(String fullFilePath) {
+
 		boolean result = false;
 		if (fullFilePath == null || "".equals(fullFilePath))
 			return result;
@@ -99,6 +100,7 @@ public class SDCard {
 	 * @return
 	 */
 	public File createSDDir(String fileDir) {
+
 		File dir = null;
 		if (SDCardWriteable == true) {
 			dir = new File(SDPATH + fileDir);
@@ -115,22 +117,20 @@ public class SDCard {
 	/**
 	 * 在SD卡上创建文件
 	 * 
-	 * @param path
-	 *            要创建的文件相对路径,以 / 开头
 	 * @param fileName
 	 * @return
 	 * @throws Throwable
 	 */
-	public File createSDFile(String path, String fileName) throws Throwable {
+	public File createSDFile(String fileName) throws Throwable {
+
 		File file = null;
 		if (SDCardWriteable == true) {
-			File dir = createSDDir(path);
+			File dir = createSDDir(Answer.PATH.SUBDIR);
 			if (dir != null) {
-				if (isFileExisted(path + "/" + fileName)) {
-					new File(SDPATH + path + "/" + fileName)
-							.delete();
+				if (isFileExisted(fileName)) {
+					new File(fileName).delete();
 				}
-				file = new File(SDPATH + path + "/" + fileName);
+				file = new File(fileName);
 				file.createNewFile();
 			}
 		}
@@ -138,69 +138,18 @@ public class SDCard {
 		return file;
 	}
 
-	/**
-	 * 将流中的数据写到SD卡中
-	 * 
-	 * @param filePath
-	 *            创建的文件的路径,以 / 开头
-	 * @param fileName
-	 *            创建的文件名
-	 * @param inputStream
-	 *            要从中读取数据的输入流
-	 * @return 创建的文件
-	 */
-	public File writeStream2SDCard(String filePath, String fileName,
-			InputStream inputStream) throws Throwable {
-		File resultFile = null;
-		byte[] buffer = new byte[4 * 1024];
-
-		BufferedInputStream bis = null;
-		BufferedOutputStream bos = null;
-
-		resultFile = createSDFile(filePath, fileName);
-		if (resultFile != null) {
-			try {
-				bos = new BufferedOutputStream(new FileOutputStream(resultFile));
-				bis = new BufferedInputStream(inputStream);
-				int len = 0;
-				while ((len = bis.read(buffer)) != -1) {
-					bos.write(buffer, 0, len);
-				}
-				bos.flush();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} finally {
-				try {
-					if (bos != null) {
-						bos.close();
-						bos = null;
-					}
-					if (bis != null) {
-						bis.close();
-						bis = null;
-					}
-
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-
-		}
-
-		return resultFile;
-	}
-
 	public String getSDPATH() {
+
 		return SDPATH;
 	}
 
 	public boolean isSDCardAvailable() {
+
 		return SDCardAvailable;
 	}
 
 	public boolean isSDCardWriteable() {
+
 		return SDCardWriteable;
 	}
 

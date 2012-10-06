@@ -29,9 +29,36 @@ import com.todayedu.ebag.teacher.Network.UrlBuilder;
  */
 public class ECSDS extends BaseDataSource {
 	
-	private SparseArray<Answer> temp = new SparseArray<Answer>();
-	private List<AnswerObj> examList;
-	private int index = 0;
+	private class InnerThread extends Thread {
+		
+		Activity activity;
+		
+		public InnerThread(Activity activity) {
+		
+			this.activity = activity;
+		}
+
+		public void run() {
+		
+			List<AnswerObj> list = getExamList();
+			List<Map<String, String>> maps = getListMap();
+			Map<String, String> map = null;
+			Answer answer = null;
+			int i = 0;
+			for (AnswerObj obj : list) {
+				if ((answer = Answer.query(activity, obj.id, obj.uid,
+				        obj.problemId)) != null) {// 可以优化哦
+					map = maps.get(i);
+					map.put("state", answer.getState());
+					obj.setPoint(answer.getPoint());
+					obj.setTextOfTeacher(answer.getTextOfTeacher());
+					obj.setPicOfTeacherUrl(answer.getAnswerofTea());
+				}
+				i++;
+			}
+			notifyDataChange(activity);
+		}
+	}
 
 	public ECSDS(DSCallback callback) {
 	
@@ -52,36 +79,30 @@ public class ECSDS extends BaseDataSource {
 		// createMaps(Context, String[])
 	}
 	
-	public void createMaps(Context context, String[] keys) {
+	public void createMaps(Activity context, String[] keys) {
 
 		List<AnswerObj> list = this.getExamList();
 		List<Map<String, String>> maps = this.getListMap();
 		maps.clear();
 		Map<String, String> map = null;
-		Answer answer = null;
 		int i = 1;
 		for (AnswerObj obj : list) {
 			map = new HashMap<String, String>();
 			map.put(keys[0], "第" + (i++) + "题");
-			if ((answer = Answer.query(context, obj.id, obj.uid, obj.problemId)) != null) {
-				map.put(keys[1], answer.getState());
-				obj.setPoint(answer.getPoint());
-				obj.setTextOfTeacher(answer.getTextOfTeacher());
-				obj.setPicOfTeacherUrl(answer.getAnswerofTea());
-			} else {
-				switch (obj.state) {
-					case choice.answerState_waitAnser:
-					case choice.answerState_waitMark:
-						map.put(keys[1], StateStr.CORRECT);
-						break;
-					case choice.answerState_finish:
-					case choice.answerState_waitComment:
-					default:
-						map.put(keys[1], StateStr.CORRECTED);
-				}
+			switch (obj.state) {
+				case choice.answerState_waitAnser:
+				case choice.answerState_waitMark:
+					map.put(keys[1], StateStr.CORRECT);
+					break;
+				case choice.answerState_finish:
+				case choice.answerState_waitComment:
+				default:
+					map.put(keys[1], StateStr.CORRECTED);
 			}
 			maps.add(map);
 		}
+		InnerThread thread = new InnerThread(context);
+		thread.start();
 	}
 	
 	/**
@@ -97,22 +118,7 @@ public class ECSDS extends BaseDataSource {
 		int id = obj.id;
 		Answer answer = temp.get(id);
 		if (answer == null) {
-			answer = new Answer();
-			answer.setId(obj.id);
-			answer.setPid(obj.problemId);
-			answer.setNumber(index + 1);
-			answer.setPoint(obj.point);
-			answer.setScore(obj.score);
-			answer.setState(getListMap().get(index).get("state"));
-			answer.setTextAnswer(obj.textAnswer == null ? "没有文字回答"
-			        : obj.textAnswer);
-			answer.setTextOfTeacher(obj.textOfTeacher == null ? ""
-			        : obj.textOfTeacher);
-			answer.setContent(UrlBuilder.problemContentUrl(obj.problemId));
-			answer.setAnswerofSta(UrlBuilder.problemAnswerUrl(obj.problemId));
-			answer.setAnswerofStu(UrlBuilder
-			        .problemAnswerPicUrl(obj.picAnswerUrl));
-			answer.setAnswerofTea(obj.picOfTeacherUrl);
+			answer = createAnswer(obj);
 			temp.put(id, answer);
 		}
 		return answer;
@@ -211,5 +217,33 @@ public class ECSDS extends BaseDataSource {
 	public void setExamList(List<AnswerObj> examList) {
 	
 		this.examList = examList;
+	}
+	
+	private SparseArray<Answer> temp = new SparseArray<Answer>();
+	private List<AnswerObj> examList;
+	private int index = 0;
+
+	/**
+	 * @param obj
+	 * @return
+	 */
+	private Answer createAnswer(AnswerObj obj) {
+	
+		Answer answer = new Answer();
+		answer.setId(obj.id);
+		answer.setPid(obj.problemId);
+		answer.setNumber(index + 1);
+		answer.setPoint(obj.point);
+		answer.setScore(obj.score);
+		answer.setState(getListMap().get(index).get("state"));// 这里要注意呀，state是map中的key
+		answer.setTextAnswer(obj.textAnswer == null ? StateStr.NOANSWER
+		        : obj.textAnswer);
+		answer.setTextOfTeacher(obj.textOfTeacher == null ? StateStr.NOCORRECT
+		        : obj.textOfTeacher);
+		answer.setContent(UrlBuilder.problemContentUrl(obj.problemId));
+		answer.setAnswerofSta(UrlBuilder.problemAnswerUrl(obj.problemId));
+		answer.setAnswerofStu(UrlBuilder.problemAnswerPicUrl(obj.picAnswerUrl));
+		answer.setAnswerofTea(obj.picOfTeacherUrl);
+		return answer;
 	}
 }

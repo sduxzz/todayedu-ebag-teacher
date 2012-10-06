@@ -67,7 +67,7 @@ public class PCommentDS extends BaseDataSource {
 		for (ProblemInfoObj obj : list) {
 			map = new HashMap<String, String>();
 			map.put(keys[0], "第" + (i++) + "题");
-			map.put(keys[1], Problem.getStateFromDB(obj.id, context));
+			map.put(keys[1], Problem.getStateFromDB(obj.id, context));// 可以优化
 			maps.add(map);
 		}
 	}

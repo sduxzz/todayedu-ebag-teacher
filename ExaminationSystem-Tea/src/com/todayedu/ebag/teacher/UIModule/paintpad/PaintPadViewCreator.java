@@ -22,7 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.todayedu.ebag.teacher.Constants.PATH;
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.Database.SDCard;
 import com.todayedu.ebag.teacher.UIModule.BaseActivity;
@@ -567,19 +566,21 @@ public class PaintPadViewCreator implements View.OnClickListener {
 
 	/**
 	 * 保存
+	 * 
+	 * @param path
+	 *            要保存图片的名称
 	 */
-	public boolean onClickButtonSave(String dir, String path) {
+	public boolean onClickButtonSave(String path) {
 	
 		setAllLayoutInvisable();
 		SDCard sdCard = new SDCard();
 		File file = null;
 		
 		try {
-			String fileFullPath = PATH.DIR_PATH + path;
-			if (sdCard.isFileExistedWithFullPath(fileFullPath)) {
-				file = new File(fileFullPath);
+			if (sdCard.isFileExistedWithFullPath(path)) {
+				file = new File(path);
 			} else {
-				file = sdCard.createSDFile(dir, path);
+				file = sdCard.createSDFile(path);
 			}
 		} catch (Throwable e) {
 			e.printStackTrace();

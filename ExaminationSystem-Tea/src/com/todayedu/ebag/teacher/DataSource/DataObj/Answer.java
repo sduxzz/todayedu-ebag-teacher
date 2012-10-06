@@ -7,6 +7,7 @@ package com.todayedu.ebag.teacher.DataSource.DataObj;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.os.Environment;
 
 import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.Parameters.ParaIndex;
@@ -16,7 +17,6 @@ import com.todayedu.ebag.teacher.Database.annotation.Id;
 import com.todayedu.ebag.teacher.Database.annotation.Table;
 import com.todayedu.ebag.teacher.UIModule.BaseActivity;
 
-
 /**
  * @author <a href="zhenzxie.iteye.cn">zhenzxie</a>
  * @version 1.0
@@ -25,19 +25,27 @@ import com.todayedu.ebag.teacher.UIModule.BaseActivity;
 @Table(name = "ANSWER")
 public class Answer {
 
+	public static class PATH {
+		
+		public static final String SUBDIR = "/ebag";
+
+		public static final String DIR = Environment
+		        .getExternalStorageDirectory().getPath() + SUBDIR;
+	}
+
 	@Id
 	@Column(name = "ID")
 	private int id;// 回答id
 	@Column(name = "SID")
 	private int sid;// 学生id
-	@Column(name="PID")
+	@Column(name = "PID")
 	private int pid;// 问题id
 	@Column(name = "POINT")
 	private double point;// 学生的成绩
 	@Column(name = "STATE")
 	private String state;
 	@Column(name = "ANSWEROFTEA")
-	private String answerofTea;// 老师批改后答案的路径（只有文件名,当要使用本体图片是请加上目录路径，目录路径和文件名中间要再加上/）
+	private String answerofTea;// 老师批改后答案的路径
 	private int number;
 	private double score;// 题目的总分
 	private String content;
@@ -97,7 +105,7 @@ public class Answer {
 		return id;
 	}
 	
-    /**
+	/**
 	 * @param id
 	 *            the id to set
 	 */
@@ -106,7 +114,7 @@ public class Answer {
 		this.id = id;
 	}
 	
-    /**
+	/**
 	 * @return the pid
 	 */
 	public int getPid() {
@@ -114,7 +122,7 @@ public class Answer {
 		return pid;
 	}
 	
-    /**
+	/**
 	 * @param pid
 	 *            the pid to set
 	 */
@@ -123,7 +131,7 @@ public class Answer {
 		this.pid = pid;
 	}
 	
-    /**
+	/**
 	 * @return the number
 	 */
 	public int getNumber() {
@@ -131,7 +139,7 @@ public class Answer {
 		return number;
 	}
 	
-    /**
+	/**
 	 * @param number
 	 *            the number to set
 	 */
@@ -140,7 +148,7 @@ public class Answer {
 		this.number = number;
 	}
 	
-    /**
+	/**
 	 * @return the score
 	 */
 	public double getScore() {
@@ -148,7 +156,7 @@ public class Answer {
 		return score;
 	}
 	
-    /**
+	/**
 	 * @param score
 	 *            the score to set
 	 */
@@ -157,23 +165,22 @@ public class Answer {
 		this.score = score;
 	}
 	
-    /**
+	/**
 	 * @return the point
 	 */
-    public double getPoint() {
-    
+	public double getPoint() {
+
 		return point;
-    }
+	}
 
 	/**
 	 * @param point
 	 *            the point to set
 	 */
-    public void setPoint(double point) {
-    
-		this.point = point;
-    }
+	public void setPoint(double point) {
 
+		this.point = point;
+	}
 	
 	/**
 	 * @return the state
@@ -183,7 +190,7 @@ public class Answer {
 		return state;
 	}
 	
-    /**
+	/**
 	 * @param state
 	 *            the state to set
 	 */
@@ -192,7 +199,7 @@ public class Answer {
 		this.state = state;
 	}
 	
-    /**
+	/**
 	 * @return the content
 	 */
 	public String getContent() {
@@ -200,7 +207,7 @@ public class Answer {
 		return content;
 	}
 	
-    /**
+	/**
 	 * @param content
 	 *            the content to set
 	 */
@@ -209,7 +216,7 @@ public class Answer {
 		this.content = content;
 	}
 	
-    /**
+	/**
 	 * @return the textAnswer
 	 */
 	public String getTextAnswer() {
@@ -219,7 +226,7 @@ public class Answer {
 		return textAnswer;
 	}
 	
-    /**
+	/**
 	 * @param textAnswer
 	 *            the textAnswer to set
 	 */
@@ -228,7 +235,7 @@ public class Answer {
 		this.textAnswer = textAnswer;
 	}
 	
-    /**
+	/**
 	 * @return the textOfTeacher
 	 */
 	public String getTextOfTeacher() {
@@ -236,7 +243,7 @@ public class Answer {
 		return textOfTeacher;
 	}
 	
-    /**
+	/**
 	 * @param textOfTeacher
 	 *            the textOfTeacher to set
 	 */
@@ -245,7 +252,7 @@ public class Answer {
 		this.textOfTeacher = textOfTeacher;
 	}
 	
-    /**
+	/**
 	 * @return the answerofSta
 	 */
 	public String getAnswerofSta() {
@@ -253,7 +260,7 @@ public class Answer {
 		return answerofSta;
 	}
 	
-    /**
+	/**
 	 * @param answerofSta
 	 *            the answerofSta to set
 	 */
@@ -262,7 +269,7 @@ public class Answer {
 		this.answerofSta = answerofSta;
 	}
 	
-    /**
+	/**
 	 * @return the answerofStu
 	 */
 	public String getAnswerofStu() {
@@ -270,7 +277,7 @@ public class Answer {
 		return answerofStu;
 	}
 	
-    /**
+	/**
 	 * @param answerofStu
 	 *            the answerofStu to set
 	 */
@@ -279,7 +286,9 @@ public class Answer {
 		this.answerofStu = answerofStu;
 	}
 	
-    /**
+	/**
+	 * 获取老师批改后图片的全路径
+	 * 
 	 * @return the answerofTea
 	 */
 	public String getAnswerofTea() {
@@ -287,7 +296,17 @@ public class Answer {
 		return answerofTea;
 	}
 	
-    /**
+	/**
+	 * 获取老师批改后图片的应该有的全路径
+	 * 
+	 * @param fileName
+	 */
+	public static String getAnswerofTeaFullPath(String fileName) {
+	
+		return PATH.DIR + "/" + fileName;
+	}
+
+	/**
 	 * @param answerofTea
 	 *            the answerofTea to set
 	 */

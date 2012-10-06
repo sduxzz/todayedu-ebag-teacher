@@ -17,8 +17,14 @@ public class AsyncImageLoader {
 	private ExecutorService executorService = Executors.newFixedThreadPool(2);
 	private final Handler handler = new Handler();
 	
-	public void loadImageBitmap(final String imageUrl,
-	        final ImageLoadListener listener) {
+	private ImageLoadListener listener;
+	
+	public AsyncImageLoader(ImageLoadListener listener) {
+	
+		this.listener = listener;
+	}
+
+	public void loadImageBitmap(final String imageUrl) {
 	
 		if (imageCache.containsKey(imageUrl)) {
 			SoftReference<Bitmap> softReference = imageCache.get(imageUrl);
