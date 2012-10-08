@@ -21,8 +21,9 @@
             android:layout_below="@+id/aeps_wv1" 
             android:layout_alignLeft="@+id/aeps_wv1"
             />
-          <WebView
-            android:id="@+id/aeps_wv3"
+          <ImageView
+            android:id="@+id/aeps_iv3"
+            android:contentDescription="@string/comm_app_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/aeps_wv2" 
@@ -31,6 +32,7 @@
           
         <TextView
             android:id="@+id/aeps_tv1"
+            style="@style/listviewfont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/aeps_wv3"
@@ -39,8 +41,10 @@
 
         <TextView
             android:id="@+id/aeps_tv2"
+            style="@style/listviewfont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
             android:layout_alignTop="@+id/aeps_tv1"
             android:layout_toRightOf="@+id/aeps_tv1"
             android:text="XXXX" />

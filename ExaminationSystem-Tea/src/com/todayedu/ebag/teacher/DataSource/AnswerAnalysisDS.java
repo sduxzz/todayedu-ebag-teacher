@@ -50,10 +50,10 @@ public class AnswerAnalysisDS extends BaseDataSource {
 		list = createTotalTable(keys);
 		lists.add(list);
 		
-		list = createMax(keys);
+		list = createMin(keys);
 		lists.add(list);
 		
-		list = createMin(keys);
+		list = createMax(keys);
 		lists.add(list);
 		
 	}
