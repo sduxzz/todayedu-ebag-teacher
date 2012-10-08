@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.ebag.net.obj.I;
 import org.ebag.net.obj.I.choice;
 import org.ebag.net.obj.answer.AnswerObj;
 
@@ -29,37 +30,6 @@ import com.todayedu.ebag.teacher.Network.UrlBuilder;
  */
 public class ECSDS extends BaseDataSource {
 	
-	private class InnerThread extends Thread {
-		
-		Activity activity;
-		
-		public InnerThread(Activity activity) {
-		
-			this.activity = activity;
-		}
-
-		public void run() {
-		
-			List<AnswerObj> list = getExamList();
-			List<Map<String, String>> maps = getListMap();
-			Map<String, String> map = null;
-			Answer answer = null;
-			int i = 0;
-			for (AnswerObj obj : list) {
-				if ((answer = Answer.query(activity, obj.id, obj.uid,
-				        obj.problemId)) != null) {// 可以优化哦
-					map = maps.get(i);
-					map.put("state", answer.getState());
-					obj.setPoint(answer.getPoint());
-					obj.setTextOfTeacher(answer.getTextOfTeacher());
-					obj.setPicOfTeacherUrl(answer.getAnswerofTea());
-				}
-				i++;
-			}
-			notifyDataChange(activity);
-		}
-	}
-
 	public ECSDS(DSCallback callback) {
 	
 		super(callback);
@@ -124,20 +94,20 @@ public class ECSDS extends BaseDataSource {
 		return answer;
 	}
 
+	/**
+	 * 处理保存事务
+	 * 
+	 * @param context
+	 * @param answerofTea
+	 * @param textOfTeacher
+	 * @param point
+	 */
 	public void onComfirm(Context context, String answerofTea,
 	        String textOfTeacher, double point) {
 	
-		Answer answer = (Answer) getCurrentAnswer();
-		if (answer == null)
-			return;
-		answer.setAnswerofTea(answerofTea);
-		answer.setTextOfTeacher(textOfTeacher);
-		answer.setPoint(point);
-		answer.setState(StateStr.CORRECTED);
-		answer.save(context);
-		
-		Map<String, String> map = this.getListMap().get(index);
-		map.put("state", StateStr.COMMENTED);
+		saveCurrentAnswer2DB(context, answerofTea, textOfTeacher, point);
+		changStateValueOfMapItem();
+		addInfo2AnswerObj(answerofTea, textOfTeacher, point);
 	}
 
 	/**
@@ -219,6 +189,46 @@ public class ECSDS extends BaseDataSource {
 		this.examList = examList;
 	}
 	
+	/**
+	 * 
+	 * @return the temp
+	 */
+	public SparseArray<Answer> getSparseArray() {
+	
+		return temp;
+	}
+
+	private class InnerThread extends Thread {
+		
+		Activity activity;
+		
+		public InnerThread(Activity activity) {
+		
+			this.activity = activity;
+		}
+
+		public void run() {
+		
+			List<AnswerObj> list = getExamList();
+			List<Map<String, String>> maps = getListMap();
+			Map<String, String> map = null;
+			Answer answer = null;
+			int i = 0;
+			for (AnswerObj obj : list) {
+				if ((answer = Answer.query(activity, obj.id, obj.uid,
+				        obj.problemId)) != null) {// 可以优化哦
+					map = maps.get(i);
+					map.put("state", answer.getState());
+					obj.setPoint(answer.getPoint());
+					obj.setTextOfTeacher(answer.getTextOfTeacher());
+					obj.setPicOfTeacherUrl(answer.getAnswerofTea());
+				}
+				i++;
+			}
+			notifyDataChange(activity);
+		}
+	}
+	
 	private SparseArray<Answer> temp = new SparseArray<Answer>();
 	private List<AnswerObj> examList;
 	private int index = 0;
@@ -246,4 +256,53 @@ public class ECSDS extends BaseDataSource {
 		answer.setAnswerofTea(obj.picOfTeacherUrl);
 		return answer;
 	}
+	
+	/**
+	 * 保存Answer到数据库中
+	 * 
+	 * @param context
+	 * @param answerofTea
+	 * @param textOfTeacher
+	 * @param point
+	 */
+	private void saveCurrentAnswer2DB(Context context, String answerofTea,
+	        String textOfTeacher, double point) {
+	
+		Answer answer = (Answer) getCurrentAnswer();
+		if (answer == null)
+			return;
+		answer.setAnswerofTea(answerofTea);
+		answer.setTextOfTeacher(textOfTeacher);
+		answer.setPoint(point);
+		answer.setState(StateStr.CORRECTED);
+		answer.save(context);
+	}
+	
+	/**
+	 * 改变Map中某项的state对应的值
+	 */
+	private void changStateValueOfMapItem() {
+	
+		Map<String, String> map = this.getListMap().get(index);
+		map.put("state", StateStr.COMMENTED);
+	}
+	
+	/**
+	 * 向AnswerObj中添加信息，上传答案时需要的信息，比如老师批改后图片的文件名，老师的批语，分数
+	 * 
+	 * @param answerofTea
+	 * @param textOfTeacher
+	 * @param point
+	 */
+	private void addInfo2AnswerObj(String answerofTea, String textOfTeacher,
+	        double point) {
+	
+		AnswerObj obj = examList.get(index);
+		obj.picOfTeacherUrl = answerofTea.substring(
+		        answerofTea.lastIndexOf('/'), answerofTea.length());// 截取文件名
+		obj.textOfTeacher = textOfTeacher;
+		obj.point = point;
+		obj.state = I.choice.answerState_waitMark;// 状态设置为待讲评
+	}
+
 }

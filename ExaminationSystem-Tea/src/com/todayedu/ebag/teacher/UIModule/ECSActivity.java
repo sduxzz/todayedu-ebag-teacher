@@ -5,18 +5,27 @@
  */
 package com.todayedu.ebag.teacher.UIModule;
 
+import java.util.ArrayList;
+
+import org.ebag.net.obj.answer.AnswerObj;
 import org.ebag.net.response.AnswerResponse;
+import org.ebag.net.response.AnswerUploadResponse;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
 import com.todayedu.ebag.teacher.DataSource.ECSDS;
 import com.todayedu.ebag.teacher.DataSource.DataObj.Answer;
+import com.todayedu.ebag.teacher.Network.AnswerUploadHandler;
+import com.todayedu.ebag.teacher.Network.NetworkCallBack;
+import com.todayedu.ebag.teacher.Network.NetworkClient;
 
 /**
  * 某个学生的要批改试卷的界面,包括题目列表界面和题目界面
@@ -56,6 +65,22 @@ public class ECSActivity extends BaseActivity {
 		this.finish();
 	}
 	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+	
+		menu.add(0, 0, 0, "上传批改");
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	
+		if (item.getItemId() == 0) {// 0 is id of item
+			uploadAnswer();
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
 	@Override
 	public void onLoadSuccess(Object object) {
 	
@@ -209,5 +234,41 @@ public class ECSActivity extends BaseActivity {
 		new AlertDialog.Builder(this).setMessage("没保存就要离开吗？")
 		        .setPositiveButton(R.string.comm_confirm, listener)
 		        .setNegativeButton(R.string.comm_cancel, null).show();
+	}
+	
+	private void uploadAnswer() {
+	
+		final NetworkClient client = new NetworkClient();
+		NetworkCallBack adapter = new NetworkCallBack() {
+			
+			@Override
+			public void success(Object response) {
+			
+				if (response == null)
+					return;
+				AnswerUploadResponse response2 = (AnswerUploadResponse) response;
+				if (response2.successful)
+					showResult("上传成功");
+				else
+					showResult(response2.message);
+			}
+			
+			@Override
+			public void failed(Throwable throwable) {
+
+				showResult(throwable.getMessage());
+			}
+			
+			public void showResult(String mes) {
+
+				client.disconnect();
+				if (mes != null)
+					showToast(mes);
+			}
+
+		};
+		client.setHandler(new AnswerUploadHandler(this, adapter,
+		        (ArrayList<AnswerObj>) ds.getExamList(), ds.getSparseArray()));
+		client.connect();
 	}
 }

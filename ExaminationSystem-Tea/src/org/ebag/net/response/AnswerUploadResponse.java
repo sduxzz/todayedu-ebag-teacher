@@ -4,6 +4,6 @@ import java.io.Serializable;
 
 public class AnswerUploadResponse implements Serializable{
 
-	boolean successful=false;
-	String message="ok";
+	public boolean successful = false;
+	public String message = "ok";
 }
