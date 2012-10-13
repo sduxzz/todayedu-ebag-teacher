@@ -30,9 +30,6 @@ public abstract class BaseNetworkHandler implements IoHandler {
 		this.networkCallBack = callBack;
 	}
 
-	/**
-	 * @see org.apache.mina.core.service.IoHandler#sessionCreated(org.apache.mina.core.session.IoSession)
-	 */
 	@Override
 	public void sessionCreated(IoSession session) throws Exception {
 	
@@ -51,38 +48,24 @@ public abstract class BaseNetworkHandler implements IoHandler {
 		});
 	}
 	
-	/**
-	 * @see org.apache.mina.core.service.IoHandler#sessionOpened(org.apache.mina.core.session.IoSession)
-	 */
 	@Override
 	public void sessionOpened(IoSession arg0) throws Exception {
 	
 		Log.i(TAG, "sessionOpened");
 	}
 	
-	/**
-	 * @see org.apache.mina.core.service.IoHandler#sessionIdle(org.apache.mina.core.session.IoSession,
-	 *      org.apache.mina.core.session.IdleStatus)
-	 */
 	@Override
 	public void sessionIdle(IoSession arg0, IdleStatus arg1) throws Exception {
 	
 		Log.i(TAG, "sessionIdle");
 	}
 	
-	/**
-	 * @see org.apache.mina.core.service.IoHandler#sessionClosed(org.apache.mina.core.session.IoSession)
-	 */
 	@Override
 	public void sessionClosed(IoSession session) throws Exception {
 	
 		Log.i(TAG, "sessionClosed");
 	}
 	
-	/**
-	 * @see org.apache.mina.core.service.IoHandler#exceptionCaught(org.apache.mina.core.session.IoSession,
-	 *      java.lang.Throwable)
-	 */
 	@Override
 	public void exceptionCaught(IoSession session, Throwable cause)
 	        throws Exception {
@@ -92,20 +75,12 @@ public abstract class BaseNetworkHandler implements IoHandler {
 		networkCallBack.failed(cause);
 	}
 	
-	/**
-	 * @see org.apache.mina.core.service.IoHandler#messageSent(org.apache.mina.core.session.IoSession,
-	 *      java.lang.Object)
-	 */
 	@Override
 	public void messageSent(IoSession arg0, Object arg1) throws Exception {
 	
 		Log.i(TAG, "messageSent");
 	}
 	
-	/**
-	 * @see org.apache.mina.core.service.IoHandler#messageReceived(org.apache.mina.core.session.IoSession,
-	 *      java.lang.Object)
-	 */
 	@Override
 	public void messageReceived(IoSession arg0, Object arg1) throws Exception {
 	
@@ -122,7 +97,6 @@ public abstract class BaseNetworkHandler implements IoHandler {
 			
 				if (zDialog != null) {
 					Log.i(TAG, "----------------------------------------");
-
 					zDialog.dismiss();
 				}
 			}

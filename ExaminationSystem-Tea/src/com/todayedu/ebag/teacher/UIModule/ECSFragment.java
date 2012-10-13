@@ -38,6 +38,7 @@ public class ECSFragment extends ListFragment {
 	 */
 	public void initECSFragment(BaseDataAdapter adapter) {
 	
+		removeHeaderView();
 		addHeaderView(getActivity(), R.array.pro_id_state);
 		setListAdapter(adapter);
 	}
@@ -52,9 +53,16 @@ public class ECSFragment extends ListFragment {
 		activity.onPosition(position - 1);
 	}
 	
+	private View headerView;
+	
+	private void removeHeaderView() {
+	
+		getListView().removeHeaderView(headerView);
+	}
+
 	private void addHeaderView(Context context, int res) {
 	
-		View headerView = HeaderViewFactory.createHeaderView2(context, res);
+		headerView = HeaderViewFactory.createHeaderView2(context, res);
 		getListView().addHeaderView(headerView, null, false);
 	}
 }

@@ -1,6 +1,7 @@
 package org.ebag.net.request;
 
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.List;
 
 public class AnswerRequest implements Serializable{
@@ -32,16 +33,6 @@ public class AnswerRequest implements Serializable{
 	}
 	public void setFieldList(List<String> fieldList) {
 		this.fieldList = fieldList;
-	}
-	
-	/**
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-	
-		return "AnswerRequest [uid=" + uid + ", examId=" + examId + ", idList="
-		        + idList + ", fieldList=" + fieldList + "]";
 	}
 	
 }

@@ -68,6 +68,7 @@ public class ECSActivity extends BaseActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	
+		super.onCreateOptionsMenu(menu);
 		menu.add(0, 0, 0, "上传批改");
 		return true;
 	}
@@ -90,6 +91,14 @@ public class ECSActivity extends BaseActivity {
 		ds.setExamList(response.examList);
 		ds.createMaps(this, keys);
 		ds.notifyDataChange(this);
+		this.runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+			
+				position(0);// 跳到第一题。
+			}
+		});
 	}
 
 	/**

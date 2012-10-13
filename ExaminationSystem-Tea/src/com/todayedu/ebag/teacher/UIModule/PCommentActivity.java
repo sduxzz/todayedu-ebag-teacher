@@ -67,6 +67,14 @@ public class PCommentActivity extends BaseActivity {
 		ds.setpInfoList(list);
 		ds.createMaps(this, keys);
 		ds.notifyDataChange(this);
+		this.runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+			
+				onPosition(0);// 跳到第一题
+			}
+		});
 	}
 
 	public void onPrevious(View view) {

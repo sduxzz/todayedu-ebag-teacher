@@ -35,6 +35,7 @@ public class PCommentFragment extends ListFragment {
 	
 	public void initPCommentFragment(BaseDataAdapter adapter) {
 	
+		removeHeaderView();
 		addHeaderView(getActivity(), R.array.pro_id_state);
 		setListAdapter(adapter);
 	}
@@ -48,10 +49,17 @@ public class PCommentFragment extends ListFragment {
 		PCommentActivity activity = (PCommentActivity) getActivity();
 		activity.onPosition(position - 1);
 	}
+	
+	private View headerView;
+	
+	private void removeHeaderView() {
+	
+		getListView().removeHeaderView(headerView);
+	}
 
 	private void addHeaderView(Context context, int res) {
 	
-		View headerView = HeaderViewFactory.createHeaderView2(context, res);
+		headerView = HeaderViewFactory.createHeaderView2(context, res);
 		getListView().addHeaderView(headerView, null, false);
 	}
 }
