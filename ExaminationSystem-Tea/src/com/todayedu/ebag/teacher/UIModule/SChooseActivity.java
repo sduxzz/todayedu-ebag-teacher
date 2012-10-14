@@ -29,9 +29,9 @@ import com.todayedu.ebag.teacher.Parameters;
 import com.todayedu.ebag.teacher.Parameters.ParaIndex;
 import com.todayedu.ebag.teacher.R;
 import com.todayedu.ebag.teacher.DataAdapter.BaseDataAdapter;
+import com.todayedu.ebag.teacher.DataSource.ClassStudentDS;
 import com.todayedu.ebag.teacher.DataSource.DSCallback;
 import com.todayedu.ebag.teacher.DataSource.SCExamDS;
-import com.todayedu.ebag.teacher.DataSource.ClassStudentDS;
 import com.todayedu.ebag.teacher.Network.NetworkCallBack;
 import com.todayedu.ebag.teacher.Network.NetworkClient;
 import com.todayedu.ebag.teacher.Network.StartExamHandler;
@@ -106,7 +106,7 @@ public class SChooseActivity extends BaseActivity {
 		tv_4.setText(String.valueOf(exam.getPoints()) + "分");
 		setTv56Visibility(View.VISIBLE);
 		tv_5.setText(R.string.comm_exam_totaltime_colon);
-		tv_6.setText(String.valueOf(exam.getTime()));// TODO:确认考试时间的单位
+		tv_6.setText(String.valueOf(exam.getTime() / 3600000) + "小时");
 		
 		if (scExamDs == null) {
 			scExamDs = new SCExamDS(new SCExamDSCallback());
