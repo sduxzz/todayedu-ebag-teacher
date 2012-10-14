@@ -22,4 +22,11 @@ public class AnswerUpload implements Serializable{
 	public void setTeacher(boolean isTeacher) {
 		this.isTeacher = isTeacher;
 	}
+	
+	@Override
+	public String toString() {
+	
+		return "AnswerUpload [ansList=" + ansList + ", isTeacher=" + isTeacher
+		        + "]";
+	}
 }

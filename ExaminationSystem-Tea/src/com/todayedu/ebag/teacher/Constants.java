@@ -22,6 +22,6 @@ public interface Constants {
 		public static final String CORRECTED = "已批改";
 		public static final String HANDIN = "未提交";
 		public static final String NOANSWER = "没有文字回答";
-		public static final String NOCORRECT = "还没有批注哦";
+		public static final String NOCORRECT = "";
 	}
 }

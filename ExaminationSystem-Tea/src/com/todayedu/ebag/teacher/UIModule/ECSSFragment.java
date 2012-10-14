@@ -56,11 +56,13 @@ public class ECSSFragment extends Fragment {
 	 * 
 	 * @return
 	 */
-	public boolean onConfirm() {
+	public void onConfirm() {
 	
+		if (answerofStu == null)// 学生没有答案图片则肯定没有老师批改后的图片，即不用保存，直接返回。这样answerofTea就会是null
+			return;
 		answerofTea = Answer.getAnswerofTeaFullPath(PicUpload
 		        .getFileName(Parameters.get(ParaIndex.SID_INDEX)));// 获取文件路径
-		return creator.onClickButtonSave(answerofTea);
+		creator.onClickButtonSave(answerofTea);
 	}
 
 	/**
@@ -162,6 +164,7 @@ public class ECSSFragment extends Fragment {
 		content_wv1.loadUrl(content);
 		answer_wv2.loadUrl(answerofSta);
 		answer_tv10.setText(textAnswer);
+
 		score_et1.setText(point);
 		textofTeacher_et2.setText(textOfTeacher);
 		setButton(canPrevious, canNext);

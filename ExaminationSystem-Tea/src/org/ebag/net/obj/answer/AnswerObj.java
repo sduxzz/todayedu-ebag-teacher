@@ -1,6 +1,7 @@
 package org.ebag.net.obj.answer;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class AnswerObj implements Serializable{
 
@@ -108,5 +109,18 @@ public class AnswerObj implements Serializable{
 	}
 	public void setScore(double score) {
 		this.score = score;
+	}
+	
+	@Override
+	public String toString() {
+	
+		return "AnswerObj [reuqestType=" + reuqestType + ", id=" + id
+		        + ", uid=" + uid + ", problemId=" + problemId + ", textAnswer="
+		        + textAnswer + ", textOfTeacher=" + textOfTeacher
+		        + ", picAnswerUrl=" + picAnswerUrl + ", picAnswerByte="
+		        + Arrays.toString(picAnswerByte) + ", picOfTeacherUrl="
+		        + picOfTeacherUrl + ", picOfTeacherByte="
+		        + Arrays.toString(picOfTeacherByte) + ", state=" + state
+		        + ", point=" + point + ", score=" + score + "]";
 	}
 }

@@ -6,9 +6,8 @@
 package com.todayedu.ebag.teacher;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
-import org.ebag.net.obj.answer.GradeObj;
+import org.ebag.net.obj.answer.GradeDetail;
 import org.ebag.net.obj.exam.ExamObj;
 
 /**
@@ -34,7 +33,7 @@ public class Parameters {
 	private static String className;
 	private static ExamObj examObj;
 	// key为题目id,value为本题目所有学生得分情况
-	public static HashMap<Integer, ArrayList<GradeObj>> detailMap;
+	public static ArrayList<GradeDetail> detailMap;
 	
 	public static synchronized void add(int parameter, int index) {
 	

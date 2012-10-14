@@ -14,6 +14,7 @@ import org.ebag.net.request.AnswerUpload;
 import org.ebag.net.response.AnswerUploadResponse;
 
 import android.app.Activity;
+import android.util.Log;
 import android.util.SparseArray;
 
 import com.todayedu.ebag.teacher.DataSource.DataObj.Answer;
@@ -38,7 +39,7 @@ public class AnswerUploadHandler extends BaseNetworkHandler {
 			File file = null;
 			for (AnswerObj answerObj : ansList) {
 				answer = array.get(answerObj.id);// id是 key,参考ECSDS中的getCurrentAnswer方法
-				if (answer != null) {
+				if (answer != null && answer.getAnswerofTea() != null) {
 					file = new File(answer.getAnswerofTea());
 					if (file.exists())
 						PicUpload.upload(file);
@@ -71,6 +72,7 @@ public class AnswerUploadHandler extends BaseNetworkHandler {
 		arg0.write(request);// 上传答案链表
 		InnerThread thread = new InnerThread();
 		thread.start();// 上传老师批改的图片
+		Log.i(TAG, "sessionOpened " + request);
 	}
 	
 	@Override

@@ -16,8 +16,6 @@ import android.app.ExpandableListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.ExpandableListView;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.Toast;
 
@@ -69,17 +67,15 @@ public class AExpandableActivity extends ExpandableListActivity implements DSCal
 	}
 
 	@Override
-	public boolean onChildClick(ExpandableListView parent, View v,
-	        int groupPosition, int childPosition, long id) {
-
+	public void onGroupExpand(int groupPosition) {
+	
+		super.onGroupExpand(groupPosition);
 		Log.i(TAG, String.valueOf(groupPosition));
 		if (groupPosition == 3) {
 			startActivity(new Intent(this, AEPActivity.class));
-			return true;
 		}
-		return false;
 	}
-	
+
 	@Override
 	public void onLoadSuccess(Object object) {
 	
@@ -89,7 +85,7 @@ public class AExpandableActivity extends ExpandableListActivity implements DSCal
 		Parameters.detailMap = response.res.detailMap;// 保存整个详细列表
 		ds.setRes(response.res);
 		ds.createMaps(childFrom);
-		adapter.notifyDataSetChanged();
+		ds.notifyDataChange(this);
 	}
 	
 	@Override

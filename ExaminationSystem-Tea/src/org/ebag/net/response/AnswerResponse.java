@@ -9,6 +9,7 @@ public class AnswerResponse implements Serializable{
 
 	private static final long serialVersionUID = -4248183493657350575L;
 	public List<AnswerObj> examList;
+	public int examId;
 	public List<AnswerObj> getExamList() {
 		return examList;
 	}

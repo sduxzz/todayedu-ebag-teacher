@@ -15,8 +15,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.todayedu.ebag.teacher.R;
@@ -66,23 +64,6 @@ public class ECSActivity extends BaseActivity {
 	}
 	
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-	
-		super.onCreateOptionsMenu(menu);
-		menu.add(0, 0, 0, "上传批改");
-		return true;
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-	
-		if (item.getItemId() == 0) {// 0 is id of item
-			uploadAnswer();
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
 	public void onLoadSuccess(Object object) {
 	
 		AnswerResponse response = (AnswerResponse) object;
@@ -100,7 +81,7 @@ public class ECSActivity extends BaseActivity {
 			}
 		});
 	}
-
+	
 	/**
 	 * 屏幕按下确定键,只有在调用ECSSFragment的onConfirm方法把图片保存成功后，才保存其他的信息
 	 * 
@@ -109,23 +90,22 @@ public class ECSActivity extends BaseActivity {
 	public void onComfirm(View view) {
 	
 		ECSSFragment fragment2 = this.getECSSFragment();
-		if (fragment2.onConfirm()) {
-			String answerofTea = fragment2.getAnswerofTea();
-			String textOfTeacher = fragment2.getTextOfTeacher();
-			String pointStr = fragment2.getPoint();
-			double point = 0;// 怎么判断一个字符串是不是double类型值
-			try {
-				point = Double.parseDouble(pointStr);
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-				showToast("请输入正确得分");
-				return;
-			}
-			ds.onComfirm(this, answerofTea, textOfTeacher, point);
-			ds.notifyDataChange(this);
-			showToast("成功保存");
-			issave = true;
+		fragment2.onConfirm();
+		String answerofTea = fragment2.getAnswerofTea();
+		String textOfTeacher = fragment2.getTextOfTeacher();
+		String pointStr = fragment2.getPoint();
+		double point = 0;// 怎么判断一个字符串是不是double类型值
+		try {
+			point = Double.parseDouble(pointStr);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			showToast("请输入正确得分");
+			return;
 		}
+		ds.onComfirm(this, answerofTea, textOfTeacher, point);
+		ds.notifyDataChange(this);
+		showToast("成功保存");
+		issave = true;
 	}
 	
 	/**
@@ -156,7 +136,7 @@ public class ECSActivity extends BaseActivity {
 	 * @param view
 	 */
 	public void onNext(View view) {
-
+	
 		if (!issave) {
 			alert(new OnClickListener() {
 				
@@ -191,7 +171,17 @@ public class ECSActivity extends BaseActivity {
 			position(position);
 		}
 	}
-
+	
+	/**
+	 * 上传批改按钮被点击
+	 * 
+	 * @param view
+	 */
+	public void onUpload(View view) {
+	
+		uploadAnswer();
+	}
+	
 	private BaseDataAdapter adapter;
 	private ECSDS ds;
 	private final String[] keys = new String[] { "number", "state" };
@@ -203,19 +193,19 @@ public class ECSActivity extends BaseActivity {
 		ds.moveToPrevious();
 		changeECSS(ds.getCurrentAnswer(), ds.canPrevious(), ds.canNext());
 	}
-
+	
 	private void next() {
 	
 		ds.moveToNext();
 		changeECSS(ds.getCurrentAnswer(), ds.canPrevious(), ds.canNext());
 	}
-
+	
 	private void position(int position) {
 	
 		if (ds.moveTo(position))
 			changeECSS(ds.getCurrentAnswer(), ds.canPrevious(), ds.canNext());
 	}
-
+	
 	private void changeECSS(Answer answer, boolean canPrevious, boolean canNext) {
 	
 		ECSSFragment fragment = this.getECSSFragment();
@@ -223,7 +213,7 @@ public class ECSActivity extends BaseActivity {
 			return;
 		fragment.resetECSS(answer, canPrevious, canNext);
 	}
-
+	
 	private ECSFragment getEcsFragment() {
 	
 		ECSFragment fragment = (ECSFragment) this.getFragmentManager()
@@ -264,17 +254,17 @@ public class ECSActivity extends BaseActivity {
 			
 			@Override
 			public void failed(Throwable throwable) {
-
+			
 				showResult(throwable.getMessage());
 			}
 			
 			public void showResult(String mes) {
-
+			
 				client.disconnect();
 				if (mes != null)
 					showToast(mes);
 			}
-
+			
 		};
 		client.setHandler(new AnswerUploadHandler(this, adapter,
 		        (ArrayList<AnswerObj>) ds.getExamList(), ds.getSparseArray()));

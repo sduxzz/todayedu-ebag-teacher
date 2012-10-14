@@ -19,7 +19,7 @@ public class AnswerAnalysis implements Serializable{
 	public GradeObj minGrade;
 	public GradeObj maxGrade;
 	//key为题目id,value为本题目所有学生得分情况
-	public HashMap<Integer, ArrayList<GradeObj>> detailMap;
+	public ArrayList<GradeDetail> detailMap;
 	
 	public int getExamId() {
 		return examId;

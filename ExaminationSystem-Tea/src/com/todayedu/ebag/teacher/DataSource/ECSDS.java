@@ -222,6 +222,7 @@ public class ECSDS extends BaseDataSource {
 					obj.setPoint(answer.getPoint());
 					obj.setTextOfTeacher(answer.getTextOfTeacher());
 					obj.setPicOfTeacherUrl(answer.getAnswerofTea());
+					obj.setState(I.choice.answerState_waitComment);
 				}
 				i++;
 			}
@@ -252,7 +253,8 @@ public class ECSDS extends BaseDataSource {
 		        : obj.textOfTeacher);
 		answer.setContent(UrlBuilder.problemContentUrl(obj.problemId));
 		answer.setAnswerofSta(UrlBuilder.problemAnswerUrl(obj.problemId));
-		answer.setAnswerofStu(UrlBuilder.problemAnswerPicUrl(obj.picAnswerUrl));
+		answer.setAnswerofStu(obj.picAnswerUrl != null ? UrlBuilder
+		        .problemAnswerPicUrl(obj.picAnswerUrl) : null);
 		answer.setAnswerofTea(obj.picOfTeacherUrl);
 		return answer;
 	}
@@ -284,7 +286,7 @@ public class ECSDS extends BaseDataSource {
 	private void changStateValueOfMapItem() {
 	
 		Map<String, String> map = this.getListMap().get(index);
-		map.put("state", StateStr.COMMENTED);
+		map.put("state", StateStr.CORRECTED);
 	}
 	
 	/**
@@ -298,11 +300,11 @@ public class ECSDS extends BaseDataSource {
 	        double point) {
 	
 		AnswerObj obj = examList.get(index);
-		obj.picOfTeacherUrl = answerofTea.substring(
-		        answerofTea.lastIndexOf('/'), answerofTea.length());// 截取文件名
+		if (answerofTea != null)
+			obj.picOfTeacherUrl = answerofTea.substring(
+			        answerofTea.lastIndexOf('/') + 1, answerofTea.length());// 截取文件名
 		obj.textOfTeacher = textOfTeacher;
 		obj.point = point;
-		obj.state = I.choice.answerState_waitMark;// 状态设置为待讲评
+		obj.state = I.choice.answerState_waitComment;// 状态设置为待讲评
 	}
-
 }

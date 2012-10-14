@@ -56,6 +56,8 @@ public class AnswerAnalysisDS extends BaseDataSource {
 		list = createMax(keys);
 		lists.add(list);
 		
+		lists.add(new ArrayList<Map<String, String>>());// empty list
+
 	}
 	
 	@Override

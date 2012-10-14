@@ -68,4 +68,5 @@
 	<string name="sp_networkalter">请检查网络连接！</string>
 	<string name="sp_name">登录名</string>
 	<string name="sp_password">登录密码</string>
+	<string name="sp_upload">上传</string>
 </resources>

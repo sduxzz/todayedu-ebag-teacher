@@ -315,18 +315,14 @@ public class Answer {
 		this.answerofTea = answerofTea;
 	}
 
-	/**
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString() {
 	
 		return "Answer [id=" + id + ", sid=" + sid + ", pid=" + pid
-		        + ", number=" + number + ", score=" + score + ", point="
-		        + point + ", state=" + state + ", content=" + content
-		        + ", textAnswer=" + textAnswer + ", textOfTeacher="
-		        + textOfTeacher + ", answerofSta=" + answerofSta
-		        + ", answerofStu=" + answerofStu + ", answerofTea="
-		        + answerofTea + "]";
+		        + ", point=" + point + ", state=" + state + ", answerofTea="
+		        + answerofTea + ", number=" + number + ", score=" + score
+		        + ", content=" + content + ", textAnswer=" + textAnswer
+		        + ", textOfTeacher=" + textOfTeacher + ", answerofSta="
+		        + answerofSta + ", answerofStu=" + answerofStu + "]";
 	}
 }

@@ -104,6 +104,7 @@
             android:layout_alignTop="@id/ecss_tv9"
             android:layout_toRightOf="@id/ecss_tv9"
             android:ems="30"
+            android:hint="还没有批注"
             android:ellipsize="marquee"/>
 
         <TextView
@@ -152,7 +153,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@id/ecss_et1"
-            android:background="@drawable/login_selector"
+            android:background="@drawable/save_selector"
             android:contentDescription="@string/comm_app_name"
             android:onClick="onComfirm" />
 
@@ -175,6 +176,16 @@
             android:background="@drawable/next_selector"
             android:contentDescription="@string/comm_app_name"
             android:onClick="onNext" />
+        
+        <ImageButton
+            android:id="@+id/ecss_b5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/ecss_b4"
+            android:layout_alignTop="@id/ecss_b1"
+            android:background="@drawable/upload_selector"
+            android:contentDescription="@string/comm_app_name"
+            android:onClick="onUpload" />
     </RelativeLayout>
 
 </com.todayedu.ebag.teacher.UIModule.MyScrollView>
